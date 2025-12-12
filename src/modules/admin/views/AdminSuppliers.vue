@@ -1,0 +1,3 @@
+<template>
+    teste suppliers
+</template>

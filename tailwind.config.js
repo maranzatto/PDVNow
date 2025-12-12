@@ -1,12 +1,11 @@
 /** @type {import('tailwindcss').Config} */
+import primeui from "tailwindcss-primeui";
+
 export default {
-    content: [
-        // Adicionado index.html e arquivos .vue
-        "./index.html",
-        "./src/**/*.{vue,js,ts,jsx,tsx}",
-    ],
+    content: ["./index.html", "./src/**/*.{vue,js,ts,jsx,tsx}"],
     theme: {
         extend: {},
     },
+    presets: [primeui],
     plugins: [],
 };

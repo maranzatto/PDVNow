@@ -1,158 +1,10 @@
 <template>
     <div class="portfolio">
-        <!-- Hero Section -->
 
-        <!-- About Section -->
-        <section id="about" class="section about">
-            <div class="container">
-                <h2 class="section__title">Sobre Mim</h2>
-                <div class="about__content">
-                    <p>
-                        Sou <strong>Desenvolvedor Front-End</strong> com <strong>3 anos de experiência</strong> criando
-                        interfaces
-                        modernas,
-                        performáticas e focadas em usabilidade. Trabalho com foco em entregar soluções limpas,
-                        escaláveis e simples de manter.
-                    </p>
-
-                    <p>
-                        Minha principal stack inclui <strong>Vue 3</strong>, <strong>TypeScript</strong>,
-                        <strong>JavaScript</strong>,
-                        <strong>HTML</strong>, <strong>CSS</strong> e <strong>Tailwind</strong>, além de experiência
-                        sólida em
-                        <strong>integração com APIs REST</strong>, criação de componentes reutilizáveis e estruturação
-                        de
-                        aplicações.
-                    </p>
-
-                    <p>
-                        Prezo por código organizado, boas práticas, atenção aos detalhes e performance. Meu objetivo é
-                        transformar ideias em interfaces funcionais, eficientes e com excelente experiência para o
-                        usuário.
-                    </p>
-                </div>
-            </div>
-        </section>
-
-
-        <!-- Skills Section -->
-        <section id="skills" class="section skills">
-            <div class="container">
-                <h2 class="section__title">Habilidades Front-end</h2>
-
-                <div class="skills-grid">
-                    <!-- Vue Spotlight -->
-                    <article class="vue-card">
-                        <div class="vue-card__logo" aria-hidden="true">
-
-                        </div>
-                        <h3 class="vue-card__title">Vue.js</h3>
-                        <p class="vue-card__desc">Construção de UIs reativas com componentes modulares, Composition API,
-                            SFCs,
-                            roteamento e gerenciamento de estado com Pinia.</p>
-
-                        <div class="skill__bar skill--large" data-value="92">
-                            <div class="skill__progress" style="width:92%"></div>
-                        </div>
-                        <div class="vue-card__meta">
-                            <span class="meta-pill"><i class="pi pi-check"></i>Composition API</span>
-                            <span class="meta-pill"><i class="pi pi-check"></i>Pinia</span>
-                            <span class="meta-pill"><i class="pi pi-check"></i>Vite</span>
-                        </div>
-                    </article>
-
-                    <!-- Core Techs -->
-                    <div class="tech-cards">
-                        <div class="tech-card">
-                            <div class="tech-card__head">
-
-                                <div class="tech-card__info">
-                                    <div class="tech-card__name">HTML</div>
-                                    <div class="tech-card__sub">Semântica & Acessibilidade</div>
-                                </div>
-                            </div>
-                            <div class="skill__bar skill--small">
-                                <div class="skill__progress" style="width:95%"></div>
-                            </div>
-                        </div>
-
-                        <div class="tech-card">
-                            <div class="tech-card__head">
-
-                                <div class="tech-card__info">
-                                    <div class="tech-card__name">CSS</div>
-                                    <div class="tech-card__sub">Layout responsivo, Grid & Flex</div>
-                                </div>
-                            </div>
-                            <div class="skill__bar skill--small">
-                                <div class="skill__progress" style="width:93%"></div>
-                            </div>
-                        </div>
-
-                        <div class="tech-card">
-                            <div class="tech-card__head">
-
-                                <div class="tech-card__info">
-                                    <div class="tech-card__name">TypeScript</div>
-                                    <div class="tech-card__sub">Tipos & Integração com Vue</div>
-                                </div>
-                            </div>
-                            <div class="skill__bar skill--small">
-                                <div class="skill__progress" style="width:88%"></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="skills-tools">
-                        <span class="tool">
-
-                        </span>
-                        <span class="tool">
-
-                        </span>
-                        <span class="tool">
-
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Projects Section -->
-        <section id="projects" class="section projects">
-            <div class="container">
-                <h2 class="section__title">Projetos</h2>
-                <div class="projects__grid">
-                    <article class="project__card">
-                        <div class="project__header">Projeto 1</div>
-                        <p class="project__description">
-                            Descrição do projeto 1. Um projeto incrível que demonstra minhas habilidades.
-                        </p>
-                        <a href="#" class="project__link">Ver Mais →</a>
-                    </article>
-                    <article class="project__card">
-                        <div class="project__header">Projeto 2</div>
-                        <p class="project__description">
-                            Descrição do projeto 2. Outro projeto fascinante que realizei.
-                        </p>
-                        <a href="#" class="project__link">Ver Mais →</a>
-                    </article>
-                    <article class="project__card">
-                        <div class="project__header">Projeto 3</div>
-                        <p class="project__description">
-                            Descrição do projeto 3. Um mais um dos meus trabalhos em destaque.
-                        </p>
-                        <a href="#" class="project__link">Ver Mais →</a>
-                    </article>
-                </div>
-                <div class="projects__more">
-                    <router-link to="/projects" class="project__more-btn">Ver Mais Projetos</router-link>
-                </div>
-            </div>
-        </section>
 
         <!-- Contact Section -->
         <section id="contact" class="section contact">
+            <MButton @click="handleClick" label="teste" icon="pi pi-search" iconPos="left" severity="secondary" />
             <div class="container">
                 <h2 class="section__title">Entre em Contato</h2>
                 <p class="contact__subtitle">Vamos trabalhar juntos em algo incrível!</p>
@@ -194,8 +46,11 @@
 </template>
 
 <script setup lang="ts">
+import MButton from '@/components/MButton.vue';
 
-
+function handleClick() {
+    console.log('Botão clicado!');
+}
 </script>
 
 <style scoped>

@@ -1,11 +1,26 @@
-/* Importar paleta de cores */
+/* --------------------------- */
+/* IMPORTS OBRIGATÓRIOS PRIMEVUE */
+/* --------------------------- */
+
+/* Tema Volt */
+@import "primeicons/primeicons.css";
+@import "primeflex/primeflex.css";
+
+/* --------------------------- */
+/* TAILWIND (na ordem correta) */
+/* --------------------------- */
+
+@import "tailwindcss/preflight";
+@import "tailwindcss";
+@import "tailwindcss/utilities";
+
+/* --------------------------- */
+/* SUAS CORES E VARIÁVEIS */
+/* --------------------------- */
+
 @import "./colors.css";
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-/* color palette from <https://github.com/vuejs/theme> */
+/* Paleta genérica que você já usava */
 :root {
     --vt-c-white: #ffffff;
     --vt-c-white-soft: #f8f8f8;
@@ -26,9 +41,14 @@
     --vt-c-text-light-2: rgba(60, 60, 60, 0.66);
     --vt-c-text-dark-1: var(--vt-c-white);
     --vt-c-text-dark-2: rgba(235, 235, 235, 0.64);
+
+    --section-gap: 160px;
 }
 
-/* semantic color variables for this project */
+/* --------------------------- */
+/* VARIÁVEIS DO SEU TEMA */
+/* --------------------------- */
+
 :root {
     --color-background: var(--vt-c-white);
     --color-background-soft: var(--vt-c-white-soft);
@@ -39,10 +59,9 @@
 
     --color-heading: var(--vt-c-text-light-1);
     --color-text: var(--vt-c-text-light-1);
-
-    --section-gap: 160px;
 }
 
+/* Dark mode */
 @media (prefers-color-scheme: dark) {
     :root {
         --color-background: var(--vt-c-black);
@@ -57,6 +76,10 @@
     }
 }
 
+/* --------------------------- */
+/* RESET */
+/* --------------------------- */
+
 *,
 *::before,
 *::after {
@@ -67,25 +90,23 @@
 
 strong,
 b {
-    font-weight: 700; /* ou 600 se preferir */
+    font-weight: 700;
 }
 
+/* Body minimalista sem sobrescrever o Volt */
 body {
     min-height: 100vh;
-    color: var(--color-text-primary);
-    background: var(--color-bg-primary);
-    transition: color 0.5s, background-color 0.5s;
     line-height: 1.6;
-    font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu,
-        Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+    font-family: Inter, system-ui, sans-serif;
     font-size: 15px;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+
     overflow-x: hidden;
 }
 
-/* Scrollbar moderno */
+/* Scrollbar */
 ::-webkit-scrollbar {
     width: 10px;
 }
@@ -97,14 +118,12 @@ body {
 ::-webkit-scrollbar-thumb {
     background: var(--color-scrollbar);
     border-radius: 5px;
-    transition: background 0.3s ease;
 }
 
 ::-webkit-scrollbar-thumb:hover {
     background: var(--color-scrollbar-hover);
 }
 
-/* Firefox */
 * {
     scrollbar-color: var(--color-scrollbar) transparent;
     scrollbar-width: thin;

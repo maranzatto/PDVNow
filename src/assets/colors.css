@@ -1,16 +1,15 @@
-/* Paleta de Cores Centralizada */
 :root {
-    /* Cores Primárias */
+    /* Primárias */
     --color-primary: #667eea;
     --color-primary-light: #8b9ff0;
     --color-primary-dark: #5568d3;
 
-    /* Cores Secundárias */
+    /* Secundárias */
     --color-secondary: #764ba2;
     --color-secondary-light: #8e5bb0;
     --color-secondary-dark: #633989;
 
-    /* Cores Neutras */
+    /* Neutras */
     --color-white: #ffffff;
     --color-black: #181818;
     --color-gray-50: #f9f9f9;
@@ -24,7 +23,7 @@
     --color-gray-800: #2a2a2a;
     --color-gray-900: #0a0a14;
 
-    /* Cores de Estado */
+    /* Estados */
     --color-success: #10b981;
     --color-success-light: #6ee7b7;
     --color-warning: #f59e0b;
@@ -34,32 +33,32 @@
     --color-info: #3b82f6;
     --color-info-light: #93c5fd;
 
-    /* Cores de Fundo */
+    /* Fundo */
     --color-bg-primary: #ffffff;
     --color-bg-secondary: #f9f9f9;
     --color-bg-tertiary: #f3f3f3;
 
-    /* Cores de Texto */
+    /* Texto */
     --color-text-primary: #181818;
     --color-text-secondary: #666666;
-    --color-text-terciary: #a0a0a0;
+    --color-text-tertiary: #a0a0a0;
     --color-text-inverse: #ffffff;
 
-    /* Cores para Header */
+    /* Header */
     --color-header-bg: rgba(10, 10, 20, 0.95);
     --color-header-text: #ffffff;
     --color-header-link-hover: #64b5f6;
 
-    /* Cores para Scrollbar */
+    /* Scrollbar */
     --color-scrollbar: rgba(100, 181, 246, 0.6);
     --color-scrollbar-hover: rgba(100, 181, 246, 0.9);
 
-    /* Gradient */
+    /* Gradientes */
     --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     --gradient-secondary: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
 }
 
-/* Dark Mode (opcional para o futuro) */
+/* Dark Mode */
 @media (prefers-color-scheme: dark) {
     :root {
         --color-bg-primary: #181818;
