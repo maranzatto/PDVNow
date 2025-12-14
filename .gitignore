@@ -7,28 +7,35 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
-.DS_Store
-dist
-dist-ssr
-coverage
-*.local
+# Dependencies
+node_modules/
 
-# Editor directories and files
+# Build output
+dist/
+dist-ssr/
+coverage/
+
+# System files
+.DS_Store
+
+# Environment variables
+.env
+.env.*
+
+# Cache
+*.local
+*.tsbuildinfo
+.eslintcache
+
+# Editor / IDE
 .vscode/*
 !.vscode/extensions.json
-.idea
+.idea/
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
-.env
-.env.*
-
-*.tsbuildinfo
-
-.eslintcache
 
 # Cypress
 /cypress/videos/
