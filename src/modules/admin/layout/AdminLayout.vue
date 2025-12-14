@@ -25,7 +25,7 @@ import SideComponent from '../components/SideComponent/SideComponent.vue';
 
 .admin-layout {
     @apply flex w-screen gap-3 h-screen overflow-hidden p-4;
-    background-color: var(--color-secondary);
+    background-color: var(--color-secondary-dark);
 }
 
 .content-area {

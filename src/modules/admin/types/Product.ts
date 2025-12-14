@@ -1,8 +1,8 @@
 export interface Product {
-    id: string;
+    id: number;
     name: string;
-    sku: string;
+    category: string;
     price: number;
     stock: number;
-    active: boolean;
+    status: "available" | "out_of_stock" | "discontinued";
 }

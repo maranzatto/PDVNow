@@ -1,5 +1,6 @@
 import "./assets/main.css";
 import "primeicons/primeicons.css";
+// import '@/services/api/interceptors'; //TODO quando tiver login
 
 import { createApp } from "vue";
 import { createPinia } from "pinia";

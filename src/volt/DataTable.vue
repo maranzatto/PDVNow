@@ -1,58 +1,3 @@
-<template>
-    <DataTable v-bind="$props" ref="el" unstyled :pt="theme" :ptOptions="{ mergeProps: ptViewMerge }">
-        <!-- Paginador customizado -->
-        <template
-            #paginatorcontainer="{ page, pageCount, pageLinks, changePageCallback, firstPageCallback, lastPageCallback, prevPageCallback, nextPageCallback }">
-            <div class="flex flex-wrap gap-2 items-center justify-center">
-                <SecondaryButton text rounded @click="firstPageCallback" :disabled="page === 0">
-                    <template #icon>
-                        <AngleDoubleLeftIcon />
-                    </template>
-                </SecondaryButton>
-                <SecondaryButton text rounded @click="prevPageCallback" :disabled="page === 0">
-                    <template #icon>
-                        <AngleLeftIcon />
-                    </template>
-                </SecondaryButton>
-                <div class="items-center justify-center gap-2 hidden sm:flex">
-                    <SecondaryButton v-for="pageLink of pageLinks" :key="pageLink" :text="page + 1 !== pageLink" rounded
-                        @click="() => changePageCallback(pageLink - 1)"
-                        :class="['shrink-0 min-w-10 h-10', { 'bg-highlight!': page + 1 === pageLink }]">
-                        {{ pageLink }}
-                    </SecondaryButton>
-                </div>
-                <SecondaryButton text rounded @click="nextPageCallback" :disabled="page === pageCount! - 1">
-                    <template #icon>
-                        <AngleRightIcon />
-                    </template>
-                </SecondaryButton>
-                <SecondaryButton text rounded @click="lastPageCallback" :disabled="page === pageCount! - 1">
-                    <template #icon>
-                        <AngleDoubleRightIcon />
-                    </template>
-                </SecondaryButton>
-            </div>
-        </template>
-
-        <!-- Loading icon -->
-        <template #loadingicon>
-            <SpinnerIcon class="animate-spin text-[2rem] w-8 h-8" />
-        </template>
-
-        <!-- Colunas dinâmicas -->
-        <template v-for="(_, slotName) in $slots" v-slot:[slotName]="slotProps">
-            <slot :name="slotName" v-bind="slotProps ?? {}" />
-        </template>
-
-        <!-- Coluna de ação (ícone) no final -->
-        <Column class="w-24">
-            <template #body="{ data }">
-                <Button icon="pi pi-search" @click="selectRow(data)" severity="secondary" rounded></Button>
-            </template>
-        </Column>
-    </DataTable>
-</template>
-
 <script setup lang="ts">
 import AngleDoubleLeftIcon from '@primevue/icons/angledoubleleft';
 import AngleDoubleRightIcon from '@primevue/icons/angledoubleright';
@@ -217,3 +162,111 @@ defineExpose({
     exportCSV: () => el.value.exportCSV()
 });
 </script>
+
+<template>
+    <DataTable v-bind="$props" ref="el" unstyled :pt="theme" :ptOptions="{ mergeProps: ptViewMerge }">
+        <!-- Paginador customizado -->
+        <template
+            #paginatorcontainer="{ page, pageCount, pageLinks, changePageCallback, firstPageCallback, lastPageCallback, prevPageCallback, nextPageCallback }">
+            <div class="flex flex-wrap gap-2 items-center justify-center">
+                <SecondaryButton text rounded @click="firstPageCallback" :disabled="page === 0">
+                    <template #icon>
+                        <AngleDoubleLeftIcon />
+                    </template>
+                </SecondaryButton>
+                <SecondaryButton text rounded @click="prevPageCallback" :disabled="page === 0">
+                    <template #icon>
+                        <AngleLeftIcon />
+                    </template>
+                </SecondaryButton>
+                <div class="items-center justify-center gap-2 hidden sm:flex">
+                    <SecondaryButton v-for="pageLink of pageLinks" :key="pageLink" :text="page + 1 !== pageLink" rounded
+                        @click="() => changePageCallback(pageLink - 1)"
+                        :class="['shrink-0 min-w-10 h-10', { 'bg-highlight!': page + 1 === pageLink }]">
+                        {{ pageLink }}
+                    </SecondaryButton>
+                </div>
+                <SecondaryButton text
+                    class="border border-surface-200 bg-surface-100 text-surface-700 hover:bg-primary hover:text-white transition-colors duration-200"
+                    rounded @click="nextPageCallback" :disabled="page === pageCount! - 1">
+                    <template #icon>
+                        <AngleRightIcon />
+                    </template>
+                </SecondaryButton>
+                <SecondaryButton text
+                    class="border border-surface-200 bg-surface-100 text-surface-700 hover:bg-primary hover:text-white transition-colors duration-200"
+                    rounded @click="lastPageCallback" :disabled="page === pageCount! - 1">
+                    <template #icon>
+                        <AngleDoubleRightIcon />
+                    </template>
+                </SecondaryButton>
+            </div>
+        </template>
+
+        <!-- Loading icon -->
+        <template #loadingicon>
+            <SpinnerIcon class="animate-spin text-[2rem] w-8 h-8" />
+        </template>
+
+        <!-- Colunas dinâmicas -->
+        <template v-for="(_, slotName) in $slots" v-slot:[slotName]="slotProps">
+            <slot :name="slotName" v-bind="slotProps ?? {}" />
+        </template>
+
+        <!-- Coluna de ação (ícone) no final -->
+        <Column class="w-24">
+            <template #body="{ data }">
+                <Button icon="pi pi-search" @click="selectRow(data)" severity="secondary" rounded></Button>
+            </template>
+        </Column>
+    </DataTable>
+</template>
+
+<style scoped>
+/* Scoped CSS */
+::v-deep(.secondary-button) {
+    all: unset;
+    /* reset parcial se precisar */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem 1rem;
+    border-radius: 0.375rem;
+    border: 1px solid var(--color-border);
+    background-color: var(--color-background-soft);
+    color: var(--color-text);
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+}
+
+::v-deep(.secondary-button:hover:not(:disabled)) {
+    background-color: var(--color-primary);
+    color: var(--color-white);
+    border-color: var(--color-primary);
+}
+
+::v-deep(.secondary-button:disabled) {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+::v-deep(.p-paginator .p-paginator-button) {
+    all: unset;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.375rem;
+    border: 1px solid var(--color-border);
+    background-color: var(--color-background-soft);
+    color: var(--color-text);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+::v-deep(.p-paginator .p-paginator-button:hover:not(:disabled)) {
+    background-color: var(--color-primary);
+    color: var(--color-white);
+    border-color: var(--color-primary);
+}
+</style>

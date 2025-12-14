@@ -1,97 +1,3 @@
-<template>
-    <DatePicker unstyled :pt="theme" :ptOptions="{
-        mergeProps: ptViewMerge
-    }">
-        <template #prevbutton="{ actionCallback, keydownCallback }">
-            <SecondaryButton variant="text" rounded @click="actionCallback" @keydown="keydownCallback">
-                <template #icon>
-                    <ChevronLeftIcon />
-                </template>
-            </SecondaryButton>
-        </template>
-        <template #nextbutton="{ actionCallback, keydownCallback }">
-            <SecondaryButton variant="text" rounded @click="actionCallback" @keydown="keydownCallback">
-                <template #icon>
-                    <ChevronRightIcon />
-                </template>
-            </SecondaryButton>
-        </template>
-        <template #todaybutton="{ actionCallback, keydownCallback }">
-            <SecondaryButton variant="text" label="Today" size="small" @click="actionCallback"
-                @keydown="keydownCallback" />
-        </template>
-        <template #clearbutton="{ actionCallback, keydownCallback }">
-            <SecondaryButton variant="text" label="Clear" size="small" @click="actionCallback"
-                @keydown="keydownCallback" />
-        </template>
-        <template #dropdownicon>
-            <ChevronDownIcon />
-        </template>
-        <template #inputicon>
-            <CalendarIcon />
-        </template>
-        <template #hourincrementbutton="{ callbacks }">
-            <SecondaryButton variant="text" rounded v-on="callbacks">
-                <template #icon>
-                    <ChevronUpIcon />
-                </template>
-            </SecondaryButton>
-        </template>
-        <template #hourdecrementbutton="{ callbacks }">
-            <SecondaryButton variant="text" rounded v-on="callbacks">
-                <template #icon>
-                    <ChevronDownIcon />
-                </template>
-            </SecondaryButton>
-        </template>
-        <template #minuteincrementbutton="{ callbacks }">
-            <SecondaryButton variant="text" rounded v-on="callbacks">
-                <template #icon>
-                    <ChevronUpIcon />
-                </template>
-            </SecondaryButton>
-        </template>
-        <template #minutedecrementbutton="{ callbacks }">
-            <SecondaryButton variant="text" rounded v-on="callbacks">
-                <template #icon>
-                    <ChevronDownIcon />
-                </template>
-            </SecondaryButton>
-        </template>
-        <template #secondincrementbutton="{ callbacks }">
-            <SecondaryButton variant="text" rounded v-on="callbacks">
-                <template #icon>
-                    <ChevronUpIcon />
-                </template>
-            </SecondaryButton>
-        </template>
-        <template #seconddecrementbutton="{ callbacks }">
-            <SecondaryButton variant="text" rounded v-on="callbacks">
-                <template #icon>
-                    <ChevronDownIcon />
-                </template>
-            </SecondaryButton>
-        </template>
-        <template #ampmincrementbutton="{ toggleCallback, keydownCallback }">
-            <SecondaryButton variant="text" rounded @click="toggleCallback" @keydown="keydownCallback">
-                <template #icon>
-                    <ChevronUpIcon />
-                </template>
-            </SecondaryButton>
-        </template>
-        <template #ampmdecrementbutton="{ toggleCallback, keydownCallback }">
-            <SecondaryButton variant="text" rounded @click="toggleCallback" @keydown="keydownCallback">
-                <template #icon>
-                    <ChevronDownIcon />
-                </template>
-            </SecondaryButton>
-        </template>
-        <template v-for="(_, slotName) in $slots" #[slotName]="slotProps">
-            <slot :name="slotName" v-bind="slotProps ?? {}" />
-        </template>
-    </DatePicker>
-</template>
-
 <script setup lang="ts">
 import CalendarIcon from '@primevue/icons/calendar';
 import ChevronDownIcon from '@primevue/icons/chevrondown';
@@ -213,3 +119,97 @@ const theme = ref({
     }
 });
 </script>
+
+<template>
+    <DatePicker unstyled :pt="theme" :ptOptions="{
+        mergeProps: ptViewMerge
+    }">
+        <template #prevbutton="{ actionCallback, keydownCallback }">
+            <SecondaryButton variant="text" rounded @click="actionCallback" @keydown="keydownCallback">
+                <template #icon>
+                    <ChevronLeftIcon />
+                </template>
+            </SecondaryButton>
+        </template>
+        <template #nextbutton="{ actionCallback, keydownCallback }">
+            <SecondaryButton variant="text" rounded @click="actionCallback" @keydown="keydownCallback">
+                <template #icon>
+                    <ChevronRightIcon />
+                </template>
+            </SecondaryButton>
+        </template>
+        <template #todaybutton="{ actionCallback, keydownCallback }">
+            <SecondaryButton variant="text" label="Today" size="small" @click="actionCallback"
+                @keydown="keydownCallback" />
+        </template>
+        <template #clearbutton="{ actionCallback, keydownCallback }">
+            <SecondaryButton variant="text" label="Clear" size="small" @click="actionCallback"
+                @keydown="keydownCallback" />
+        </template>
+        <template #dropdownicon>
+            <ChevronDownIcon />
+        </template>
+        <template #inputicon>
+            <CalendarIcon />
+        </template>
+        <template #hourincrementbutton="{ callbacks }">
+            <SecondaryButton variant="text" rounded v-on="callbacks">
+                <template #icon>
+                    <ChevronUpIcon />
+                </template>
+            </SecondaryButton>
+        </template>
+        <template #hourdecrementbutton="{ callbacks }">
+            <SecondaryButton variant="text" rounded v-on="callbacks">
+                <template #icon>
+                    <ChevronDownIcon />
+                </template>
+            </SecondaryButton>
+        </template>
+        <template #minuteincrementbutton="{ callbacks }">
+            <SecondaryButton variant="text" rounded v-on="callbacks">
+                <template #icon>
+                    <ChevronUpIcon />
+                </template>
+            </SecondaryButton>
+        </template>
+        <template #minutedecrementbutton="{ callbacks }">
+            <SecondaryButton variant="text" rounded v-on="callbacks">
+                <template #icon>
+                    <ChevronDownIcon />
+                </template>
+            </SecondaryButton>
+        </template>
+        <template #secondincrementbutton="{ callbacks }">
+            <SecondaryButton variant="text" rounded v-on="callbacks">
+                <template #icon>
+                    <ChevronUpIcon />
+                </template>
+            </SecondaryButton>
+        </template>
+        <template #seconddecrementbutton="{ callbacks }">
+            <SecondaryButton variant="text" rounded v-on="callbacks">
+                <template #icon>
+                    <ChevronDownIcon />
+                </template>
+            </SecondaryButton>
+        </template>
+        <template #ampmincrementbutton="{ toggleCallback, keydownCallback }">
+            <SecondaryButton variant="text" rounded @click="toggleCallback" @keydown="keydownCallback">
+                <template #icon>
+                    <ChevronUpIcon />
+                </template>
+            </SecondaryButton>
+        </template>
+        <template #ampmdecrementbutton="{ toggleCallback, keydownCallback }">
+            <SecondaryButton variant="text" rounded @click="toggleCallback" @keydown="keydownCallback">
+                <template #icon>
+                    <ChevronDownIcon />
+                </template>
+            </SecondaryButton>
+        </template>
+        <template v-for="(_, slotName) in $slots" #[slotName]="slotProps">
+            <slot :name="slotName" v-bind="slotProps ?? {}" />
+        </template>
+    </DatePicker>
+</template>
