@@ -2,18 +2,55 @@
 import DataTable from '@/modules/admin/components/DataTablesComponent/DataTablesComponent.vue'
 import { useProducts } from '../composables/useProducts'
 
-const { products, columns, handleNew } = useProducts()
+const { products, columns, handleNew, handleEdit, handleDelete, formatPrice, getStockClass, getStatusBadge } = useProducts()
 </script>
 
 <template>
     <div class="page">
         <h1 class="title">Produtos</h1>
 
-        <DataTable :data="products" :columns="columns">
-            <template #actions>
-                <button class="btn-primary" @click="handleNew">+ Novo</button>
+        <DataTable :data="products" :columns="columns" search-placeholder="Buscar produtos..."
+            empty-message="Nenhum produto encontrado">
+            Slot para Preço
+            <template #price="{ row }">
+                {{ formatPrice(row.price) }}
+            </template>
+
+            <template #stock="{ row }">
+                <span :class="getStockClass(row.stock)">
+                    {{ row.stock }}
+                </span>
+            </template>
+
+            Slot para Status
+            <template #status="{ row }">
+                <span class="badge" :class="getStatusBadge(row.status).class">
+                    {{ getStatusBadge(row.status).text }}
+                </span>
+            </template>
+
+            Slot para Ações
+            <template #actions="{ row }">
+                <div class="action-buttons">
+                    <button class="btn-action btn-edit" @click="handleEdit(row.id)">
+                        <i class="pi pi-pencil"></i>
+                    </button>
+                    <button class="btn-action btn-delete" @click="handleDelete(row.id)">
+                        <i class="pi pi-trash"></i>
+                    </button>
+                </div>
+            </template>
+
+            Ações no Header
+            <template #headerActions>
+                <button @click="handleNew" class="btn-primary">
+                    <i class="pi pi-plus"></i>
+                    Novo Produto
+                </button>
             </template>
         </DataTable>
+
+
     </div>
 </template>
 
@@ -28,22 +65,5 @@ const { products, columns, handleNew } = useProducts()
 
 .title {
     @apply mb-4 text-2xl font-semibold;
-}
-
-.btn-primary {
-    padding: 0.5rem 1rem;
-    border-radius: 0.5rem;
-    font-weight: 500;
-    background: var(--gradient-primary);
-    color: var(--color-white);
-    border: none;
-    transition: all 0.2s ease-in-out;
-    box-shadow: 0 2px 4px rgba(102, 126, 234, 0.2);
-    cursor: pointer;
-}
-
-.btn-primary:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 4px 8px rgba(102, 126, 234, 0.3);
 }
 </style>

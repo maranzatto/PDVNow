@@ -18,6 +18,7 @@ interface Props {
     showPagination?: boolean
     pageSizeOptions?: number[]
     defaultPageSize?: number
+    stickyActions?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -26,6 +27,7 @@ const props = withDefaults(defineProps<Props>(), {
     showPagination: true,
     pageSizeOptions: () => [10, 20, 30, 50, 100],
     defaultPageSize: 10,
+    stickyActions: true,
 })
 
 const globalFilter = ref('')
@@ -68,6 +70,10 @@ const table = useVueTable({
                 : updaterOrValue
     },
 })
+
+const isLastColumn = (index: number, total: number) => {
+    return index === total - 1
+}
 </script>
 
 <template>
@@ -77,8 +83,8 @@ const table = useVueTable({
             <div class="search-container">
                 <input v-model="globalFilter" type="text" :placeholder="searchPlaceholder" class="search-input" />
             </div>
-            <div v-if="$slots.actions" class="header-actions">
-                <slot name="actions" />
+            <div v-if="$slots.headerActions" class="header-actions">
+                <slot name="headerActions" />
             </div>
         </div>
 
@@ -87,8 +93,12 @@ const table = useVueTable({
             <table class="data-table">
                 <thead class="table-header">
                     <tr v-for="headerGroup in table.getHeaderGroups()" :key="headerGroup.id">
-                        <th v-for="header in headerGroup.headers" :key="header.id" :colSpan="header.colSpan"
-                            :class="['table-header-cell', { 'sortable': header.column.getCanSort() }]"
+                        <th v-for="(header, index) in headerGroup.headers" :key="header.id" :colSpan="header.colSpan"
+                            :class="[
+                                'table-header-cell',
+                                { 'sortable': header.column.getCanSort() },
+                                { 'sticky-column': stickyActions && isLastColumn(index, headerGroup.headers.length) }
+                            ]"
                             @click="header.column.getCanSort() ? header.column.getToggleSortingHandler()?.($event) : null">
                             <div v-if="!header.isPlaceholder" class="header-content">
                                 <template v-if="typeof header.column.columnDef.header === 'function'">
@@ -111,10 +121,18 @@ const table = useVueTable({
                         </td>
                     </tr>
                     <tr v-for="row in table.getRowModel().rows" :key="row.id" class="table-row">
-                        <td v-for="cell in row.getVisibleCells()" :key="cell.id" class="table-cell">
-                            <template v-if="typeof cell.column.columnDef.cell === 'function'">
-                                <div v-html="cell.column.columnDef.cell(cell.getContext())"></div>
+                        <td v-for="(cell, index) in row.getVisibleCells()" :key="cell.id" :class="[
+                            'table-cell',
+                            { 'sticky-column': stickyActions && isLastColumn(index, row.getVisibleCells().length) }
+                        ]">
+                            <template v-if="$slots[cell.column.id]">
+                                <slot :name="cell.column.id" :row="cell.row.original" />
                             </template>
+
+                            <template v-else-if="typeof cell.column.columnDef.cell === 'function'">
+                                {{ cell.column.columnDef.cell(cell.getContext()) }}
+                            </template>
+
                             <template v-else>
                                 {{ cell.getValue() }}
                             </template>
@@ -220,6 +238,7 @@ const table = useVueTable({
     background-color: var(--color-bg-primary);
     border: 1px solid var(--color-gray-700);
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    position: relative;
 }
 
 .data-table {
@@ -282,6 +301,23 @@ const table = useVueTable({
     white-space: nowrap;
     font-size: 0.875rem;
     color: var(--color-text-primary);
+}
+
+/* Coluna fixa (ações) */
+.sticky-column {
+    position: sticky;
+    right: 0;
+    background-color: var(--color-gray-800);
+    z-index: 10;
+}
+
+.table-body .table-row .sticky-column {
+    background-color: var(--color-bg-primary);
+    border-left: 1px solid var(--color-gray-700);
+}
+
+.table-body .table-row:hover .sticky-column {
+    background-color: var(--color-gray-800);
 }
 
 .empty-row {

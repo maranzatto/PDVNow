@@ -12,25 +12,7 @@ export function useUsers() {
         { accessorKey: "id", header: "Código", size: 80 },
         { accessorKey: "name", header: "Nome", size: 250 },
         { accessorKey: "position", header: "Cargo", size: 150 },
-        {
-            id: "actions",
-            header: "Ações",
-            size: 180,
-            enableSorting: false,
-            meta: {
-                sticky: "right",
-            },
-            cell: ({ row }) => `
-                <div class="action-buttons">
-                    <button class="btn-action btn-edit" data-id="${row.original.id}">
-                        <i class="pi pi-pencil"></i>
-                    </button>
-                    <button class="btn-action btn-delete" data-id="${row.original.id}">
-                        <i class="pi pi-trash"></i>
-                    </button>
-                </div>
-            `,
-        },
+        { id: "actions", header: "Ações", enableSorting: false, size: 180 },
     ];
 
     // Actions
@@ -45,15 +27,15 @@ export function useUsers() {
     };
 
     const handleView = (id: number) => {
-        console.log("Visualizar produto:", id);
+        console.log("Visualizar usuario:", id);
     };
 
     const handleEdit = (id: number) => {
-        console.log("Editar produto:", id);
+        console.log("Editar usuario:", id);
     };
 
     const handleDelete = (id: number) => {
-        console.log("Excluir produto:", id);
+        console.log("Excluir usuario:", id);
     };
 
     return {

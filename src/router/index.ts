@@ -4,6 +4,7 @@ import AdminDashboard from "@/modules/admin/views/AdminDashboard.vue";
 import AdminUsers from "@/modules/admin/views/AdminUsers.vue";
 import AdminProducts from "@/modules/admin/views/AdminProducts.vue";
 import AdminSuppliers from "@/modules/admin/views/AdminSuppliers.vue";
+import ProductsDetail from "@/modules/admin/views/DetailsPages/ProductsDetail.vue";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -34,6 +35,8 @@ const router = createRouter({
                 { path: "users", component: AdminUsers, name: "AdminUsers" },
                 { path: "products", component: AdminProducts, name: "AdminProducts" },
                 { path: "suppliers", component: AdminSuppliers, name: "AdminSuppliers" },
+                { path: "products/new", component: ProductsDetail, name: "AdminProductNew" },
+                { path: "products/:id/edit", component: ProductsDetail, name: "AdminProductEdit" },
             ],
         },
     ],
