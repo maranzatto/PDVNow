@@ -16,71 +16,28 @@ export function useProducts() {
             accessorKey: "price",
             header: "Preço",
             size: 120,
-            cell: ({ getValue }) => {
-                const price = getValue() as number;
-                return `R$ ${price.toFixed(2).replace(".", ",")}`;
-            },
         },
         {
             accessorKey: "stock",
             header: "Estoque",
-            size: 100,
-            cell: ({ getValue }) => {
-                const stock = getValue() as number;
-                const className =
-                    stock === 0 ? "text-error" : stock < 10 ? "text-warning" : "text-success";
-                return `<span class="${className}">${stock}</span>`;
-            },
+            size: 120,
         },
         {
             accessorKey: "status",
             header: "Status",
             size: 120,
-            cell: ({ getValue }) => {
-                const status = getValue() as string;
-                switch (status) {
-                    case "available":
-                        return '<span class="badge badge-success">Disponível</span>';
-                    case "out_of_stock":
-                        return '<span class="badge badge-warning">Sem Estoque</span>';
-                    case "discontinued":
-                        return '<span class="badge badge-inactive">Descontinuado</span>';
-                    default:
-                        return status;
-                }
-            },
         },
         {
             id: "actions",
             header: "Ações",
-            size: 180,
             enableSorting: false,
-            cell: ({ row }) => `
-                <div class="action-buttons">
-                    <button class="btn-action btn-edit" data-id="${row.original.id}">
-                        <i class="pi pi-pencil"></i>
-                    </button>
-                    <button class="btn-action btn-delete" data-id="${row.original.id}">
-                        <i class="pi pi-trash"></i>
-                    </button>
-                </div>
-            `,
+            size: 180,
         },
     ];
 
     // Actions
     const handleNew = () => {
         console.log("Criar novo produto");
-        // Implementar lógica
-    };
-
-    const handleExport = () => {
-        console.log("Exportar produtos");
-        // Implementar lógica
-    };
-
-    const handleView = (id: number) => {
-        console.log("Visualizar produto:", id);
     };
 
     const handleEdit = (id: number) => {
@@ -91,14 +48,40 @@ export function useProducts() {
         console.log("Excluir produto:", id);
     };
 
+    const formatPrice = (price: number) => {
+        return `R$ ${price.toFixed(2).replace(".", ",")}`;
+    };
+
+    // Helper para classe de estoque
+    const getStockClass = (stock: number) => {
+        if (stock === 0) return "text-error";
+        if (stock < 10) return "text-warning";
+        return "text-success";
+    };
+
+    // Helper para badge de status
+    const getStatusBadge = (status: string) => {
+        switch (status) {
+            case "available":
+                return { class: "badge-success", text: "Disponível" };
+            case "out_of_stock":
+                return { class: "badge-warning", text: "Sem Estoque" };
+            case "discontinued":
+                return { class: "badge-inactive", text: "Descontinuado" };
+            default:
+                return { class: "", text: status };
+        }
+    };
+
     return {
         products,
         columns,
         handleNew,
-        handleExport,
-        handleView,
         handleEdit,
         handleDelete,
+        formatPrice,
+        getStockClass,
+        getStatusBadge,
     };
 }
 
@@ -127,24 +110,9 @@ function generateProducts(count: number): Product[] {
         "WebCam Ring Light",
     ];
 
-    const categories = [
-        "Eletrônicos",
-        "Informática",
-        "Periféricos",
-        "Armazenamento",
-        "Áudio",
-        "Vídeo",
-        "Rede",
-        "Acessórios",
-        "Mobiliário",
-        "Cabos",
-    ];
+    const categories = ["Eletrônicos", "Informática", "Periféricos", "Armazenamento", "Áudio", "Vídeo", "Rede", "Acessórios", "Mobiliário", "Cabos"];
 
-    const statuses: ("available" | "out_of_stock" | "discontinued")[] = [
-        "available",
-        "out_of_stock",
-        "discontinued",
-    ];
+    const statuses: ("available" | "out_of_stock" | "discontinued")[] = ["available", "out_of_stock", "discontinued"];
 
     return Array.from({ length: count }, (_, i) => {
         const nameIndex = Math.floor(Math.random() * productNames.length);

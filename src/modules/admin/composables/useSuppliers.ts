@@ -19,67 +19,45 @@ export function useSuppliers() {
         {
             accessorKey: "rating",
             header: "Avaliação",
-            size: 120,
+            size: 100,
             cell: ({ getValue }) => "⭐".repeat(getValue() as number),
         },
         {
             accessorKey: "status",
             header: "Status",
             size: 100,
+            // Apenas retorna o texto, a renderização pode usar o badge externamente
             cell: ({ getValue }) => {
-                const status = getValue() as string;
-                return status === "active"
-                    ? '<span class="badge badge-success">Ativo</span>'
-                    : '<span class="badge badge-inactive">Inativo</span>';
+                const { text } = getStatusBadge(getValue() as string);
+                return text;
             },
         },
-        {
-            id: "actions",
-            header: "Ações",
-            size: 180,
-            enableSorting: false,
-            meta: {
-                sticky: "right",
-            },
-            cell: ({ row }) => `
-                <div class="action-buttons">
-                    <button class="btn-action btn-edit" data-id="${row.original.id}">
-                        <i class="pi pi-pencil"></i>
-                    </button>
-                    <button class="btn-action btn-delete" data-id="${row.original.id}">
-                        <i class="pi pi-trash"></i>
-                    </button>
-                </div>
-            `,
-        },
+        { id: "actions", header: "Ações", enableSorting: false, size: 180 },
     ];
 
+    // Helpers
+    const getStatusBadge = (status: string) => {
+        switch (status) {
+            case "active":
+                return { class: "badge-success", text: "Ativo" };
+            case "inactive":
+                return { class: "badge-inactive", text: "Inativo" };
+            default:
+                return { class: "", text: status };
+        }
+    };
+
     // Actions
-    const handleNew = () => {
-        console.log("Criar novo fornecedor");
-        // Implementar lógica
-    };
-
-    const handleExport = () => {
-        console.log("Exportar fornecedores");
-        // Implementar lógica
-    };
-
-    const handleView = (id: number) => {
-        console.log("Visualizar fornecedor:", id);
-    };
-
-    const handleEdit = (id: number) => {
-        console.log("Editar fornecedor:", id);
-    };
-
-    const handleDelete = (id: number) => {
-        console.log("Excluir fornecedor:", id);
-    };
+    const handleNew = () => console.log("Criar novo fornecedor");
+    const handleExport = () => console.log("Exportar fornecedores");
+    const handleView = (id: number) => console.log("Visualizar fornecedor:", id);
+    const handleEdit = (id: number) => console.log("Editar fornecedor:", id);
+    const handleDelete = (id: number) => console.log("Excluir fornecedor:", id);
 
     return {
         suppliers,
         columns,
+        getStatusBadge,
         handleNew,
         handleExport,
         handleView,
@@ -108,18 +86,7 @@ function generateSuppliers(count: number): Supplier[] {
         "Epsilon Trade",
     ];
 
-    const cities = [
-        "São Paulo",
-        "Rio de Janeiro",
-        "Belo Horizonte",
-        "Curitiba",
-        "Porto Alegre",
-        "Brasília",
-        "Salvador",
-        "Fortaleza",
-        "Recife",
-        "Manaus",
-    ];
+    const cities = ["São Paulo", "Rio de Janeiro", "Belo Horizonte", "Curitiba", "Porto Alegre", "Brasília", "Salvador", "Fortaleza", "Recife", "Manaus"];
 
     const states = ["SP", "RJ", "MG", "PR", "RS", "DF", "BA", "CE", "PE", "AM"];
     const statuses: ("active" | "inactive")[] = ["active", "inactive"];
@@ -132,18 +99,11 @@ function generateSuppliers(count: number): Supplier[] {
         return {
             id: i + 1,
             name: companyNames[companyIndex]!,
-            cnpj: `${String(Math.floor(Math.random() * 90000000) + 10000000).padStart(
-                8,
+            cnpj: `${String(Math.floor(Math.random() * 90000000) + 10000000).padStart(8, "0")}.${String(Math.floor(Math.random() * 9000) + 1000).padStart(
+                4,
                 "0"
-            )}.${String(Math.floor(Math.random() * 9000) + 1000).padStart(4, "0")}.${String(
-                Math.floor(Math.random() * 9000) + 1000
-            ).padStart(4, "0")}/0001-${String(Math.floor(Math.random() * 90) + 10).padStart(
-                2,
-                "0"
-            )}`,
-            contact: `(${Math.floor(Math.random() * 90) + 10}) ${
-                Math.floor(Math.random() * 90000) + 10000
-            }-${Math.floor(Math.random() * 9000) + 1000}`,
+            )}.${String(Math.floor(Math.random() * 9000) + 1000).padStart(4, "0")}/0001-${String(Math.floor(Math.random() * 90) + 10).padStart(2, "0")}`,
+            contact: `(${Math.floor(Math.random() * 90) + 10}) ${Math.floor(Math.random() * 90000) + 10000}-${Math.floor(Math.random() * 9000) + 1000}`,
             email: `contato${i}@example.com.br`,
             city: cities[stateIndex]!,
             state: states[stateIndex]!,

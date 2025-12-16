@@ -2,15 +2,29 @@
 import DataTable from '@/modules/admin/components/DataTablesComponent/DataTablesComponent.vue'
 import { useUsers } from '../composables/useUsers'
 
-const { users, columns, handleNew } = useUsers()
+const { users, columns, handleNew, handleEdit, handleDelete } = useUsers()
 </script>
 
 <template>
     <div class="page">
         <h1 class="title">Usuários</h1>
         <DataTable :data="users" :columns="columns">
-            <template #actions>
-                <button class="btn-primary" @click="handleNew">+ Novo</button>
+            <template #headerActions>
+                <button @click="handleNew" class="btn-primary">
+                    <i class="pi pi-plus"></i>
+                    Novo Produto
+                </button>
+            </template>
+
+            <template #actions="{ row }">
+                <div class="action-buttons">
+                    <button class="btn-action btn-edit" @click="handleEdit(row.id)">
+                        <i class="pi pi-pencil"></i>
+                    </button>
+                    <button class="btn-action btn-delete" @click="handleDelete(row.id)">
+                        <i class="pi pi-trash"></i>
+                    </button>
+                </div>
             </template>
         </DataTable>
     </div>
@@ -27,22 +41,5 @@ const { users, columns, handleNew } = useUsers()
 
 .title {
     @apply mb-4 text-2xl font-semibold;
-}
-
-.btn-primary {
-    padding: 0.5rem 1rem;
-    border-radius: 0.5rem;
-    font-weight: 500;
-    background: var(--gradient-primary);
-    color: var(--color-white);
-    border: none;
-    transition: all 0.2s ease-in-out;
-    box-shadow: 0 2px 4px rgba(102, 126, 234, 0.2);
-    cursor: pointer;
-}
-
-.btn-primary:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 4px 8px rgba(102, 126, 234, 0.3);
 }
 </style>
