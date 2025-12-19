@@ -25,7 +25,7 @@ import SideComponent from '../components/SideComponent/SideComponent.vue';
 
 .admin-layout {
     @apply flex w-screen gap-3 h-screen overflow-hidden p-4;
-    background-color: var(--color-secondary-dark);
+    background-color: var(--color-gray-300);
 }
 
 .content-area {
@@ -33,7 +33,9 @@ import SideComponent from '../components/SideComponent/SideComponent.vue';
 }
 
 .header {
-    @apply h-15 flex items-center justify-between px-5 bg-gray-900 shrink-0;
+    @apply h-15 flex items-center justify-between px-5 shrink-0;
+    background-color: var(--color-bg-primary);
+    border-bottom: 1px solid var(--color-border);
 }
 
 .main {

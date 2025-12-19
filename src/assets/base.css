@@ -1,84 +1,103 @@
-/* --------------------------- */
-/* IMPORTS OBRIGATÓRIOS PRIMEVUE */
-/* --------------------------- */
+/* ==========================================================================
+   1. IMPORTS (PrimeVue & Tailwind)
+   ========================================================================== */
 
-/* Tema Volt */
 @import "primeicons/primeicons.css";
 @import "primeflex/primeflex.css";
-
-/* --------------------------- */
-/* TAILWIND (na ordem correta) */
-/* --------------------------- */
 
 @import "tailwindcss/preflight";
 @import "tailwindcss";
 @import "tailwindcss/utilities";
 
-/* --------------------------- */
-/* SUAS CORES E VARIÁVEIS */
-/* --------------------------- */
+@import "tailwindcss";
 
-@import "./colors.css";
+/* ==========================================================================
+   2. VARIÁVEIS E DESIGN TOKENS
+   ========================================================================== */
 
-/* Paleta genérica que você já usava */
 :root {
+    /* --- Paleta de Cores (Base) --- */
     --vt-c-white: #ffffff;
     --vt-c-white-soft: #f8f8f8;
     --vt-c-white-mute: #f2f2f2;
-
     --vt-c-black: #181818;
     --vt-c-black-soft: #222222;
     --vt-c-black-mute: #282828;
-
     --vt-c-indigo: #2c3e50;
 
-    --vt-c-divider-light-1: rgba(60, 60, 60, 0.29);
-    --vt-c-divider-light-2: rgba(60, 60, 60, 0.12);
-    --vt-c-divider-dark-1: rgba(84, 84, 84, 0.65);
-    --vt-c-divider-dark-2: rgba(84, 84, 84, 0.48);
+    /* --- Cores de Marca --- */
+    --color-primary: #667eea;
+    --color-primary-light: #8b9ff0;
+    --color-primary-dark: #5568d3;
+    --color-secondary: #764ba2;
+    --color-secondary-light: #8e5bb0;
+    --color-secondary-dark: #633989;
 
-    --vt-c-text-light-1: var(--vt-c-indigo);
-    --vt-c-text-light-2: rgba(60, 60, 60, 0.66);
-    --vt-c-text-dark-1: var(--vt-c-white);
-    --vt-c-text-dark-2: rgba(235, 235, 235, 0.64);
+    /* --- Escala de Cinzas --- */
+    --color-gray-50: #f9f9f9;
+    --color-gray-100: #f3f3f3;
+    --color-gray-200: #e8e8e8;
+    --color-gray-300: #d3d3d3;
+    --color-gray-400: #a0a0a0;
+    --color-gray-500: #808080;
+    --color-gray-600: #666666;
+    --color-gray-700: #404040;
+    --color-gray-800: #2a2a2a;
+    --color-gray-900: #0a0a14;
 
+    /* --- Estados e Feedback --- */
+    --color-success: #10b981;
+    --color-warning: #f59e0b;
+    --color-error: #ef4444;
+    --color-info: #3b82f6;
+
+    /* --- Variáveis Semânticas (Uso Geral) --- */
     --section-gap: 160px;
-}
-
-/* --------------------------- */
-/* VARIÁVEIS DO SEU TEMA */
-/* --------------------------- */
-
-:root {
     --color-background: var(--vt-c-white);
     --color-background-soft: var(--vt-c-white-soft);
     --color-background-mute: var(--vt-c-white-mute);
 
-    --color-border: var(--vt-c-divider-light-2);
-    --color-border-hover: var(--vt-c-divider-light-1);
+    --color-text: var(--vt-c-black);
+    --color-heading: var(--vt-c-indigo);
+    --color-border: rgba(60, 60, 60, 0.12);
+    --color-border-hover: rgba(60, 60, 60, 0.29);
 
-    --color-heading: var(--vt-c-text-light-1);
-    --color-text: var(--vt-c-text-light-1);
+    /* --- UI Elements (Header & Scrollbar) --- */
+    --color-header-bg: rgba(10, 10, 20, 0.95);
+    --color-header-text: #ffffff;
+    --color-scrollbar: rgba(100, 181, 246, 0.6);
+    --color-scrollbar-hover: rgba(100, 181, 246, 0.9);
+
+    /* --- Gradientes --- */
+    --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }
 
-/* Dark mode */
+/* --- Dark Mode Unificado --- */
 @media (prefers-color-scheme: dark) {
     :root {
         --color-background: var(--vt-c-black);
         --color-background-soft: var(--vt-c-black-soft);
         --color-background-mute: var(--vt-c-black-mute);
 
-        --color-border: var(--vt-c-divider-dark-2);
-        --color-border-hover: var(--vt-c-divider-dark-1);
+        --color-text: rgba(235, 235, 235, 0.64);
+        --color-heading: var(--vt-c-white);
 
-        --color-heading: var(--vt-c-text-dark-1);
-        --color-text: var(--vt-c-text-dark-2);
+        --color-border: rgba(84, 84, 84, 0.48);
+        --color-border-hover: rgba(84, 84, 84, 0.65);
+
+        /* Sobrescrevendo tons de cinza para dark */
+        --color-bg-primary: #181818;
+        --color-bg-secondary: #242424;
+        --color-bg-tertiary: #2a2a2a;
+
+        --color-text-primary: #ffffff;
+        --color-text-secondary: #b0b0b0;
     }
 }
 
-/* --------------------------- */
-/* RESET */
-/* --------------------------- */
+/* ==========================================================================
+   3. RESET E ESTILOS GLOBAIS
+   ========================================================================== */
 
 *,
 *::before,
@@ -86,6 +105,22 @@
     box-sizing: border-box;
     margin: 0;
     font-weight: normal;
+    /* Configuração global de scrollbar (Firefox) */
+    scrollbar-color: var(--color-scrollbar) transparent;
+    scrollbar-width: thin;
+}
+
+body {
+    min-height: 100vh;
+    line-height: 1.6;
+    font-family: Inter, system-ui, -apple-system, sans-serif;
+    font-size: 15px;
+    background-color: var(--color-background);
+    color: var(--color-text);
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
 }
 
 strong,
@@ -93,20 +128,10 @@ b {
     font-weight: 700;
 }
 
-/* Body minimalista sem sobrescrever o Volt */
-body {
-    min-height: 100vh;
-    line-height: 1.6;
-    font-family: Inter, system-ui, sans-serif;
-    font-size: 15px;
-    text-rendering: optimizeLegibility;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+/* ==========================================================================
+   4. COMPONENTES DE INTERFACE (Scrollbar Chrome/Safari)
+   ========================================================================== */
 
-    overflow-x: hidden;
-}
-
-/* Scrollbar */
 ::-webkit-scrollbar {
     width: 10px;
 }
@@ -124,7 +149,18 @@ body {
     background: var(--color-scrollbar-hover);
 }
 
-* {
-    scrollbar-color: var(--color-scrollbar) transparent;
-    scrollbar-width: thin;
+/* ==========================================================================
+   5. LAYOUT ESTRUTURAL (Reutilizável)
+   ========================================================================== */
+.page {
+    @apply rounded-b-lg shadow-md transition-all;
+    padding: 0.5rem 0.7rem;
+    background-color: var(--color-bg-secondary);
+    color: var(--color-text-primary);
+    min-height: 100%;
+}
+
+.title {
+    @apply mb-6 text-2xl font-semibold;
+    color: var(--color-heading);
 }

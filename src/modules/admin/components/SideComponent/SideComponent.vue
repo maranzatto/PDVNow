@@ -8,11 +8,6 @@ import IconSuppliers from '@/assets/Icons/IconSuppliers.vue';
 
 <template>
     <aside class="sidebar">
-        <div>
-            <div></div>
-            <div></div>
-        </div>
-
         <nav class="nav-links">
             <router-link to="/admin/dashboard">
                 <IconDashboard />
@@ -41,7 +36,10 @@ import IconSuppliers from '@/assets/Icons/IconSuppliers.vue';
 @import "tailwindcss";
 
 .sidebar {
-    @apply w-60 bg-gray-900 text-white p-5 shrink-0 overflow-hidden rounded-lg;
+    @apply w-60 p-5 shrink-0 overflow-hidden rounded-lg shadow-lg;
+
+    background-color: var(--color-bg-primary);
+    border-right: 1px solid var(--color-border);
 }
 
 .nav-links {
@@ -49,6 +47,19 @@ import IconSuppliers from '@/assets/Icons/IconSuppliers.vue';
 }
 
 .nav-links a {
-    @apply text-white no-underline flex items-center gap-2 px-2 py-1 rounded hover:bg-gray-800 transition;
+    /* Cor do texto vinda do base.css */
+    @apply no-underline flex items-center gap-2 px-3 py-2 rounded transition;
+    color: var(--color-text-primary);
+}
+
+.nav-links a:hover {
+    background-color: var(--color-gray-100);
+    color: var(--color-primary);
+}
+
+/* Estilo para o link ativo (caso use o router-link-active) */
+.nav-links a.router-link-active {
+    background-color: var(--color-primary);
+    color: var(--color-white);
 }
 </style>

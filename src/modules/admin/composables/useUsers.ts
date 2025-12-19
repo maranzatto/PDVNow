@@ -12,7 +12,7 @@ export function useUsers() {
         { accessorKey: "id", header: "Código", size: 80 },
         { accessorKey: "name", header: "Nome", size: 250 },
         { accessorKey: "position", header: "Cargo", size: 150 },
-        { id: "actions", header: "Ações", enableSorting: false, size: 180 },
+        { id: "actions", header: "Ações", enableSorting: false, size: 100 },
     ];
 
     // Actions

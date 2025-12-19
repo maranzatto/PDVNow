@@ -26,7 +26,6 @@ export function useSuppliers() {
             accessorKey: "status",
             header: "Status",
             size: 100,
-            // Apenas retorna o texto, a renderização pode usar o badge externamente
             cell: ({ getValue }) => {
                 const { text } = getStatusBadge(getValue() as string);
                 return text;
