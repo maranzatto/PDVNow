@@ -46,3 +46,5 @@ const { products, columns, handleNew, handleEdit, handleDelete, formatPrice, get
         </DataTable>
     </div>
 </template>
+
+<style scoped></style>
