@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import DataTable from '@/modules/admin/components/DataTablesComponent/DataTablesComponent.vue'
 import { useSuppliers } from '../composables/useSuppliers'
+import { Button } from 'primevue';
 const { suppliers, columns, handleNew, getStatusBadge, handleEdit, handleDelete } = useSuppliers()
 </script>
 
@@ -11,10 +12,10 @@ const { suppliers, columns, handleNew, getStatusBadge, handleEdit, handleDelete 
             empty-message="Nenhum fornecedor encontrado">
 
             <template #headerActions>
-                <button @click="handleNew" class="btn-primary">
+                <Button @click="handleNew" class="p-button-primary">
                     <i class="pi pi-plus"></i>
-                    Novo Produto
-                </button>
+                    <span>Novo Fornecedor</span>
+                </Button>
             </template>
 
             <template #status="{ row }">
@@ -37,16 +38,4 @@ const { suppliers, columns, handleNew, getStatusBadge, handleEdit, handleDelete 
     </div>
 </template>
 
-<style scoped>
-@import "tailwindcss";
-
-.page {
-    padding: .5rem .7rem;
-    background-color: var(--color-bg-secondary);
-    color: var(--color-text-primary);
-}
-
-.title {
-    @apply mb-4 text-2xl font-semibold;
-}
-</style>
+<style></style>

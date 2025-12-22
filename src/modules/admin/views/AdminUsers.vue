@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import DataTable from '@/modules/admin/components/DataTablesComponent/DataTablesComponent.vue'
 import { useUsers } from '../composables/useUsers'
+import { Button } from 'primevue';
 
 const { users, columns, handleNew, handleEdit, handleDelete } = useUsers()
 </script>
@@ -10,10 +11,10 @@ const { users, columns, handleNew, handleEdit, handleDelete } = useUsers()
         <h1 class="title">Usuários</h1>
         <DataTable :data="users" :columns="columns">
             <template #headerActions>
-                <button @click="handleNew" class="btn-primary">
+                <Button @click="handleNew" class="p-button-primary">
                     <i class="pi pi-plus"></i>
-                    Novo Produto
-                </button>
+                    <span>Novo Usuário</span>
+                </Button>
             </template>
 
             <template #actions="{ row }">
@@ -30,16 +31,4 @@ const { users, columns, handleNew, handleEdit, handleDelete } = useUsers()
     </div>
 </template>
 
-<style scoped>
-@import "tailwindcss";
-
-.page {
-    padding: .5rem .7rem;
-    background-color: var(--color-bg-secondary);
-    color: var(--color-text-primary);
-}
-
-.title {
-    @apply mb-4 text-2xl font-semibold;
-}
-</style>
+<style scoped></style>

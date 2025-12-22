@@ -1,16 +1,16 @@
 <script lang="ts" setup>
 import type { IconProps } from '../Icons/IconProps';
 
-const { width, height, color } = withDefaults(defineProps<IconProps>(), {
+const props = withDefaults(defineProps<IconProps>(), {
     width: 24,
     height: 24,
     color: 'currentColor'
 });
-
 </script>
 
 <template>
-    <svg xmlns="http://www.w3.org/2000/svg" :width="width" :height="height" viewBox="0 0 48 48" :fill="color">
+    <svg xmlns="http://www.w3.org/2000/svg" :width="props.width" :height="props.height" viewBox="0 0 48 48"
+        :fill="props.color">
         <title>user-profile-circle-solid</title>
         <g id="Layer_2" data-name="Layer 2">
             <g id="invisible_box" data-name="invisible box">

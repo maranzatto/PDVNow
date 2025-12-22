@@ -17,7 +17,9 @@
     "dependencies": {
         "@primeuix/themes": "^2.0.2",
         "@tanstack/vue-table": "^8.21.3",
+        "@types/date-fns": "^2.5.3",
         "axios": "^1.13.2",
+        "date-fns": "^4.1.0",
         "pinia": "^3.0.4",
         "primeflex": "^4.0.0",
         "primeicons": "^7.0.0",

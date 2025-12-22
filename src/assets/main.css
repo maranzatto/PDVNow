@@ -1,46 +1,6 @@
-/* Carrega base (onde estão Tailwind, Preflight e suas variáveis) */
+/* ==========================================================================
+   ESTILOS GLOBAIS DA APLICAÇÃO
+   ========================================================================== */
+
+/* Importa o arquivo base com variáveis e reset */
 @import "./base.css";
-
-/* Estilos mínimos do app */
-body {
-    font-family: "Poppins", sans-serif;
-}
-
-/* Corrigido: NÃO sobrescreve background e cor global do Volt */
-#app {
-    width: 100%;
-    margin: 0;
-    padding: 0;
-}
-
-/* Links */
-a,
-.green {
-    text-decoration: none;
-    color: var(--p-primary-500);
-    transition: 0.2s;
-    padding: 3px;
-}
-
-.btn-primary {
-    padding: 0.5rem 1rem;
-    border-radius: 0.5rem;
-    font-weight: 500;
-    background: var(--gradient-primary);
-    color: var(--color-white);
-    border: none;
-    transition: all 0.2s ease-in-out;
-    box-shadow: 0 2px 4px rgba(102, 126, 234, 0.2);
-    cursor: pointer;
-}
-
-.btn-primary:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 4px 8px rgba(102, 126, 234, 0.3);
-}
-
-@media (hover: hover) {
-    a:hover {
-        background-color: rgba(99, 102, 241, 0.15);
-    }
-}
