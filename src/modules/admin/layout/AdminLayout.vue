@@ -9,7 +9,7 @@ import SideComponent from '../components/SideComponent/SideComponent.vue';
         <SideComponent />
         <div class="content-area">
             <header class="header">
-                <h1>Admin</h1>
+                <h4 class="mb-0">Admin</h4>
                 <IconUser :width="32" :height="32" />
             </header>
 
@@ -21,22 +21,40 @@ import SideComponent from '../components/SideComponent/SideComponent.vue';
 </template>
 
 <style scoped>
-@import "tailwindcss";
-
 .admin-layout {
-    @apply flex w-screen gap-3 h-screen overflow-hidden p-4;
-    background-color: var(--color-secondary-dark);
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    padding: 1rem;
+    gap: 1rem;
+    overflow: hidden;
 }
 
 .content-area {
-    @apply flex-1 flex flex-col overflow-hidden rounded-lg;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border-radius: 0.5rem;
+    background-color: var(--color-bg-primary);
+    box-shadow: var(--shadow);
 }
 
 .header {
-    @apply h-15 flex items-center justify-between px-5 bg-gray-900 shrink-0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.5rem;
+    height: var(--header-height);
+    background-color: var(--color-bg-primary);
+    border-bottom: 1px solid var(--color-border);
+    flex-shrink: 0;
 }
 
 .main {
-    @apply flex-1 overflow-y-auto;
+    flex: 1;
+    overflow-y: auto;
+    padding: 1.5rem;
+    background-color: var(--color-bg-secondary);
 }
 </style>
