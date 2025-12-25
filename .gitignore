@@ -43,3 +43,7 @@ coverage/
 
 # Vitest
 __screenshots__/
+
+# Project rules
+rules.md
+.windsurf/
