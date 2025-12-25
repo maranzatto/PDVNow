@@ -1,10 +1,16 @@
 // composables/useProductOptions.ts
 export const useProductOptions = () => {
-    const categories = ["Eletrônicos", "Informática", "Periféricos", "Armazenamento", "Áudio", "Vídeo", "Rede", "Acessórios", "Mobiliário", "Cabos"];
+    const categories = ["Eletrônicos", "Informática", "Periféricos", "Armazenamento", "Áudio", "Vídeo", "Rede", "Acessórios", "Mobiliário", "Cabos"]
+        .map(cat => ({
+            label: cat,
+            value: cat.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+        }));
 
     const statusOptions = [
         { label: "Ativo", value: "active" },
         { label: "Inativo", value: "inactive" },
+        { label: "Disponível", value: "available" },
+        { label: "Fora de Estoque", value: "out_of_stock" },
     ];
 
     const saleUnitOptions = [

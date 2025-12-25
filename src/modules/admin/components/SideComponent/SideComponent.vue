@@ -4,7 +4,15 @@ import IconDashboard from '@/assets/Icons/IconDashboard.vue';
 import IconGroup from '@/assets/Icons/IconGroup.vue';
 import IconProducts from '@/assets/Icons/IconProducts.vue';
 import IconSuppliers from '@/assets/Icons/IconSuppliers.vue';
+import router from '@/router';
 
+function logout() {
+    router.push('/login');
+}
+
+function enterPDV() {
+    router.push('/pdv');
+}
 </script>
 
 <template>
@@ -37,10 +45,10 @@ import IconSuppliers from '@/assets/Icons/IconSuppliers.vue';
         </nav>
         <div class="actions">
             <div class="action-buttons">
-                <button class="maior btn-action btn-edit">
+                <button @click="enterPDV" class="maior btn-action btn-edit">
                     <i class="pi pi-desktop"></i><span>Frente de caixa</span>
                 </button>
-                <button class="menor btn-action btn-delete">
+                <button @click="logout" class="menor btn-action btn-delete">
                     <i class="pi pi-sign-out"></i>
                 </button>
             </div>

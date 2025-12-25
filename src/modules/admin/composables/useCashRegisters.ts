@@ -130,7 +130,7 @@ export function useCashRegisters() {
     };
 
     const handleViewDetails = (id: number) => {
-        router.push({ path: `/admin/cash-register/${id}` });
+        router.push({ path: `/admin/cash-register/${id}/edit` });
     };
 
     return {

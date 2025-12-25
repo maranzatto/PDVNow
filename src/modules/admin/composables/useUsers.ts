@@ -2,6 +2,7 @@
 import { ref } from "vue";
 import { type ColumnDef } from "@tanstack/vue-table";
 import type { Users } from "../types/Users";
+import router from "@/router";
 
 export function useUsers() {
     // Dados
@@ -31,6 +32,7 @@ export function useUsers() {
     };
 
     const handleEdit = (id: number) => {
+        router.push({ path: `users/${id}/edit` });
         console.log("Editar usuario:", id);
     };
 

@@ -5,7 +5,7 @@ export interface ProductForm {
     sku: string;
     barcode: string;
     category: string;
-    status: "active" | "inactive";
+    status: "active" | "inactive" | "available" | "out_of_stock";
 
     // 2. Preço e venda
     salePrice: number;

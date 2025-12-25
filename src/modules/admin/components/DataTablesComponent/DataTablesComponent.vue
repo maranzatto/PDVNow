@@ -497,7 +497,6 @@ const isLastColumn = (index: number, total: number) => {
 :deep(.btn-view:hover) {
     background-color: var(--color-info);
     color: var(--color-white);
-    transform: translateY(-1px);
 }
 
 :deep(.btn-edit) {
@@ -508,7 +507,6 @@ const isLastColumn = (index: number, total: number) => {
 :deep(.btn-edit:hover) {
     background-color: var(--color-primary);
     color: var(--color-white);
-    transform: translateY(-1px);
 }
 
 :deep(.btn-delete) {
@@ -519,6 +517,5 @@ const isLastColumn = (index: number, total: number) => {
 :deep(.btn-delete:hover) {
     background-color: var(--color-error);
     color: var(--color-white);
-    transform: translateY(-1px);
 }
 </style>

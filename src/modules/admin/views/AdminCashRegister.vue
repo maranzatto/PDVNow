@@ -54,11 +54,11 @@ const {
                 <div class="action-buttons">
                     <button v-if="row.status === 'closed'" class="btn-action btn-edit"
                         @click="handleOpenCashRegister(row.id)" title="Abrir Caixa">
-                        <i class="pi pi-lock-open"></i>
+                        <i class="pi pi-lock"></i>
                     </button>
                     <button v-else class="btn-action btn-edit" @click="handleCloseCashRegister(row.id)"
                         title="Fechar Caixa">
-                        <i class="pi pi-lock"></i>
+                        <i class="pi pi-lock-open"></i>
                     </button>
                     <button class="btn-action btn-edit ml-2" @click="handleViewDetails(row.id)" title="Ver Detalhes">
                         <i class="pi pi-eye"></i>

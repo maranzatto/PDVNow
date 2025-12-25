@@ -110,7 +110,7 @@
 }
 
 /* ==========================================================================
-   3. RESET E ESTILOS GLOBAIS
+    3. RESET E ESTILOS GLOBAIS
    ========================================================================== */
 
 *,
@@ -150,17 +150,30 @@ body {
 }
 
 /* Tipografia */
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
     font-weight: 600;
     line-height: 1.25;
     color: var(--color-text-primary);
     margin-bottom: 0.5em;
 }
 
-h1 { font-size: 1.875rem; } /* text-3xl */
-h2 { font-size: 1.5rem; }   /* text-2xl */
-h3 { font-size: 1.25rem; }  /* text-xl */
-h4 { font-size: 1.125rem; } /* text-lg */
+h1 {
+    font-size: 1.875rem;
+} /* text-3xl */
+h2 {
+    font-size: 1.5rem;
+} /* text-2xl */
+h3 {
+    font-size: 1.25rem;
+} /* text-xl */
+h4 {
+    font-size: 1.125rem;
+} /* text-lg */
 
 /* Links */
 a {
@@ -208,25 +221,6 @@ button[type="submit"]:hover:not(:disabled),
 button.primary:hover:not(:disabled) {
     background-color: var(--color-primary-dark) !important;
     border-color: var(--color-primary-dark) !important;
-    transform: translateY(-1px);
-    box-shadow: var(--shadow-md);
-}
-
-/* Botão secundário */
-button.p-button-secondary,
-.p-button.p-button-secondary,
-button.secondary {
-    background-color: var(--color-secondary) !important;
-    color: white !important;
-    border-color: var(--color-secondary) !important;
-}
-
-button.p-button-secondary:hover:not(:disabled),
-.p-button.p-button-secondary:hover:not(:disabled),
-button.secondary:hover:not(:disabled) {
-    background-color: var(--color-secondary-dark) !important;
-    border-color: var(--color-secondary-dark) !important;
-    transform: translateY(-1px);
     box-shadow: var(--shadow-md);
 }
 
@@ -245,6 +239,18 @@ button.outline:hover:not(:disabled) {
     background-color: var(--color-hover) !important;
     color: var(--color-primary-dark) !important;
     border-color: var(--color-primary-dark) !important;
+}
+
+/* Secondary Button */
+.p-button.p-button-secondary {
+    background: var(--color-gray-600) !important;
+    border-color: var(--color-gray-600) !important;
+    color: var(--color-text-primary) !important;
+}
+
+.p-button.p-button-secondary:hover {
+    background: var(--color-gray-700) !important;
+    border-color: var(--color-gray-700) !important;
 }
 
 /* Estados de botão */
@@ -289,5 +295,9 @@ button .pi,
 }
 
 /* Classes de utilidade */
-.ml-2 { margin-left: 0.5rem; }
-.mb-0 { margin-bottom: 0 !important; }
+.ml-2 {
+    margin-left: 0.5rem;
+}
+.mb-0 {
+    margin-bottom: 0 !important;
+}

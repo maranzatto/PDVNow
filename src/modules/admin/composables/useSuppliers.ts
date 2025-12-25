@@ -2,6 +2,7 @@
 import { ref } from "vue";
 import { type ColumnDef } from "@tanstack/vue-table";
 import type { Supplier } from "../types/Supplier";
+import router from "@/router";
 
 export function useSuppliers() {
     // Dados
@@ -50,7 +51,10 @@ export function useSuppliers() {
     const handleNew = () => console.log("Criar novo fornecedor");
     const handleExport = () => console.log("Exportar fornecedores");
     const handleView = (id: number) => console.log("Visualizar fornecedor:", id);
-    const handleEdit = (id: number) => console.log("Editar fornecedor:", id);
+    const handleEdit = (id: number) => {
+        router.push({ path: `suppliers/${id}/edit` });
+        console.log("Editar fornecedor:", id);
+    };
     const handleDelete = (id: number) => console.log("Excluir fornecedor:", id);
 
     return {

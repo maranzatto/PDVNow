@@ -3,13 +3,12 @@ import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import Button from 'primevue/button'
 
-// PrimeVue Components
-import InputText from 'primevue/inputtext'
-import InputNumber from 'primevue/inputnumber'
-import Select from 'primevue/select'
-import Checkbox from 'primevue/checkbox'
-import Calendar from 'primevue/calendar'
-import Textarea from 'primevue/textarea'
+import MInputText from '../../../../components/MInputText.vue'
+import MInputNumber from '../../../../components/MInputNumber.vue'
+import MSelect from '../../../../components/MSelect.vue'
+import MCheckbox from '../../../../components/MCheckbox.vue'
+import MCalendar from '../../../../components/MCalendar.vue'
+import MTextarea from '../../../../components/MTextarea.vue'
 
 // Composables
 import { useProductForm } from '@/modules/admin/composables/productDetails/useProductForm'
@@ -37,7 +36,6 @@ onMounted(() => {
         isEditing.value = true
         productId.value = props.id
 
-        // Mock data para teste
         const mockProduct = {
             name: 'Notebook Dell Inspiron 15',
             sku: 'NOTE-DELL-15',
@@ -145,31 +143,31 @@ const goBack = () => {
                 <div class="form-grid">
                     <div class="form-field form-field-6">
                         <label class="form-label">Nome do Produto *</label>
-                        <InputText v-model="form.name" :invalid="!!errors.name" />
+                        <MInputText v-model="form.name" :invalid="!!errors.name" />
                         <span v-if="errors.name" class="error-message">{{ errors.name }}</span>
                     </div>
 
                     <div class="form-field form-field-3">
                         <label class="form-label">Código de barras</label>
-                        <InputText v-model="form.barcode" />
+                        <MInputText v-model="form.barcode" />
                     </div>
 
                     <div class="form-field form-field-3">
                         <label class="form-label">SKU *</label>
-                        <InputText v-model="form.sku" :invalid="!!errors.sku" />
+                        <MInputText v-model="form.sku" :invalid="!!errors.sku" />
                         <span v-if="errors.sku" class="error-message">{{ errors.sku }}</span>
                     </div>
 
                     <div class="form-field form-field-6">
-                        <label class="form-label">Categoria *</label>
-                        <Select v-model="form.category" :options="categories" :invalid="!!errors.category" />
+                        <MSelect v-model="form.category" :options="categories" :invalid="!!errors.category"
+                            label="Categoria *" option-label="label" option-value="value" />
                         <span v-if="errors.category" class="error-message">{{ errors.category }}</span>
                     </div>
 
                     <div class="form-field form-field-6">
-                        <label class="form-label">Status *</label>
-                        <Select v-model="form.status" :options="statusOptions" optionLabel="label"
-                            optionValue="value" />
+                        <MSelect v-model="form.status" :options="statusOptions" :invalid="!!errors.status"
+                            label="Status *" option-label="label" option-value="value" />
+                        <span v-if="errors.status" class="error-message">{{ errors.status }}</span>
                     </div>
                 </div>
             </div>
@@ -179,27 +177,29 @@ const goBack = () => {
                 <h2 class="section-title">Preço & Venda</h2>
                 <div class="form-grid">
                     <div class="form-field form-field-3">
-                        <label>Preço de Venda *</label>
-                        <InputNumber v-model="form.salePrice" />
+                        <label class="form-label">Preço de Venda *</label>
+                        <MInputNumber v-model="form.salePrice" :invalid="!!errors.salePrice" />
+                        <span v-if="errors.salePrice" class="error-message">{{ errors.salePrice }}</span>
                     </div>
 
                     <div class="form-field form-field-3">
-                        <label>Preço de Custo *</label>
-                        <InputNumber v-model="form.costPrice" />
+                        <label class="form-label">Preço de Custo *</label>
+                        <MInputNumber v-model="form.costPrice" :invalid="!!errors.costPrice" />
+                        <span v-if="errors.costPrice" class="error-message">{{ errors.costPrice }}</span>
                     </div>
 
                     <div class="form-field form-field-3">
-                        <label>Margem (%)</label>
-                        <InputNumber v-model="form.profitMargin" />
+                        <label class="form-label">Margem (%)</label>
+                        <MInputNumber v-model="form.profitMargin" :disabled="true" />
                     </div>
 
                     <div class="form-field form-field-3">
-                        <label>Preço Mínimo</label>
-                        <InputNumber v-model="form.minPrice" />
+                        <label class="form-label">Preço Mínimo</label>
+                        <MInputNumber v-model="form.minPrice" />
                     </div>
 
                     <div class="form-field form-field-6">
-                        <Checkbox v-model="form.allowDiscount" binary /> Permitir desconto
+                        <MCheckbox v-model="form.allowDiscount" binary label="Permitir desconto" />
                     </div>
                 </div>
             </div>
@@ -209,32 +209,32 @@ const goBack = () => {
                 <h2 class="section-title">Estoque</h2>
                 <div class="form-grid">
                     <div class="form-field form-field-6">
-                        <Checkbox v-model="form.stockControl" binary /> Controlar estoque
+                        <MCheckbox v-model="form.stockControl" binary label="Controlar estoque" />
                     </div>
 
                     <div class="form-field form-field-3">
                         <label>Estoque Atual</label>
-                        <InputNumber v-model="form.stock" />
+                        <MInputNumber v-model="form.stock" />
                     </div>
 
                     <div class="form-field form-field-3">
                         <label>Estoque Mínimo</label>
-                        <InputNumber v-model="form.minStock" />
+                        <MInputNumber v-model="form.minStock" />
                     </div>
 
                     <div class="form-field form-field-3">
                         <label>Estoque Máximo</label>
-                        <InputNumber v-model="form.maxStock" />
+                        <MInputNumber v-model="form.maxStock" />
                     </div>
 
                     <div class="form-field form-field-3">
                         <label>Localização</label>
-                        <InputText v-model="form.location" />
+                        <MInputText v-model="form.location" />
                     </div>
 
                     <div class="form-field form-field-6">
                         <label>Última Movimentação</label>
-                        <Calendar v-model="form.lastMovement" />
+                        <MCalendar v-model="form.lastMovement" />
                     </div>
                 </div>
             </div>
@@ -245,41 +245,41 @@ const goBack = () => {
                 <div class="form-grid">
                     <div class="form-field form-field-3">
                         <label>NCM</label>
-                        <InputText v-model="form.ncm" />
+                        <MInputText v-model="form.ncm" />
                     </div>
 
                     <div class="form-field form-field-3">
                         <label>CFOP</label>
-                        <InputText v-model="form.cfop" />
+                        <MInputText v-model="form.cfop" />
                     </div>
 
                     <div class="form-field form-field-3">
                         <label>CST</label>
-                        <InputText v-model="form.cst" />
+                        <MInputText v-model="form.cst" />
                     </div>
 
                     <div class="form-field form-field-3">
                         <label>Origem</label>
-                        <InputText v-model="form.origin" />
+                        <MInputText v-model="form.origin" />
                     </div>
 
                     <div class="form-field form-field-3">
                         <label>ICMS %</label>
-                        <InputNumber v-model="form.icmsRate" />
+                        <MInputNumber v-model="form.icmsRate" />
                     </div>
 
                     <div class="form-field form-field-3">
                         <label>PIS %</label>
-                        <InputNumber v-model="form.pisRate" />
+                        <MInputNumber v-model="form.pisRate" />
                     </div>
 
                     <div class="form-field form-field-3">
                         <label>COFINS %</label>
-                        <InputNumber v-model="form.cofinsRate" />
+                        <MInputNumber v-model="form.cofinsRate" />
                     </div>
 
                     <div class="form-field form-field-6">
-                        <Checkbox v-model="form.hasTaxSubstitution" binary /> Substituição Tributária
+                        <MCheckbox v-model="form.hasTaxSubstitution" binary label="Substituição Tributária" />
                     </div>
                 </div>
             </div>
@@ -290,32 +290,32 @@ const goBack = () => {
                 <div class="form-grid">
                     <div class="form-field form-field-6">
                         <label>Fornecedor</label>
-                        <InputText v-model="form.supplier" />
+                        <MInputText v-model="form.supplier" />
                     </div>
 
                     <div class="form-field form-field-3">
                         <label>Código Fornecedor</label>
-                        <InputText v-model="form.supplierCode" />
+                        <MInputText v-model="form.supplierCode" />
                     </div>
 
                     <div class="form-field form-field-3">
                         <label>Custo de Compra</label>
-                        <InputNumber v-model="form.purchaseCost" />
+                        <MInputNumber v-model="form.purchaseCost" />
                     </div>
 
                     <div class="form-field form-field-3">
                         <label>Prazo Reposição (dias)</label>
-                        <InputNumber v-model="form.replenishmentTime" />
+                        <MInputNumber v-model="form.replenishmentTime" />
                     </div>
 
                     <div class="form-field form-field-3">
                         <label>Última Compra</label>
-                        <Calendar v-model="form.lastPurchaseDate" />
+                        <MCalendar v-model="form.lastPurchaseDate" />
                     </div>
 
                     <div class="form-field form-field-3">
                         <label>Valor Última Compra</label>
-                        <InputNumber v-model="form.lastPurchaseValue" />
+                        <MInputNumber v-model="form.lastPurchaseValue" />
                     </div>
                 </div>
             </div>
@@ -326,47 +326,47 @@ const goBack = () => {
                 <div class="form-grid">
                     <div class="form-field form-field-3">
                         <label>Peso</label>
-                        <InputNumber v-model="form.weight" />
+                        <MInputNumber v-model="form.weight" />
                     </div>
 
                     <div class="form-field form-field-3">
                         <label>Altura</label>
-                        <InputNumber v-model="form.height" />
+                        <MInputNumber v-model="form.height" />
                     </div>
 
                     <div class="form-field form-field-3">
                         <label>Largura</label>
-                        <InputNumber v-model="form.width" />
+                        <MInputNumber v-model="form.width" />
                     </div>
 
                     <div class="form-field form-field-3">
                         <label>Profundidade</label>
-                        <InputNumber v-model="form.depth" />
+                        <MInputNumber v-model="form.depth" />
                     </div>
 
                     <div class="form-field form-field-6">
                         <label>Marca</label>
-                        <InputText v-model="form.brand" />
+                        <MInputText v-model="form.brand" />
                     </div>
 
                     <div class="form-field form-field-6">
                         <label>Modelo</label>
-                        <InputText v-model="form.model" />
+                        <MInputText v-model="form.model" />
                     </div>
 
                     <div class="form-field form-field-3">
                         <label>Lote</label>
-                        <InputText v-model="form.batch" />
+                        <MInputText v-model="form.batch" />
                     </div>
 
                     <div class="form-field form-field-3">
                         <label>Série</label>
-                        <InputText v-model="form.serial" />
+                        <MInputText v-model="form.serial" />
                     </div>
 
                     <div class="form-field form-field-6">
                         <label>Validade</label>
-                        <Calendar v-model="form.expirationDate" />
+                        <MCalendar v-model="form.expirationDate" />
                     </div>
                 </div>
             </div>
@@ -376,38 +376,39 @@ const goBack = () => {
                 <h2 class="section-title">Comercial</h2>
                 <div class="form-grid">
                     <div class="form-field form-field-3">
-                        <Checkbox v-model="form.fractional" binary /> Fracionado
+                        <MCheckbox v-model="form.fractional" binary label="Fracionado" />
                     </div>
 
                     <div class="form-field form-field-3">
-                        <Checkbox v-model="form.saleByWeight" binary /> Venda por peso
+                        <MCheckbox v-model="form.saleByWeight" binary label="Venda por peso" />
                     </div>
 
                     <div class="form-field form-field-3">
-                        <Checkbox v-model="form.isKit" binary /> Kit
+                        <MCheckbox v-model="form.isKit" binary label="Kit" />
+
                     </div>
 
                     <div class="form-field form-field-3">
-                        <Checkbox v-model="form.allowSaleWithoutStock" binary /> Vender sem estoque
+                        <MCheckbox v-model="form.allowSaleWithoutStock" binary label="Vender sem estoque" />
                     </div>
 
                     <div class="form-field form-field-3">
-                        <Checkbox v-model="form.promotional" binary /> Promocional
+                        <MCheckbox v-model="form.promotional" binary label="Promocional" />
                     </div>
 
                     <div class="form-field form-field-3">
                         <label>Preço Promo</label>
-                        <InputNumber v-model="form.promotionalPrice" />
+                        <MInputNumber v-model="form.promotionalPrice" />
                     </div>
 
                     <div class="form-field form-field-3">
                         <label>Início</label>
-                        <Calendar v-model="form.promotionStart" />
+                        <MCalendar v-model="form.promotionStart" />
                     </div>
 
                     <div class="form-field form-field-3">
                         <label>Fim</label>
-                        <Calendar v-model="form.promotionEnd" />
+                        <MCalendar v-model="form.promotionEnd" />
                     </div>
                 </div>
             </div>
@@ -418,26 +419,26 @@ const goBack = () => {
                 <div class="form-grid">
                     <div class="form-field form-field-6">
                         <label>Código ERP</label>
-                        <InputText v-model="form.erpCode" />
+                        <MInputText v-model="form.erpCode" />
                     </div>
 
                     <div class="form-field form-field-6">
                         <label>Código Contábil</label>
-                        <InputText v-model="form.accountingCode" />
+                        <MInputText v-model="form.accountingCode" />
                     </div>
 
                     <div class="form-field form-field-6">
-                        <Checkbox v-model="form.syncEcommerce" binary /> Sincronizar e-commerce
+                        <MCheckbox v-model="form.syncEcommerce" label="Sincronizar e-commerce" />
                     </div>
 
                     <div class="form-field form-field-6">
                         <label>Imagem</label>
-                        <InputText v-model="form.image" />
+                        <MInputText v-model="form.image" />
                     </div>
 
                     <div class="form-field form-field-12">
                         <label>Observações</label>
-                        <Textarea v-model="form.notes" rows="3" />
+                        <MTextarea v-model="form.notes" class="w-full" :rows='3' />
                     </div>
                 </div>
             </div>
@@ -492,6 +493,7 @@ const goBack = () => {
     color: var(--color-text-secondary);
 }
 
+/* ==================== FORM CONTAINER ==================== */
 .form-container {
     background-color: var(--color-bg-primary);
     border: 1px solid var(--color-gray-700);
@@ -528,7 +530,7 @@ const goBack = () => {
     background-color: var(--color-bg-primary);
 }
 
-/* Form Grid Styles */
+/* ==================== FORM GRID ==================== */
 .form-grid {
     display: grid;
     grid-template-columns: repeat(12, 1fr);
@@ -581,5 +583,11 @@ const goBack = () => {
     color: var(--p-red-500);
     font-size: 0.75rem;
     margin-top: 0.25rem;
+}
+
+/* Estilos específicos para o formulário */
+.form-field :deep(.p-checkbox) {
+    flex-direction: row !important;
+    align-items: center !important;
 }
 </style>
