@@ -11,8 +11,10 @@ function logout() {
 }
 
 function enterPDV() {
-    router.push('/pdv');
+    const url = router.resolve('/pdv').href
+    window.open(url, '_blank')
 }
+
 </script>
 
 <template>
@@ -182,7 +184,6 @@ function enterPDV() {
 .btn-view:hover {
     background-color: var(--color-info);
     color: white;
-    transform: translateY(-1px);
 }
 
 .btn-edit {
@@ -193,7 +194,6 @@ function enterPDV() {
 .btn-edit:hover {
     background-color: var(--color-primary);
     color: white;
-    transform: translateY(-1px);
 }
 
 .btn-delete {
@@ -204,6 +204,5 @@ function enterPDV() {
 .btn-delete:hover {
     background-color: var(--color-error);
     color: white;
-    transform: translateY(-1px);
 }
 </style>

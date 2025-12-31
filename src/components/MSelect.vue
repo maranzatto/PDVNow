@@ -71,19 +71,16 @@ const emit = defineEmits(['update:modelValue'])
 
 const focused = ref(false)
 
-// Garantir que as opções sejam sempre um array
 const safeOptions = computed(() => {
     if (!props.options) return []
     return Array.isArray(props.options) ? props.options : [props.options]
 })
 
-// Função para obter a classe baseada no tamanho
 const getSizeClass = () => {
     if (!props.size) return ''
     return `p-${props.size}`
 }
 
-// Garantindo que labelDataP sempre tenha um valor válido
 const safeLabelDataP = computed(() => ({
     placeholder: props.labelDataP?.placeholder || false,
     clearable: props.labelDataP?.clearable || false,
@@ -112,181 +109,69 @@ const safeLabelDataP = computed(() => ({
         </Select>
     </div>
 </template>
-
 <style>
-.m-select-wrapper {
+.m-select-wrapper .p-select {
     width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-}
-
-.m-select-label {
-    font-size: 0.875rem;
-    font-weight: 500;
-    color: var(--color-text-primary);
-    margin-bottom: 0.25rem;
-}
-
-.m-select {
-    width: 100%;
-}
-
-/* Estilo para o dropdown */
-:deep(.p-dropdown) {
-    width: 100%;
-    background: var(--color-bg-secondary);
-    border: 1px solid var(--color-gray-700);
-    transition: all 0.2s ease-in-out;
-    border-radius: 0.5rem;
-}
-
-:deep(.p-dropdown:not(.p-disabled):hover) {
-    border-color: var(--color-primary);
-}
-
-:deep(.p-dropdown:not(.p-disabled).p-focus) {
-    box-shadow: 0 0 0 1px var(--color-primary);
-    border-color: var(--color-primary);
-}
-
-:deep(.p-dropdown-panel) {
-    background: var(--color-bg-secondary);
-    border: 1px solid var(--color-gray-700);
-}
-
-:deep(.p-dropdown-items .p-dropdown-item) {
-    color: var(--color-text-primary);
-}
-
-:deep(.p-dropdown-items .p-dropdown-item.p-highlight) {
-    background: var(--color-primary);
-    color: white;
-}
-
-:deep(.p-dropdown:not(.p-disabled).p-invalid) {
-    border-color: #f87171;
-}
-
-:deep(.p-dropdown:not(.p-disabled).p-invalid.p-focus) {
-    box-shadow: 0 0 0 1px #f87171;
-}
-
-.m-select-wrapper .p-dropdown {
-    width: 100%;
-    background: var(--color-bg-secondary) !important;
-    border: 1px solid var(--color-gray-700) !important;
-    transition: all 0.2s ease-in-out !important;
+    background-color: var(--color-gray-200) !important;
+    border: 1px solid var(--color-gray-300) !important;
     border-radius: 0.5rem !important;
+    transition: all 0.2s ease-in-out !important;
 }
 
-.m-select-wrapper .p-dropdown .p-dropdown-label {
+.m-select-wrapper .p-select-label {
     color: var(--color-text-primary) !important;
     padding: 0.5rem 1rem !important;
 }
 
-.m-select-wrapper .p-dropdown:not(.p-disabled):hover {
-    border-color: var(--color-gray-600) !important;
-}
-
-.m-select-wrapper .p-dropdown:not(.p-disabled).p-focus {
-    border-color: var(--color-primary) !important;
-    box-shadow: 0 0 0 1px var(--color-primary) !important;
-}
-
-.m-select-wrapper .p-dropdown-panel {
-    background: var(--color-bg-secondary) !important;
-    border: 1px solid var(--color-gray-700) !important;
-}
-
-.m-select-wrapper .p-dropdown-items .p-dropdown-item {
+.m-select-wrapper .p-select-dropdown {
     color: var(--color-text-primary) !important;
+    background: transparent !important;
+    width: 2.5rem !important;
 }
 
-.m-select-wrapper .p-dropdown-items .p-dropdown-item.p-highlight {
-    background: var(--color-primary) !important;
-    color: white !important;
-}
-
-.m-select-wrapper .p-dropdown-items .p-dropdown-item:not(.p-highlight):not(.p-disabled):hover {
-    background: var(--color-bg-tertiary) !important;
-}
-
-.m-select-wrapper .p-dropdown-panel .p-dropdown-items .p-dropdown-item.p-highlight {
-    background: var(--color-primary) !important;
-}
-
-.m-select-wrapper .p-dropdown:not(.p-disabled).p-invalid {
-    border-color: #f87171 !important;
-}
-
-.m-select-wrapper .p-dropdown:not(.p-disabled).p-invalid:focus {
-    box-shadow: 0 0 0 1px #f87171 !important;
-}
-
-
-/* ===== SELECT/DROPDOWN ===== */
-.p-dropdown,
-.p-select {
-    background: var(--color-bg-secondary) !important;
-    border: 1px solid var(--color-gray-700) !important;
-    border-radius: 0.5rem !important;
-    transition: all 0.2s ease-in-out !important;
-    width: 100% !important;
-}
-
-.p-dropdown:hover,
-.p-select:hover {
+.m-select-wrapper .p-select:not(.p-disabled):hover {
     border-color: var(--color-primary) !important;
 }
 
-.p-dropdown:focus,
-.p-dropdown.p-focus,
-.p-select:focus,
-.p-select.p-focus {
+.m-select-wrapper .p-select:not(.p-disabled):focus,
+.m-select-wrapper .p-select:not(.p-disabled).p-focus {
     border-color: var(--color-primary) !important;
     box-shadow: 0 0 0 1px var(--color-primary) !important;
     outline: none !important;
 }
 
-.p-dropdown .p-dropdown-label {
-    background: transparent !important;
-    border: none !important;
-    color: var(--color-text-primary) !important;
-    padding: 0.5rem 1rem !important;
+.m-select-wrapper .p-select:not(.p-disabled).p-invalid {
+    border-color: #f87171 !important;
 }
 
-.p-dropdown-panel {
+.m-select-wrapper .p-select:not(.p-disabled).p-invalid:focus {
+    box-shadow: 0 0 0 1px #f87171 !important;
+}
+
+.p-select-overlay {
     background: var(--color-bg-secondary) !important;
     border: 1px solid var(--color-gray-700) !important;
+}
+
+.p-select-list {
+    padding: 0.5rem 0 !important;
+    background-color: var(--color-bg-primary);
     color: var(--color-text-primary) !important;
 }
 
-.p-dropdown-items {
-    padding: 0.5rem 0 !important;
-}
-
-.p-dropdown-item {
+.p-select-option {
     color: var(--color-text-primary) !important;
     background: transparent !important;
     padding: 0.5rem 1rem !important;
 }
 
-.p-dropdown-item.p-highlight,
-.p-select-option.p-selected,
-.p-dropdown-item[aria-selected="true"],
-.p-select-option[aria-selected="true"] {
+.p-select-option:not(.p-select-option-selected):not(.p-disabled):hover {
     background: var(--color-primary) !important;
     color: white !important;
 }
 
-.p-dropdown-item:not(.p-highlight):not(.p-disabled):hover {
-    background: var(--color-bg-tertiary) !important;
-}
-
-.p-dropdown-trigger {
-    color: var(--color-text-primary) !important;
-    background: transparent !important;
-    width: 2.5rem !important;
+.p-select-option.p-select-option-selected {
+    background: var(--color-primary) !important;
+    color: white !important;
 }
 </style>

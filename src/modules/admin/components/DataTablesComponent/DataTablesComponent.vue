@@ -217,7 +217,7 @@ const isLastColumn = (index: number, total: number) => {
     padding: 0.5rem 1rem;
     border-radius: 0.5rem;
     background-color: var(--color-bg-secondary);
-    border: 1px solid var(--color-gray-700);
+    border: 1px solid var(--color-gray-300);
     color: var(--color-text-primary);
     outline: none;
     transition: all 0.2s ease-in-out;
@@ -236,7 +236,7 @@ const isLastColumn = (index: number, total: number) => {
     overflow-x: auto;
     border-radius: 0.5rem;
     background-color: var(--color-bg-primary);
-    border: 1px solid var(--color-gray-700);
+    border: 1px solid var(--color-gray-300);
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
     position: relative;
 }
@@ -248,7 +248,7 @@ const isLastColumn = (index: number, total: number) => {
 }
 
 .table-header {
-    background-color: var(--color-gray-800);
+    background-color: var(--color-primary-100);
 }
 
 .table-header-cell {
@@ -267,7 +267,7 @@ const isLastColumn = (index: number, total: number) => {
 }
 
 .table-header-cell.sortable:hover {
-    background-color: var(--color-gray-700);
+    background-color: var(--color-primary-200);
 }
 
 .header-content {
@@ -285,7 +285,7 @@ const isLastColumn = (index: number, total: number) => {
 }
 
 .table-body tr {
-    border-bottom: 1px solid var(--color-gray-700);
+    border-bottom: 1px solid var(--color-gray-300);
 }
 
 .table-row {
@@ -293,7 +293,7 @@ const isLastColumn = (index: number, total: number) => {
 }
 
 .table-row:hover {
-    background-color: var(--color-gray-800);
+    background-color: var(--color-primary-200);
 }
 
 .table-cell {
@@ -307,17 +307,17 @@ const isLastColumn = (index: number, total: number) => {
 .sticky-column {
     position: sticky;
     right: 0;
-    background-color: var(--color-gray-800);
+    background-color: var(--color-primary-100);
     z-index: 10;
 }
 
 .table-body .table-row .sticky-column {
     background-color: var(--color-bg-primary);
-    border-left: 1px solid var(--color-gray-700);
+    border-left: 1px solid var(--color-gray-300);
 }
 
 .table-body .table-row:hover .sticky-column {
-    background-color: var(--color-gray-800);
+    background-color: var(--color-primary-200);
 }
 
 .empty-row {
@@ -358,14 +358,14 @@ const isLastColumn = (index: number, total: number) => {
     padding: 0.5rem 0.75rem;
     border-radius: 0.375rem;
     background-color: var(--color-bg-secondary);
-    border: 1px solid var(--color-gray-700);
+    border: 1px solid var(--color-gray-300);
     color: var(--color-text-primary);
     transition: all 0.15s ease-in-out;
     cursor: pointer;
 }
 
 .pagination-button:hover:not(:disabled) {
-    background-color: var(--color-gray-800);
+    background-color: var(--color-primary-200);
     border-color: var(--color-primary);
 }
 
@@ -394,7 +394,7 @@ const isLastColumn = (index: number, total: number) => {
     padding: 0.5rem 0.75rem;
     border-radius: 0.375rem;
     background-color: var(--color-bg-secondary);
-    border: 1px solid var(--color-gray-700);
+    border: 1px solid var(--color-gray-300);
     color: var(--color-text-primary);
     outline: none;
     transition: all 0.2s ease-in-out;

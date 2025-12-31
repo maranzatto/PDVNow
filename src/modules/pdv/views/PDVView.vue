@@ -2,6 +2,7 @@
 import { ref, onMounted, watch, onUnmounted } from 'vue';
 import { usePDV, type CartItem } from '../composables/usePDV';
 import Button from 'primevue/button';
+import MButton from '@/components/MButton.vue';
 import InputNumber from 'primevue/inputnumber';
 import Dialog from 'primevue/dialog';
 import { useToast } from 'primevue/usetoast';
@@ -23,7 +24,6 @@ const {
     clearCart
 } = usePDV();
 
-// Refs for dialogs
 const showDiscountDialog = ref(false);
 const showPaymentDialog = ref(false);
 const selectedItem = ref<CartItem | null>(null);
@@ -31,8 +31,8 @@ const selectedItemIndex = ref<number>(-1);
 const discountValue = ref(0);
 const paymentAmount = ref(0);
 const change = ref(0);
+const barcodeInputRef = ref<HTMLInputElement | null>(null);
 
-// Keyboard shortcuts
 const handleKeyDown = (e: KeyboardEvent) => {
     if (selectedItemIndex.value < 0 || selectedItemIndex.value >= cart.value.length) return;
 
@@ -57,29 +57,19 @@ const handleKeyDown = (e: KeyboardEvent) => {
     }
 };
 
-// Select item by index
 const selectItem = (index: number) => {
     selectedItemIndex.value = index;
 };
-
 
 onMounted(() => {
     window.addEventListener('keydown', handleKeyDown);
     barcodeInputRef.value?.focus();
 });
 
-// Clean up event listeners
 onUnmounted(() => {
     window.removeEventListener('keydown', handleKeyDown);
 });
 
-// Focus barcode input on mount
-const barcodeInputRef = ref<HTMLInputElement | null>(null);
-onMounted(() => {
-    barcodeInputRef.value?.focus();
-});
-
-// Watch for error and success messages to show toasts
 watch(errorMessage, (newVal) => {
     if (newVal) {
         toast.add({ severity: 'error', summary: 'Erro', detail: newVal, life: 3000 });
@@ -92,14 +82,16 @@ watch(successMessage, (newVal) => {
     }
 });
 
-// Open discount dialog for a specific item
+watch(paymentAmount, (newVal) => {
+    change.value = Math.max(0, newVal - subtotal.value);
+});
+
 function openDiscountDialog(item: CartItem) {
     selectedItem.value = item;
     discountValue.value = item.discount;
     showDiscountDialog.value = true;
 }
 
-// Apply discount to selected item
 function applyDiscountToItem() {
     if (selectedItem.value) {
         applyDiscount(selectedItem.value.barcode, discountValue.value);
@@ -113,15 +105,8 @@ function applyDiscountToItem() {
     }
 }
 
-// Calculate change when payment amount changes
-watch(paymentAmount, (newVal) => {
-    change.value = Math.max(0, newVal - subtotal.value);
-});
-
-// Process payment
 function processPayment() {
     if (paymentAmount.value >= subtotal.value) {
-        // In a real app, you would process the payment here
         toast.add({
             severity: 'success',
             summary: 'Pagamento Efetuado',
@@ -129,7 +114,6 @@ function processPayment() {
             life: 5000
         });
 
-        // Clear cart and close dialog after a short delay
         setTimeout(() => {
             clearCart();
             showPaymentDialog.value = false;
@@ -139,7 +123,6 @@ function processPayment() {
     }
 }
 
-// Format currency
 function formatCurrency(value: number) {
     return new Intl.NumberFormat('pt-BR', {
         style: 'currency',
@@ -152,19 +135,18 @@ function formatCurrency(value: number) {
     <div class="admin-layout">
         <div class="content-area">
             <header class="header">
-                <h4 class="mb-0">PDV - Ponto de Venda</h4>
-                <div class="flex items-center gap-4">
-                    <div class="flex items-center gap-2">
-                        <IconUser :width="32" :height="32" />
-                    </div>
+                <h4 class="header-title">PDV - Ponto de Venda</h4>
+                <div class="header-user">
+                    <IconUser :width="32" :height="32" />
                 </div>
             </header>
+
             <div class="main-content">
                 <main class="main">
                     <!-- Barcode Input -->
                     <div class="form-section">
                         <div class="form-grid">
-                            <div class="form-field form-field-12">
+                            <div class="form-field-full">
                                 <label class="form-label">Código de Barras</label>
                                 <MInputText id="barcode" v-model="barcodeInput" placeholder="Digite algo..."
                                     @keyup.enter="processBarcodeInput" />
@@ -173,62 +155,59 @@ function formatCurrency(value: number) {
                     </div>
 
                     <!-- Cart Items -->
-                    <div class="cart-items bg-white rounded-lg shadow overflow-hidden">
-                        <div class="overflow-x-auto">
-                            <table class="min-w-full">
-                                <thead class="bg-gray-50">
-                                    <tr class="text-xs text-gray-500 uppercase">
-                                        <th class="px-4 py-2 text-left">Produto</th>
-                                        <th class="px-2 py-2 text-right">Preço</th>
-                                        <th class="px-2 py-2 text-center">Qtd</th>
-                                        <th class="px-2 py-2 text-right">Total</th>
-                                        <th class="w-24"></th>
+                    <div class="cart-container">
+                        <div class="cart-table-wrapper">
+                            <table class="cart-table">
+                                <thead class="cart-thead">
+                                    <tr class="cart-thead-row">
+                                        <th class="cart-th cart-th-left">Produto</th>
+                                        <th class="cart-th cart-th-right">Preço</th>
+                                        <th class="cart-th cart-th-center">Qtd</th>
+                                        <th class="cart-th cart-th-right">Total</th>
+                                        <th class="cart-th-actions"></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr v-if="cart.length === 0">
-                                        <td colspan="5" class="px-4 py-8 text-center text-gray-400">
+                                        <td colspan="5" class="cart-empty">
                                             Nenhum item adicionado. Passe o código de barras para começar.
                                         </td>
                                     </tr>
-                                    <tr v-for="(item, index) in cart" :key="item.barcode"
-                                        class="border-t border-gray-100 hover:bg-gray-50"
-                                        :class="{ 'bg-blue-50': selectedItemIndex === index }"
+                                    <tr v-for="(item, index) in cart" :key="item.barcode" class="cart-row"
+                                        :class="{ 'cart-row-selected': selectedItemIndex === index }"
                                         @click="selectItem(index)">
-                                        <td class="px-4 py-3">
-                                            <div class="font-medium text-gray-900">{{ item.name }}</div>
-                                            <div class="text-xs text-gray-500">{{ item.barcode }}</div>
+                                        <td class="cart-td-product">
+                                            <div class="product-name">{{ item.name }}</div>
+                                            <div class="product-barcode">{{ item.barcode }}</div>
                                         </td>
-                                        <td class="px-2 py-3 text-right text-gray-700">
+                                        <td class="cart-td-price">
                                             {{ formatCurrency(item.price) }}
                                         </td>
-                                        <td class="px-2 py-3 text-center">
-                                            <div class="inline-flex items-center border rounded">
+                                        <td class="cart-td-quantity">
+                                            <div class="quantity-control">
                                                 <button @click.stop="updateQuantity(item.barcode, item.quantity - 1)"
-                                                    class="px-2 py-1 text-gray-600 hover:bg-gray-100">
+                                                    class="quantity-btn">
                                                     -
                                                 </button>
-                                                <span class="w-8 text-center">{{ item.quantity }}</span>
+                                                <span class="quantity-value">{{ item.quantity }}</span>
                                                 <button @click.stop="updateQuantity(item.barcode, item.quantity + 1)"
-                                                    class="px-2 py-1 text-gray-600 hover:bg-gray-100">
+                                                    class="quantity-btn">
                                                     +
                                                 </button>
                                             </div>
                                         </td>
-                                        <td class="px-2 py-3 text-right font-medium text-gray-900">
+                                        <td class="cart-td-total">
                                             {{ formatCurrency((item.price * item.quantity) - item.discount) }}
                                         </td>
-                                        <td class="px-2 py-3 text-right">
-                                            <div class="flex justify-end space-x-1">
+                                        <td class="cart-td-actions">
+                                            <div class="action-buttons">
                                                 <button @click.stop="openDiscountDialog(item)"
-                                                    class="p-1 text-blue-600 rounded hover:bg-blue-100"
-                                                    title="Desconto (F4)">
-                                                    <i class="pi pi-percentage text-sm"></i>
+                                                    class="action-btn action-btn-discount" title="Desconto (F4)">
+                                                    <i class="pi pi-percentage"></i>
                                                 </button>
                                                 <button @click.stop="removeItem(item.barcode)"
-                                                    class="p-1 text-red-600 rounded hover:bg-red-100"
-                                                    title="Remover (F2)">
-                                                    <i class="pi pi-trash text-sm"></i>
+                                                    class="action-btn action-btn-remove" title="Remover (F2)">
+                                                    <i class="pi pi-trash"></i>
                                                 </button>
                                             </div>
                                         </td>
@@ -255,78 +234,72 @@ function formatCurrency(value: number) {
                         </div>
                     </div>
                     <div class="summary-actions">
-                        <Button label="Finalizar Venda" icon="pi pi-credit-card" class="p-button-success w-full mb-2"
+                        <MButton label="Finalizar Venda" icon="pi pi-credit-card" class="p-button-primary"
                             :disabled="cart.length === 0" @click="showPaymentDialog = true" />
-                        <Button label="Cancelar Venda" icon="pi pi-times"
-                            class="p-button-outlined p-button-secondary w-full" :disabled="cart.length === 0"
-                            @click="clearCart" />
+                        <MButton label="Cancelar Venda" icon="pi pi-times" class="p-button-secondary"
+                            :disabled="cart.length === 0" @click="clearCart" />
                     </div>
                 </aside>
             </div>
 
-            <aside>
+            <!-- Discount Dialog -->
+            <Dialog v-model:visible="showDiscountDialog" header="Aplicar Desconto" :modal="true"
+                class="dialog-discount">
+                <div class="dialog-content">
+                    <div class="dialog-field">
+                        <label for="discountValue" class="dialog-label">
+                            Valor do Desconto (R$)
+                        </label>
+                        <InputNumber id="discountValue" v-model="discountValue" :min="0"
+                            :max="selectedItem ? selectedItem.price * selectedItem.quantity : 0" mode="currency"
+                            currency="BRL" locale="pt-BR" class="dialog-input" />
+                        <small class="dialog-hint">
+                            Máximo: {{ selectedItem ? formatCurrency(selectedItem.price * selectedItem.quantity) : `R$
+                            0,00` }}
+                        </small>
+                    </div>
+                </div>
+                <template #footer>
+                    <Button label="Cancelar" icon="pi pi-times" class="p-button-text"
+                        @click="showDiscountDialog = false" />
+                    <Button label="Aplicar" icon="pi pi-check" class="p-button-success" @click="applyDiscountToItem" />
+                </template>
+            </Dialog>
 
-                <!-- Discount Dialog -->
-                <Dialog v-model:visible="showDiscountDialog" header="Aplicar Desconto" :modal="true"
-                    :style="{ width: '450px' }">
-                    <div class="p-fluid">
-                        <div class="mb-4">
-                            <label for="discountValue" class="block text-sm font-medium text-gray-700 mb-2">
-                                Valor do Desconto (R$)
+            <!-- Payment Dialog -->
+            <Dialog v-model:visible="showPaymentDialog" header="Finalizar Venda" :modal="true" class="dialog-payment">
+                <div class="dialog-content">
+                    <div class="payment-info">
+                        <div class="payment-label">Total a Pagar:</div>
+                        <div class="payment-total">{{ formatCurrency(subtotal) }}</div>
+
+                        <div class="dialog-field">
+                            <label for="paymentAmount" class="dialog-label">
+                                Valor Recebido (R$)
                             </label>
-                            <InputNumber id="discountValue" v-model="discountValue" :min="0"
-                                :max="selectedItem ? selectedItem.price * selectedItem.quantity : 0" mode="currency"
-                                currency="BRL" locale="pt-BR" class="w-full" />
-                            <small class="text-gray-500">
-                                Máximo: {{ selectedItem ? formatCurrency(selectedItem.price * selectedItem.quantity) :
-                                    'R$ 0,00' }}
-                            </small>
+                            <InputNumber id="paymentAmount" v-model="paymentAmount" :min="0" mode="currency"
+                                currency="BRL" locale="pt-BR" class="dialog-input payment-input" autofocus />
                         </div>
-                    </div>
-                    <template #footer>
-                        <Button label="Cancelar" icon="pi pi-times" class="p-button-text"
-                            @click="showDiscountDialog = false" />
-                        <Button label="Aplicar" icon="pi pi-check" class="p-button-success"
-                            @click="applyDiscountToItem" />
-                    </template>
-                </Dialog>
 
-                <!-- Payment Dialog -->
-                <Dialog v-model:visible="showPaymentDialog" header="Finalizar Venda" :modal="true"
-                    :style="{ width: '500px' }">
-                    <div class="p-fluid">
-                        <div class="mb-6">
-                            <div class="text-xl font-bold mb-2">Total a Pagar:</div>
-                            <div class="text-3xl font-bold text-primary-600 mb-6">{{ formatCurrency(subtotal) }}</div>
-
-                            <div class="mb-4">
-                                <label for="paymentAmount" class="block text-sm font-medium text-gray-700 mb-2">
-                                    Valor Recebido (R$)
-                                </label>
-                                <InputNumber id="paymentAmount" v-model="paymentAmount" :min="0" mode="currency"
-                                    currency="BRL" locale="pt-BR" class="w-full text-2xl" autofocus />
-                            </div>
-
-                            <div v-if="paymentAmount > 0" class="mt-6 p-4 bg-gray-50 rounded-lg">
-                                <div class="flex justify-between text-lg font-medium mb-2">
-                                    <span>Troco:</span>
-                                    <span :class="{ 'text-red-500': change < 0, 'text-green-600': change >= 0 }">
-                                        {{ formatCurrency(Math.abs(change)) }}
-                                        <span v-if="change < 0" class="text-sm">(valor insuficiente)</span>
-                                    </span>
-                                </div>
+                        <div v-if="paymentAmount > 0" class="change-info">
+                            <div class="change-row">
+                                <span>Troco:</span>
+                                <span class="change-value"
+                                    :class="{ 'change-negative': change < 0, 'change-positive': change >= 0 }">
+                                    {{ formatCurrency(Math.abs(change)) }}
+                                    <span v-if="change < 0" class="change-insufficient">(valor insuficiente)</span>
+                                </span>
                             </div>
                         </div>
                     </div>
-                    <template #footer>
-                        <Button label="Cancelar" icon="pi pi-times" class="p-button-text"
-                            @click="showPaymentDialog = false" />
-                        <Button label="Confirmar Pagamento" icon="pi pi-check" class="p-button-success"
-                            :disabled="paymentAmount < subtotal" @click="processPayment" />
-                    </template>
-                </Dialog>
-
-            </aside>
+                </div>
+                <template #footer>
+                    <Button label="Cancelar" icon="pi pi-times" class="p-button-text"
+                        @click="showPaymentDialog = false" />
+                    <Button label="Confirmar Pagamento" icon="pi pi-check" class="p-button-success"
+                        :disabled="paymentAmount < subtotal" @click="processPayment" />
+                </template>
+            </Dialog>
         </div>
     </div>
 
@@ -336,52 +309,25 @@ function formatCurrency(value: number) {
 <style scoped>
 @import "tailwindcss";
 
+/* Form Section */
 .form-section {
-    @apply mb-4 pb-4 border-b border-gray-200 dark:border-gray-700;
+    @apply mb-4 pb-4 border-b border-gray-200 dark:border-gray-300;
 }
 
-.form-section:last-of-type {
-    @apply border-b-0;
-}
-
-.section-title {
-    @apply text-lg font-semibold -mt-6 -mx-6 mb-6 px-6 py-3 text-gray-900 dark:text-white;
-    background-color: var(--color-gray-800);
-    border-bottom: 1px solid var(--color-gray-700);
-}
-
-/* Form Grid */
 .form-grid {
     @apply grid grid-cols-12 gap-4;
 }
 
-.form-field {
-    @apply flex flex-col gap-2;
-}
-
-.form-field-12 {
-    @apply col-span-12;
-}
-
-/* Input Styles */
-:deep(.p-inputtext) {
-    @apply w-full py-2 px-4 rounded-lg outline-none transition-all duration-200;
-    background-color: var(--color-bg-secondary);
-    border: 1px solid var(--color-gray-700);
-    color: var(--color-text-primary);
-}
-
-:deep(.p-inputtext:focus) {
-    border-color: var(--color-primary);
-    box-shadow: 0 0 0 1px var(--color-primary);
+.form-field-full {
+    @apply col-span-12 flex flex-col gap-2;
 }
 
 .form-label {
     @apply text-sm font-medium;
-    color: var(--p-text-color);
+    color: var(--color-text-primary);
 }
 
-/* Admin Layout Styles */
+/* Admin Layout */
 .admin-layout {
     @apply flex w-screen h-screen p-4 gap-4 overflow-hidden;
 }
@@ -392,11 +338,21 @@ function formatCurrency(value: number) {
     box-shadow: var(--shadow);
 }
 
+/* Header */
 .header {
-    @apply flex items-center justify-between p-4 h-16 border-b border-gray-200 dark:border-gray-700 flex-shrink-0;
+    @apply flex items-center justify-between p-4 h-16 border-b border-gray-200 dark:border-gray-300 shrink-0;
     background-color: var(--color-bg-primary);
 }
 
+.header-title {
+    @apply mb-0;
+}
+
+.header-user {
+    @apply flex items-center gap-2;
+}
+
+/* Main Content */
 .main-content {
     @apply flex flex-1 overflow-hidden;
 }
@@ -406,17 +362,182 @@ function formatCurrency(value: number) {
     background-color: var(--color-bg-secondary);
 }
 
+/* Cart Table */
+.cart-container {
+    @apply bg-white rounded-lg shadow overflow-hidden;
+}
+
+.cart-table-wrapper {
+    @apply overflow-x-auto;
+}
+
+.cart-table {
+    @apply min-w-full;
+}
+
+.cart-thead {
+    @apply bg-gray-50;
+}
+
+.cart-thead-row {
+    @apply text-xs text-gray-500 uppercase;
+}
+
+.cart-th {
+    @apply px-2 py-2;
+}
+
+.cart-th-left {
+    @apply px-4 text-left;
+}
+
+.cart-th-right {
+    @apply text-right;
+}
+
+.cart-th-center {
+    @apply text-center;
+}
+
+.cart-th-actions {
+    @apply w-24;
+}
+
+.cart-empty {
+    @apply px-4 py-8 text-center text-gray-400;
+}
+
+.cart-row {
+    @apply border-t border-gray-100 hover:bg-gray-50 cursor-pointer;
+}
+
+.cart-row-selected {
+    @apply bg-blue-50;
+}
+
+.cart-td-product {
+    @apply px-4 py-3;
+}
+
+.product-name {
+    @apply font-medium text-gray-900;
+}
+
+.product-barcode {
+    @apply text-xs text-gray-500;
+}
+
+.cart-td-price {
+    @apply px-2 py-3 text-right font-semibold;
+    color: var(--color-text-primary) !important
+}
+
+.cart-td-quantity {
+    @apply px-2 py-3 text-center;
+}
+
+.quantity-control {
+    @apply inline-flex items-center border rounded-lg overflow-hidden;
+    border-color: var(--color-gray-200);
+    background-color: var(--color-white);
+}
+
+.quantity-btn {
+    @apply px-3 py-2 font-medium;
+    color: var(--color-gray-700);
+    background: var(--color-gray-50);
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2rem;
+}
+
+.quantity-btn:hover {
+    background-color: var(--color-gray-200);
+    color: var(--color-primary);
+}
+
+.quantity-btn:active {
+    background-color: var(--color-gray-300);
+    transform: scale(0.95);
+}
+
+.quantity-value {
+    @apply text-center font-semibold;
+    min-width: 3rem;
+    padding: 0.5rem;
+    color: var(--color-text-primary);
+    font-size: 1rem;
+    background-color: var(--color-white);
+}
+
+.cart-td-total {
+    @apply px-2 py-3 text-right font-semibold;
+    color: var(--color-text-primary) !important
+}
+
+.cart-td-actions {
+    @apply px-2 py-3 text-right;
+}
+
+.action-buttons {
+    @apply flex justify-end;
+    gap: 0.5rem;
+}
+
+.action-btn {
+    @apply p-2 rounded-lg;
+    background: transparent;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.action-btn i {
+    @apply text-base;
+}
+
+.action-btn-discount {
+    color: var(--color-primary);
+    border-color: var(--color-primary-200);
+    background-color: var(--color-primary-50);
+}
+
+.action-btn-discount:hover {
+    background-color: var(--color-primary-100);
+    border-color: var(--color-primary);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-sm);
+}
+
+.action-btn-remove {
+    color: var(--color-error);
+    border-color: #fecaca;
+    background-color: #fef2f2;
+}
+
+.action-btn-remove:hover {
+    background-color: #fee2e2;
+    border-color: var(--color-error);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-sm);
+}
+
+/* Order Summary */
 .order-summary {
-    @apply w-80 flex flex-col h-full border-l border-gray-200 dark:border-gray-700;
+    @apply w-80 flex flex-col h-full border-l border-gray-200 dark:border-gray-300;
     background-color: var(--color-bg-primary);
 }
 
-.pdv-container {
-    @apply flex-1 flex flex-col gap-6;
-}
-
 .summary-header {
-    @apply p-4 border-b border-gray-200 dark:border-gray-700;
+    @apply p-4 border-b border-gray-200 dark:border-gray-300;
 }
 
 .summary-header h3 {
@@ -436,7 +557,7 @@ function formatCurrency(value: number) {
 }
 
 .summary-total {
-    @apply mt-4 pt-4 flex justify-between items-center font-semibold text-lg border-t border-gray-200 dark:border-gray-700;
+    @apply mt-4 pt-4 flex justify-between items-center font-semibold text-lg border-t border-gray-200 dark:border-gray-300;
 }
 
 .total-amount {
@@ -445,19 +566,81 @@ function formatCurrency(value: number) {
 }
 
 .summary-actions {
-    @apply p-6 border-t border-gray-200 dark:border-gray-700 flex flex-col gap-3;
+    @apply p-6 border-t border-gray-200 dark:border-gray-300 flex flex-col gap-3;
 }
 
-/* Custom scrollbar */
-::-webkit-scrollbar {
-    @apply w-1.5 h-1.5;
+.summary-btn-primary {
+    @apply w-full mb-2;
 }
 
-::-webkit-scrollbar-track {
-    @apply bg-gray-100 dark:bg-gray-800 rounded;
+.summary-btn-secondary {
+    @apply w-full;
 }
 
-::-webkit-scrollbar-thumb {
-    @apply bg-gray-300 dark:bg-gray-600 rounded hover:bg-gray-400 dark:hover:bg-gray-500;
+/* Dialogs */
+.dialog-discount,
+.dialog-payment {
+    width: 450px;
+}
+
+.dialog-payment {
+    width: 500px;
+}
+
+.dialog-field {
+    @apply mb-4;
+}
+
+.dialog-label {
+    @apply block text-sm font-medium text-gray-300 mb-2;
+}
+
+.dialog-input {
+    @apply w-full;
+}
+
+.dialog-hint {
+    @apply text-gray-500;
+}
+
+/* Payment Dialog */
+.payment-info {
+    @apply mb-6;
+}
+
+.payment-label {
+    @apply text-xl font-bold mb-2;
+}
+
+.payment-total {
+    @apply text-3xl font-bold mb-6;
+}
+
+.payment-input {
+    @apply text-2xl;
+}
+
+.change-info {
+    @apply mt-6 p-4 bg-gray-50 rounded-lg;
+}
+
+.change-row {
+    @apply flex justify-between text-lg font-medium mb-2;
+}
+
+.change-value {
+    @apply flex items-center gap-1;
+}
+
+.change-negative {
+    @apply text-red-500;
+}
+
+.change-positive {
+    @apply text-green-600;
+}
+
+.change-insufficient {
+    @apply text-sm;
 }
 </style>

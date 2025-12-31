@@ -474,11 +474,13 @@ const goBack = () => {
     color: var(--color-text-primary);
     cursor: pointer;
     transition: all 0.2s;
+    box-shadow: 0 0 0 1px var(--color-primary) !important;
 }
 
 .btn-back:hover {
-    background-color: var(--color-gray-800);
+    background-color: var(--color-primary);
     border-color: var(--color-primary);
+    color: white;
 }
 
 .page-title {
@@ -496,14 +498,14 @@ const goBack = () => {
 /* ==================== FORM CONTAINER ==================== */
 .form-container {
     background-color: var(--color-bg-primary);
-    border: 1px solid var(--color-gray-700);
+    border: 1px solid var(--color-gray-300);
     border-radius: 0.75rem;
     overflow: hidden;
 }
 
 .form-section {
     padding: 1.5rem;
-    border-bottom: 1px solid var(--color-gray-700);
+    /* border-bottom: 1px solid var(--color-gray-300); */
 }
 
 .form-section:last-of-type {
@@ -513,11 +515,11 @@ const goBack = () => {
 .section-title {
     font-size: 1.125rem;
     font-weight: 600;
-    color: var(--color-text-primary);
+    color: var(--color-white);
     margin: -1.5rem -1.5rem 1rem -1.5rem;
     padding: 0.75rem 1.5rem;
-    background-color: var(--color-gray-800);
-    border-bottom: 1px solid var(--color-gray-700);
+    background-color: var(--color-primary);
+    border-bottom: 1px solid var(--color-gray-300);
     margin-bottom: 1.5rem;
 }
 
@@ -526,7 +528,7 @@ const goBack = () => {
     justify-content: flex-end;
     gap: 1rem;
     padding: 1.5rem;
-    border-top: 1px solid var(--color-gray-700);
+    border-top: 1px solid var(--color-gray-300);
     background-color: var(--color-bg-primary);
 }
 
@@ -576,7 +578,7 @@ const goBack = () => {
 .form-label {
     font-size: 0.875rem;
     font-weight: 500;
-    color: var(--p-text-color);
+    color: var(--color-text-primary);
 }
 
 .error-message {

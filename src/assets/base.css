@@ -4,56 +4,82 @@
 
 @import "primeicons/primeicons.css";
 @import "primeflex/primeflex.css";
-
-@import "tailwindcss/preflight";
 @import "tailwindcss";
-@import "tailwindcss/utilities";
 
 /* ==========================================================================
    2. VARIÁVEIS E DESIGN TOKENS
    ========================================================================== */
 
 :root {
-    /* --- Cores Base --- */
-    --vt-c-white: #ffffff;
-    --vt-c-white-soft: #f8f9fa;
-    --vt-c-white-mute: #e9ecef;
-    --vt-c-black: #181818;
-    --vt-c-black-soft: #222222;
-    --vt-c-black-mute: #282828;
-    --vt-c-indigo: #2c3e50;
+    /* ========== CORES BASE ========== */
+    --color-white: #ffffff;
+    --color-black: #181818;
 
-    /* --- Cores de Marca --- */
+    /* ========== CORES PRIMÁRIAS ========== */
     --color-primary: #4361ee;
-    --color-primary-light: #4f6bf0;
-    --color-primary-dark: #3a56d4;
-    --color-secondary: #7209b6;
-    --color-secondary-light: #8338ec;
-    --color-secondary-dark: #5a189a;
+    --color-primary-dark: #364fc7;
+    --color-primary-50: #eef2ff;
+    --color-primary-100: #e0e7ff;
+    --color-primary-200: #c7d2fe;
+    --color-primary-300: #a5b4fc;
+    --color-primary-400: #818cf8;
+    --color-primary-500: #6366f1;
+    --color-primary-600: #4f46e5;
+    --color-primary-700: #4338ca;
+    --color-primary-800: #3730a3;
+    --color-primary-900: #312e81;
+    --color-primary-950: #1e1b4b;
 
-    /* --- Escala de Cinzas --- */
-    --color-gray-50: #f8f9fa;
-    --color-gray-100: #f1f3f5;
-    --color-gray-200: #e9ecef;
-    --color-gray-300: #dee2e6;
-    --color-gray-400: #ced4da;
-    --color-gray-500: #adb5bd;
-    --color-gray-600: #6c757d;
-    --color-gray-700: #495057;
-    --color-gray-800: #343a40;
-    --color-gray-900: #212529;
+    /* ========== CORES SECUNDÁRIAS ========== */
+    --color-secondary: #7c3aed;
+    --color-secondary-50: #f5f3ff;
+    --color-secondary-100: #ede9fe;
+    --color-secondary-200: #ddd6fe;
+    --color-secondary-300: #c4b5fd;
+    --color-secondary-400: #a78bfa;
+    --color-secondary-500: #8b5cf6;
+    --color-secondary-600: #7c3aed;
+    --color-secondary-700: #6d28d9;
+    --color-secondary-800: #5b21b6;
+    --color-secondary-900: #4c1d95;
+    --color-secondary-950: #2e1065;
 
-    /* --- Cores de Fundo --- */
-    --color-bg-primary: var(--vt-c-white);
-    --color-bg-secondary: var(--vt-c-white-soft);
-    --color-bg-tertiary: var(--vt-c-white-mute);
-    --color-background: var(--vt-c-white);
+    /* ========== CORES DE STATUS ========== */
+    --color-success: #10b981;
+    --color-error: #ef4444;
+    --color-warning: #f59e0b;
+    --color-info: #3b82f6;
+
+    /* ========== ESCALA DE CINZAS ========== */
+    --color-gray-50: #f9fafb;
+    --color-gray-100: #f3f4f6;
+    --color-gray-200: #e5e7eb;
+    --color-gray-300: #d1d5db;
+    --color-gray-400: #9ca3af;
+    --color-gray-500: #6b7280;
+    --color-gray-600: #4b5563;
+    --color-gray-700: #374151;
+    --color-gray-800: #1f2937;
+    --color-gray-900: #111827;
+    --color-gray-950: #030712;
+
+    /* ========== CORES DE FUNDO ========== */
+    --color-bg-primary: var(--color-white);
+    --color-bg-secondary: var(--color-gray-50);
+    --color-bg-tertiary: var(--color-gray-100);
+
+    /* ========== CORES DE TEXTO ========== */
+    --color-text-primary: var(--color-gray-900);
+    --color-text-secondary: var(--color-gray-600);
+    --color-text-tertiary: var(--color-gray-400);
+    --color-text-inverted: var(--color-white);
+
     --color-background-soft: var(--vt-c-white-soft);
     --color-background-mute: var(--vt-c-white-mute);
 
     /* --- Cores de Texto --- */
-    --color-text: var(--vt-c-indigo);
-    --color-text-primary: var(--vt-c-indigo);
+    --color-text-primary: var(--color-gray-900);
+    --color-text: var(--color-text-primary);
     --color-text-secondary: var(--color-gray-600);
     --color-text-muted: var(--color-gray-500);
     --color-heading: var(--vt-c-indigo);
@@ -92,7 +118,7 @@
 }
 
 /* --- Dark Mode --- */
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
     :root {
         --color-background: var(--vt-c-black);
         --color-background-soft: var(--vt-c-black-soft);
@@ -107,7 +133,7 @@
         --color-border: rgba(84, 84, 84, 0.48);
         --color-border-hover: rgba(84, 84, 84, 0.65);
     }
-}
+} */
 
 /* ==========================================================================
     3. RESET E ESTILOS GLOBAIS
@@ -212,7 +238,7 @@ button[type="submit"],
 button.primary {
     background-color: var(--color-primary) !important;
     color: white !important;
-    border-color: var(--color-primary) !important;
+    border: none !important;
 }
 
 button.p-button-primary:hover:not(:disabled),
@@ -243,30 +269,14 @@ button.outline:hover:not(:disabled) {
 
 /* Secondary Button */
 .p-button.p-button-secondary {
-    background: var(--color-gray-600) !important;
-    border-color: var(--color-gray-600) !important;
+    background: var(--color-gray-300) !important;
+    border: none !important;
     color: var(--color-text-primary) !important;
 }
 
 .p-button.p-button-secondary:hover {
-    background: var(--color-gray-700) !important;
+    background: var(--color-gray-400) !important;
     border-color: var(--color-gray-700) !important;
-}
-
-/* Estados de botão */
-button:disabled,
-.p-button:disabled {
-    opacity: 0.6 !important;
-    cursor: not-allowed !important;
-    transform: none !important;
-    box-shadow: none !important;
-}
-
-/* Ícones nos botões */
-button .pi,
-.p-button .pi {
-    font-size: 1rem !important;
-    margin: 0 !important;
 }
 
 /* Scrollbar */

@@ -93,8 +93,8 @@ const emit = defineEmits(['update:modelValue'])
 .p-checkbox-box {
     width: 1.25rem !important;
     height: 1.25rem !important;
-    border: 1px solid var(--color-gray-700) !important;
-    background: var(--color-bg-primary) !important;
+    background-color: var(--color-gray-200) !important;
+    border: 1px solid var(--color-gray-300) !important;
     border-radius: 0.375rem !important;
     transition: all 0.2s ease-in-out !important;
     display: flex !important;

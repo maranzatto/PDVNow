@@ -49,8 +49,8 @@ const emit = defineEmits(['update:modelValue'])
     min-height: 100px;
     padding: 0.5rem 1rem !important;
     border-radius: 0.5rem !important;
-    background-color: var(--color-bg-secondary) !important;
-    border: 1px solid var(--color-gray-700) !important;
+    background-color: var(--color-gray-200) !important;
+    border: 1px solid var(--color-gray-300) !important;
     color: var(--color-text-primary) !important;
     outline: none !important;
     transition: all 0.2s ease-in-out !important;
