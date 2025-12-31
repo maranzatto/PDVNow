@@ -44,6 +44,11 @@ function enterPDV() {
                 <IconCashRegister />
                 Caixas
             </router-link>
+
+            <router-link to="/admin/theme-config">
+                <IconSuppliers />
+                Tema do sistema
+            </router-link>
         </nav>
         <div class="actions">
             <div class="action-buttons">

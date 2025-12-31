@@ -48,7 +48,10 @@ export function useSuppliers() {
     };
 
     // Actions
-    const handleNew = () => console.log("Criar novo fornecedor");
+    const handleNew = () => {
+        console.log("Criar novo fornecedor");
+        router.push({ path: "suppliers/new" });
+    };
     const handleExport = () => console.log("Exportar fornecedores");
     const handleView = (id: number) => console.log("Visualizar fornecedor:", id);
     const handleEdit = (id: number) => {

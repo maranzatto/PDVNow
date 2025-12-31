@@ -20,6 +20,7 @@ export function useUsers() {
     const handleNew = () => {
         console.log("Criar novo produto");
         // Implementar lógica
+        router.push({ path: "users/new" });
     };
 
     const handleExport = () => {

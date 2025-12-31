@@ -10,6 +10,7 @@ import SupplierDetail from "@/modules/admin/views/DetailsPages/SupplierDetail.vu
 import AdminCashRegister from "@/modules/admin/views/AdminCashRegister.vue";
 import CashRegisterDetail from "@/modules/admin/views/DetailsPages/CashRegisterDetail.vue";
 import NotFound from "@/components/NotFound.vue";
+import AdminConfig from "@/modules/admin/views/AdminConfig.vue";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -48,6 +49,7 @@ const router = createRouter({
                 { path: "products", component: AdminProducts, name: "AdminProducts" },
                 { path: "products/new", component: ProductsDetail, name: "AdminProductNew" },
                 { path: "products/:id/edit", component: ProductsDetail, name: "AdminProductEdit", props: true },
+                { path: "theme-config", component: AdminConfig, name: "AdminConfig" },
             ],
         },
         {
