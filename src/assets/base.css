@@ -68,12 +68,6 @@
     --color-bg-secondary: var(--color-gray-50);
     --color-bg-tertiary: var(--color-gray-100);
 
-    /* ========== CORES DE TEXTO ========== */
-    --color-text-primary: var(--color-gray-900);
-    --color-text-secondary: var(--color-gray-600);
-    --color-text-tertiary: var(--color-gray-400);
-    --color-text-inverted: var(--color-white);
-
     --color-background-soft: var(--vt-c-white-soft);
     --color-background-mute: var(--vt-c-white-mute);
 
@@ -110,11 +104,6 @@
 
     /* --- Gradientes --- */
     --gradient-primary: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
-
-    /* --- Dimensões --- */
-    --section-gap: 2rem;
-    --header-height: 3.75rem;
-    --sidebar-width: 16rem;
 }
 
 /* --- Dark Mode --- */
