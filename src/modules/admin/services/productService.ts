@@ -1,10 +1,13 @@
-// services/product.service.ts
-import api from "@/services/api";
-import type { Product } from "../types/Product";
+import { getPDVNowAPI } from "@/api/generated";
+import type { GetApiV1ProductsParams, ProductResponse } from "@/api/generated";
 
-export const productService = {
-    async list() {
-        const { data } = await api.get<Product[]>("/admin/products");
-        return data;
-    },
-};
+const api = getPDVNowAPI();
+
+export async function fetchProducts(params?: GetApiV1ProductsParams) {
+    const data = await api.getApiV1Products(params);
+    return data as ProductResponse[];
+}
+
+export async function deleteProduct(id: string) {
+    await api.deleteApiV1ProductsId(id);
+}

@@ -9,8 +9,9 @@ export default defineConfig({
             mode: "single",
             clean: true,
             override: {
-                axios: {
-                    instance: "api",
+                mutator: {
+                    path: "./src/services/api.ts",
+                    name: "api",
                 },
             },
         },
