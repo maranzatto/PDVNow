@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { login, logout, refreshToken, isAuthenticated } from "@/modules/auth/services/authService";
+import { login, logout as logoutService, refreshToken, isAuthenticated } from "@/modules/auth/services/authService";
 import type { AuthState } from "../types/AuthState";
 
 export const useAuthStore = defineStore("auth", {
@@ -25,6 +25,12 @@ export const useAuthStore = defineStore("auth", {
             }
         },
 
+        logout() {
+            logoutService(); // Remove tokens do localStorage
+            this.user = null;
+            this.isAuthenticated = false;
+        },
+
         async refresh() {
             const token = localStorage.getItem("refreshToken");
             if (!token) return false;
@@ -43,12 +49,6 @@ export const useAuthStore = defineStore("auth", {
                 this.logout();
                 return false;
             }
-        },
-
-        logout() {
-            logout();
-            this.user = null;
-            this.isAuthenticated = false;
         },
     },
 });
