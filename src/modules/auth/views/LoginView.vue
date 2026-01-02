@@ -3,8 +3,9 @@ import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useToast } from 'primevue/usetoast';
 import { useAuthStore } from '../store/auth';
-import { Button, Card, Password } from 'primevue';
+import { Button, Card } from 'primevue';
 import MInputText from '@/components/MInputText.vue';
+import MPassword from '@/components/MPassword.vue';
 
 interface ApiError extends Error {
     response?: {
@@ -97,9 +98,9 @@ const handleKeyPress = (event: KeyboardEvent): void => {
 
                     <div class="field">
                         <label for="password" class="form-label">Senha</label>
-                        <Password id="password" v-model="password" :feedback="false" toggleMask
-                            placeholder="Digite sua senha" input-class="password-input" class="form-input"
-                            :disabled="loading" autocomplete="current-password" />
+                        <MPassword id="password" v-model="password" placeholder="Digite sua senha" :disabled="loading"
+                            input-class="password-input" class="form-input" autocomplete="current-password" />
+
                         <div class="forgot-password-container">
                             <router-link to="/forgot-password" class="forgot-password-link">
                                 Esqueceu a senha?
@@ -132,11 +133,12 @@ const handleKeyPress = (event: KeyboardEvent): void => {
 }
 
 .header-subtitle {
-    @apply text-gray-500;
+    color: var(--color-text-primary)
 }
 
 .login-card {
-    @apply w-full max-w-md;
+    @apply w-full;
+    width: 460px;
     box-shadow: var(--shadow-md);
     background-color: var(--color-bg-secondary);
 }
@@ -162,7 +164,8 @@ const handleKeyPress = (event: KeyboardEvent): void => {
 }
 
 .form-label {
-    @apply block text-sm font-medium text-gray-700 dark:text-gray-300;
+    @apply block text-sm font-medium;
+    color: var(--color-text-primary)
 }
 
 .form-input {

@@ -4,278 +4,325 @@
  * PDVNow API
  * OpenAPI spec version: v1
  */
-import { api } from "../services/api";
+import { api } from '../services/api';
 export interface AuthResponse {
-    userId?: string;
-    /** @nullable */
-    username?: string | null;
-    /** @nullable */
-    userType?: string | null;
-    /** @nullable */
-    accessToken?: string | null;
-    accessTokenExpiresAtUtc?: string;
-    /** @nullable */
-    refreshToken?: string | null;
-    refreshTokenExpiresAtUtc?: string;
+  userId?: string;
+  /** @nullable */
+  username?: string | null;
+  /** @nullable */
+  userType?: string | null;
+  /** @nullable */
+  accessToken?: string | null;
+  accessTokenExpiresAtUtc?: string;
+  /** @nullable */
+  refreshToken?: string | null;
+  refreshTokenExpiresAtUtc?: string;
 }
 
 export interface CreateProductRequest {
-    /** @nullable */
-    name?: string | null;
-    /** @nullable */
-    description?: string | null;
-    /** @nullable */
-    sku?: string | null;
-    /** @nullable */
-    barcode?: string | null;
-    /** @nullable */
-    unit?: string | null;
-    costPrice?: number;
-    salePrice?: number;
-    stockQuantity?: number;
-    /** @nullable */
-    minStockQuantity?: number | null;
-    /** @nullable */
-    supplierId?: string | null;
+  /** @nullable */
+  name?: string | null;
+  /** @nullable */
+  description?: string | null;
+  /** @nullable */
+  sku?: string | null;
+  /** @nullable */
+  barcode?: string | null;
+  /** @nullable */
+  unit?: string | null;
+  costPrice?: number;
+  salePrice?: number;
+  stockQuantity?: number;
+  /** @nullable */
+  minStockQuantity?: number | null;
+  /** @nullable */
+  supplierId?: string | null;
 }
 
 export interface CreateSupplierRequest {
-    /** @nullable */
-    name?: string | null;
-    /** @nullable */
-    tradeName?: string | null;
-    /** @nullable */
-    cnpj?: string | null;
-    /** @nullable */
-    stateRegistration?: string | null;
-    /** @nullable */
-    email?: string | null;
-    /** @nullable */
-    phone?: string | null;
-    /** @nullable */
-    addressLine1?: string | null;
-    /** @nullable */
-    city?: string | null;
-    /** @nullable */
-    state?: string | null;
-    /** @nullable */
-    postalCode?: string | null;
+  /** @nullable */
+  name?: string | null;
+  /** @nullable */
+  tradeName?: string | null;
+  /** @nullable */
+  cnpj?: string | null;
+  /** @nullable */
+  stateRegistration?: string | null;
+  /** @nullable */
+  email?: string | null;
+  /** @nullable */
+  phone?: string | null;
+  /** @nullable */
+  addressLine1?: string | null;
+  /** @nullable */
+  city?: string | null;
+  /** @nullable */
+  state?: string | null;
+  /** @nullable */
+  postalCode?: string | null;
 }
 
 export interface LoginRequest {
-    /** @nullable */
-    username?: string | null;
-    /** @nullable */
-    password?: string | null;
+  /** @nullable */
+  username?: string | null;
+  /** @nullable */
+  password?: string | null;
 }
 
 export interface ProductResponse {
-    id?: string;
-    /** @nullable */
-    name?: string | null;
-    /** @nullable */
-    description?: string | null;
-    /** @nullable */
-    sku?: string | null;
-    /** @nullable */
-    barcode?: string | null;
-    /** @nullable */
-    unit?: string | null;
-    costPrice?: number;
-    salePrice?: number;
-    stockQuantity?: number;
-    /** @nullable */
-    minStockQuantity?: number | null;
-    isActive?: boolean;
-    /** @nullable */
-    supplierId?: string | null;
-    createdAtUtc?: string;
-    /** @nullable */
-    updatedAtUtc?: string | null;
+  id?: string;
+  /** @nullable */
+  name?: string | null;
+  /** @nullable */
+  description?: string | null;
+  /** @nullable */
+  sku?: string | null;
+  /** @nullable */
+  barcode?: string | null;
+  /** @nullable */
+  unit?: string | null;
+  costPrice?: number;
+  salePrice?: number;
+  stockQuantity?: number;
+  /** @nullable */
+  minStockQuantity?: number | null;
+  isActive?: boolean;
+  /** @nullable */
+  supplierId?: string | null;
+  createdAtUtc?: string;
+  /** @nullable */
+  updatedAtUtc?: string | null;
 }
 
 export interface RefreshRequest {
-    userId?: string;
-    /** @nullable */
-    refreshToken?: string | null;
+  userId?: string;
+  /** @nullable */
+  refreshToken?: string | null;
 }
 
 export interface SupplierResponse {
-    id?: string;
-    /** @nullable */
-    name?: string | null;
-    /** @nullable */
-    tradeName?: string | null;
-    /** @nullable */
-    cnpj?: string | null;
-    /** @nullable */
-    stateRegistration?: string | null;
-    /** @nullable */
-    email?: string | null;
-    /** @nullable */
-    phone?: string | null;
-    /** @nullable */
-    addressLine1?: string | null;
-    /** @nullable */
-    city?: string | null;
-    /** @nullable */
-    state?: string | null;
-    /** @nullable */
-    postalCode?: string | null;
-    isActive?: boolean;
-    createdAtUtc?: string;
-    /** @nullable */
-    updatedAtUtc?: string | null;
+  id?: string;
+  /** @nullable */
+  name?: string | null;
+  /** @nullable */
+  tradeName?: string | null;
+  /** @nullable */
+  cnpj?: string | null;
+  /** @nullable */
+  stateRegistration?: string | null;
+  /** @nullable */
+  email?: string | null;
+  /** @nullable */
+  phone?: string | null;
+  /** @nullable */
+  addressLine1?: string | null;
+  /** @nullable */
+  city?: string | null;
+  /** @nullable */
+  state?: string | null;
+  /** @nullable */
+  postalCode?: string | null;
+  isActive?: boolean;
+  createdAtUtc?: string;
+  /** @nullable */
+  updatedAtUtc?: string | null;
 }
 
 export interface UpdateProductRequest {
-    /** @nullable */
-    name?: string | null;
-    /** @nullable */
-    description?: string | null;
-    /** @nullable */
-    sku?: string | null;
-    /** @nullable */
-    barcode?: string | null;
-    /** @nullable */
-    unit?: string | null;
-    costPrice?: number;
-    salePrice?: number;
-    stockQuantity?: number;
-    /** @nullable */
-    minStockQuantity?: number | null;
-    isActive?: boolean;
-    /** @nullable */
-    supplierId?: string | null;
+  /** @nullable */
+  name?: string | null;
+  /** @nullable */
+  description?: string | null;
+  /** @nullable */
+  sku?: string | null;
+  /** @nullable */
+  barcode?: string | null;
+  /** @nullable */
+  unit?: string | null;
+  costPrice?: number;
+  salePrice?: number;
+  stockQuantity?: number;
+  /** @nullable */
+  minStockQuantity?: number | null;
+  isActive?: boolean;
+  /** @nullable */
+  supplierId?: string | null;
 }
 
 export interface UpdateSupplierRequest {
-    /** @nullable */
-    name?: string | null;
-    /** @nullable */
-    tradeName?: string | null;
-    /** @nullable */
-    cnpj?: string | null;
-    /** @nullable */
-    stateRegistration?: string | null;
-    /** @nullable */
-    email?: string | null;
-    /** @nullable */
-    phone?: string | null;
-    /** @nullable */
-    addressLine1?: string | null;
-    /** @nullable */
-    city?: string | null;
-    /** @nullable */
-    state?: string | null;
-    /** @nullable */
-    postalCode?: string | null;
-    isActive?: boolean;
+  /** @nullable */
+  name?: string | null;
+  /** @nullable */
+  tradeName?: string | null;
+  /** @nullable */
+  cnpj?: string | null;
+  /** @nullable */
+  stateRegistration?: string | null;
+  /** @nullable */
+  email?: string | null;
+  /** @nullable */
+  phone?: string | null;
+  /** @nullable */
+  addressLine1?: string | null;
+  /** @nullable */
+  city?: string | null;
+  /** @nullable */
+  state?: string | null;
+  /** @nullable */
+  postalCode?: string | null;
+  isActive?: boolean;
 }
 
 export type GetApiV1ProductsParams = {
-    query?: string;
-    sku?: string;
-    barcode?: string;
-    active?: boolean;
-    skip?: number;
-    take?: number;
+query?: string;
+sku?: string;
+barcode?: string;
+active?: boolean;
+skip?: number;
+take?: number;
 };
 
 export type GetApiV1SuppliersParams = {
-    query?: string;
-    skip?: number;
-    take?: number;
+query?: string;
+skip?: number;
+take?: number;
 };
 
 export const getPDVNowAPI = () => {
-    const postApiV1AuthLogin = (loginRequest: LoginRequest) => {
-        return api<AuthResponse>({ url: `/api/v1/auth/login`, method: "POST", headers: { "Content-Type": "application/json" }, data: loginRequest });
-    };
-
-    const postApiV1AuthRefresh = (refreshRequest: RefreshRequest) => {
-        return api<AuthResponse>({ url: `/api/v1/auth/refresh`, method: "POST", headers: { "Content-Type": "application/json" }, data: refreshRequest });
-    };
-
-    const getApiV1Products = (params?: GetApiV1ProductsParams) => {
-        return api<ProductResponse[]>({ url: `/api/v1/products`, method: "GET", params });
-    };
-
-    const postApiV1Products = (createProductRequest: CreateProductRequest) => {
-        return api<ProductResponse>({ url: `/api/v1/products`, method: "POST", headers: { "Content-Type": "application/json" }, data: createProductRequest });
-    };
-
-    const getApiV1ProductsId = (id: string) => {
-        return api<ProductResponse>({ url: `/api/v1/products/${id}`, method: "GET" });
-    };
-
-    const putApiV1ProductsId = (id: string, updateProductRequest: UpdateProductRequest) => {
-        return api<ProductResponse>({
-            url: `/api/v1/products/${id}`,
-            method: "PUT",
-            headers: { "Content-Type": "application/json" },
-            data: updateProductRequest,
-        });
-    };
-
-    const deleteApiV1ProductsId = (id: string) => {
-        return api<void>({ url: `/api/v1/products/${id}`, method: "DELETE" });
-    };
-
-    const getApiV1Suppliers = (params?: GetApiV1SuppliersParams) => {
-        return api<SupplierResponse[]>({ url: `/api/v1/suppliers`, method: "GET", params });
-    };
-
-    const postApiV1Suppliers = (createSupplierRequest: CreateSupplierRequest) => {
-        return api<SupplierResponse>({
-            url: `/api/v1/suppliers`,
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            data: createSupplierRequest,
-        });
-    };
-
-    const getApiV1SuppliersId = (id: string) => {
-        return api<SupplierResponse>({ url: `/api/v1/suppliers/${id}`, method: "GET" });
-    };
-
-    const putApiV1SuppliersId = (id: string, updateSupplierRequest: UpdateSupplierRequest) => {
-        return api<SupplierResponse>({
-            url: `/api/v1/suppliers/${id}`,
-            method: "PUT",
-            headers: { "Content-Type": "application/json" },
-            data: updateSupplierRequest,
-        });
-    };
-
-    const deleteApiV1SuppliersId = (id: string) => {
-        return api<void>({ url: `/api/v1/suppliers/${id}`, method: "DELETE" });
-    };
-
-    return {
-        postApiV1AuthLogin,
-        postApiV1AuthRefresh,
-        getApiV1Products,
-        postApiV1Products,
-        getApiV1ProductsId,
-        putApiV1ProductsId,
-        deleteApiV1ProductsId,
-        getApiV1Suppliers,
-        postApiV1Suppliers,
-        getApiV1SuppliersId,
-        putApiV1SuppliersId,
-        deleteApiV1SuppliersId,
-    };
-};
-export type PostApiV1AuthLoginResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getPDVNowAPI>["postApiV1AuthLogin"]>>>;
-export type PostApiV1AuthRefreshResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getPDVNowAPI>["postApiV1AuthRefresh"]>>>;
-export type GetApiV1ProductsResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getPDVNowAPI>["getApiV1Products"]>>>;
-export type PostApiV1ProductsResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getPDVNowAPI>["postApiV1Products"]>>>;
-export type GetApiV1ProductsIdResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getPDVNowAPI>["getApiV1ProductsId"]>>>;
-export type PutApiV1ProductsIdResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getPDVNowAPI>["putApiV1ProductsId"]>>>;
-export type DeleteApiV1ProductsIdResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getPDVNowAPI>["deleteApiV1ProductsId"]>>>;
-export type GetApiV1SuppliersResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getPDVNowAPI>["getApiV1Suppliers"]>>>;
-export type PostApiV1SuppliersResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getPDVNowAPI>["postApiV1Suppliers"]>>>;
-export type GetApiV1SuppliersIdResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getPDVNowAPI>["getApiV1SuppliersId"]>>>;
-export type PutApiV1SuppliersIdResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getPDVNowAPI>["putApiV1SuppliersId"]>>>;
-export type DeleteApiV1SuppliersIdResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getPDVNowAPI>["deleteApiV1SuppliersId"]>>>;
+const postApiV1AuthLogin = (
+    loginRequest: LoginRequest,
+ ) => {
+      return api<AuthResponse>(
+      {url: `/api/v1/auth/login`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: loginRequest
+    },
+      );
+    }
+  
+const postApiV1AuthRefresh = (
+    refreshRequest: RefreshRequest,
+ ) => {
+      return api<AuthResponse>(
+      {url: `/api/v1/auth/refresh`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: refreshRequest
+    },
+      );
+    }
+  
+const getApiV1Products = (
+    params?: GetApiV1ProductsParams,
+ ) => {
+      return api<ProductResponse[]>(
+      {url: `/api/v1/products`, method: 'GET',
+        params
+    },
+      );
+    }
+  
+const postApiV1Products = (
+    createProductRequest: CreateProductRequest,
+ ) => {
+      return api<ProductResponse>(
+      {url: `/api/v1/products`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: createProductRequest
+    },
+      );
+    }
+  
+const getApiV1ProductsId = (
+    id: string,
+ ) => {
+      return api<ProductResponse>(
+      {url: `/api/v1/products/${id}`, method: 'GET'
+    },
+      );
+    }
+  
+const putApiV1ProductsId = (
+    id: string,
+    updateProductRequest: UpdateProductRequest,
+ ) => {
+      return api<ProductResponse>(
+      {url: `/api/v1/products/${id}`, method: 'PUT',
+      headers: {'Content-Type': 'application/json', },
+      data: updateProductRequest
+    },
+      );
+    }
+  
+const deleteApiV1ProductsId = (
+    id: string,
+ ) => {
+      return api<void>(
+      {url: `/api/v1/products/${id}`, method: 'DELETE'
+    },
+      );
+    }
+  
+const getApiV1Suppliers = (
+    params?: GetApiV1SuppliersParams,
+ ) => {
+      return api<SupplierResponse[]>(
+      {url: `/api/v1/suppliers`, method: 'GET',
+        params
+    },
+      );
+    }
+  
+const postApiV1Suppliers = (
+    createSupplierRequest: CreateSupplierRequest,
+ ) => {
+      return api<SupplierResponse>(
+      {url: `/api/v1/suppliers`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: createSupplierRequest
+    },
+      );
+    }
+  
+const getApiV1SuppliersId = (
+    id: string,
+ ) => {
+      return api<SupplierResponse>(
+      {url: `/api/v1/suppliers/${id}`, method: 'GET'
+    },
+      );
+    }
+  
+const putApiV1SuppliersId = (
+    id: string,
+    updateSupplierRequest: UpdateSupplierRequest,
+ ) => {
+      return api<SupplierResponse>(
+      {url: `/api/v1/suppliers/${id}`, method: 'PUT',
+      headers: {'Content-Type': 'application/json', },
+      data: updateSupplierRequest
+    },
+      );
+    }
+  
+const deleteApiV1SuppliersId = (
+    id: string,
+ ) => {
+      return api<void>(
+      {url: `/api/v1/suppliers/${id}`, method: 'DELETE'
+    },
+      );
+    }
+  
+return {postApiV1AuthLogin,postApiV1AuthRefresh,getApiV1Products,postApiV1Products,getApiV1ProductsId,putApiV1ProductsId,deleteApiV1ProductsId,getApiV1Suppliers,postApiV1Suppliers,getApiV1SuppliersId,putApiV1SuppliersId,deleteApiV1SuppliersId}};
+export type PostApiV1AuthLoginResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getPDVNowAPI>['postApiV1AuthLogin']>>>
+export type PostApiV1AuthRefreshResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getPDVNowAPI>['postApiV1AuthRefresh']>>>
+export type GetApiV1ProductsResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getPDVNowAPI>['getApiV1Products']>>>
+export type PostApiV1ProductsResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getPDVNowAPI>['postApiV1Products']>>>
+export type GetApiV1ProductsIdResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getPDVNowAPI>['getApiV1ProductsId']>>>
+export type PutApiV1ProductsIdResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getPDVNowAPI>['putApiV1ProductsId']>>>
+export type DeleteApiV1ProductsIdResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getPDVNowAPI>['deleteApiV1ProductsId']>>>
+export type GetApiV1SuppliersResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getPDVNowAPI>['getApiV1Suppliers']>>>
+export type PostApiV1SuppliersResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getPDVNowAPI>['postApiV1Suppliers']>>>
+export type GetApiV1SuppliersIdResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getPDVNowAPI>['getApiV1SuppliersId']>>>
+export type PutApiV1SuppliersIdResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getPDVNowAPI>['putApiV1SuppliersId']>>>
+export type DeleteApiV1SuppliersIdResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getPDVNowAPI>['deleteApiV1SuppliersId']>>>
