@@ -3,7 +3,7 @@ import DataTable from '@/modules/admin/components/DataTablesComponent/DataTables
 import { useProducts } from '../composables/useProducts'
 import { Button } from 'primevue';
 
-const { products, columns, handleNew, handleEdit, handleDelete, formatPrice, getStockClass, getStatusBadge } = useProducts()
+const { products, columns, handleNew, handleEdit, handleDelete, formatPrice, getStockClass } = useProducts()
 </script>
 
 <template>
@@ -19,27 +19,21 @@ const { products, columns, handleNew, handleEdit, handleDelete, formatPrice, get
             </template>
 
             <template #price="{ row }">
-                {{ formatPrice(row.price) }}
+                {{ formatPrice(row.salePrice) }}
             </template>
 
             <template #stock="{ row }">
-                <span :class="getStockClass(row.stock)">
-                    {{ row.stock }}
-                </span>
-            </template>
-
-            <template #status="{ row }">
-                <span class="badge" :class="getStatusBadge(row.status).class">
-                    {{ getStatusBadge(row.status).text }}
+                <span :class="getStockClass(row.stockQuantity)">
+                    {{ row.stockQuantity }}
                 </span>
             </template>
 
             <template #actions="{ row }">
                 <div class="action-buttons">
-                    <button class="btn-action btn-edit" @click="handleEdit(row.id)">
+                    <button class="btn-action btn-edit" @click="handleEdit(row.id!)">
                         <i class="pi pi-pencil"></i>
                     </button>
-                    <button class="btn-action btn-delete" @click="handleDelete(row.id)">
+                    <button class="btn-action btn-delete" @click="handleDelete(row.id!)">
                         <i class="pi pi-trash"></i>
                     </button>
                 </div>

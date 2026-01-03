@@ -9,6 +9,7 @@ export function useProducts() {
     const products = ref<ProductResponse[]>([]);
     const loading = ref(false);
 
+    // Configuração das colunas do grid
     const columns: ColumnDef<ProductResponse>[] = [
         { accessorKey: "id", header: "Código", size: 80 },
         { accessorKey: "name", header: "Produto", size: 250 },
@@ -28,6 +29,7 @@ export function useProducts() {
         },
     ];
 
+    // Carregar lista de produtos
     const loadProducts = async () => {
         loading.value = true;
         try {
@@ -40,19 +42,23 @@ export function useProducts() {
         }
     };
 
+    // Navegar para criar novo produto
     const handleNew = () => {
-        router.push({ path: "/products/new" });
+        router.push({ name: "AdminProductNew" });
     };
 
+    // Navegar para editar produto
     const handleEdit = (id: string) => {
-        router.push({ path: `/products/${id}/edit` });
+        router.push({ name: "AdminProductEdit", params: { id } });
     };
 
+    // Deletar produto
     const handleDelete = async (id: string) => {
         await deleteProduct(id);
         await loadProducts();
     };
 
+    // Helpers de formatação
     const formatPrice = (price?: number) => {
         if (price == null) return "-";
         return `R$ ${price.toFixed(2).replace(".", ",")}`;
@@ -64,6 +70,7 @@ export function useProducts() {
         return "text-success";
     };
 
+    // Auto-carregar ao montar
     onMounted(loadProducts);
 
     return {
