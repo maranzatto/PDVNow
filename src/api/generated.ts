@@ -4,9 +4,7 @@
  * PDVNow API
  * OpenAPI spec version: v1
  */
-import * as axios from "axios";
-import type { AxiosRequestConfig, AxiosResponse } from "axios";
-
+import { api } from "../services/api";
 export interface AuthResponse {
     userId?: string;
     /** @nullable */
@@ -191,74 +189,67 @@ export type GetApiV1SuppliersParams = {
 };
 
 export const getPDVNowAPI = () => {
-    const postApiV1AuthLogin = <TData = AxiosResponse<AuthResponse>>(loginRequest: LoginRequest, options?: AxiosRequestConfig): Promise<TData> => {
-        return axios.default.post(`/api/v1/auth/login`, loginRequest, options);
+    const postApiV1AuthLogin = (loginRequest: LoginRequest) => {
+        return api<AuthResponse>({ url: `/api/v1/auth/login`, method: "POST", headers: { "Content-Type": "application/json" }, data: loginRequest });
     };
 
-    const postApiV1AuthRefresh = <TData = AxiosResponse<AuthResponse>>(refreshRequest: RefreshRequest, options?: AxiosRequestConfig): Promise<TData> => {
-        return axios.default.post(`/api/v1/auth/refresh`, refreshRequest, options);
+    const postApiV1AuthRefresh = (refreshRequest: RefreshRequest) => {
+        return api<AuthResponse>({ url: `/api/v1/auth/refresh`, method: "POST", headers: { "Content-Type": "application/json" }, data: refreshRequest });
     };
 
-    const getApiV1Products = <TData = AxiosResponse<ProductResponse[]>>(params?: GetApiV1ProductsParams, options?: AxiosRequestConfig): Promise<TData> => {
-        return axios.default.get(`/api/v1/products`, {
-            responseType: "text",
-            ...options,
-            params: { ...params, ...options?.params },
+    const getApiV1Products = (params?: GetApiV1ProductsParams) => {
+        return api<ProductResponse[]>({ url: `/api/v1/products`, method: "GET", params });
+    };
+
+    const postApiV1Products = (createProductRequest: CreateProductRequest) => {
+        return api<ProductResponse>({ url: `/api/v1/products`, method: "POST", headers: { "Content-Type": "application/json" }, data: createProductRequest });
+    };
+
+    const getApiV1ProductsId = (id: string) => {
+        return api<ProductResponse>({ url: `/api/v1/products/${id}`, method: "GET" });
+    };
+
+    const putApiV1ProductsId = (id: string, updateProductRequest: UpdateProductRequest) => {
+        return api<ProductResponse>({
+            url: `/api/v1/products/${id}`,
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            data: updateProductRequest,
         });
     };
 
-    const postApiV1Products = <TData = AxiosResponse<ProductResponse>>(
-        createProductRequest: CreateProductRequest,
-        options?: AxiosRequestConfig
-    ): Promise<TData> => {
-        return axios.default.post(`/api/v1/products`, createProductRequest, options);
+    const deleteApiV1ProductsId = (id: string) => {
+        return api<void>({ url: `/api/v1/products/${id}`, method: "DELETE" });
     };
 
-    const getApiV1ProductsId = <TData = AxiosResponse<ProductResponse>>(id: string, options?: AxiosRequestConfig): Promise<TData> => {
-        return axios.default.get(`/api/v1/products/${id}`, options);
+    const getApiV1Suppliers = (params?: GetApiV1SuppliersParams) => {
+        return api<SupplierResponse[]>({ url: `/api/v1/suppliers`, method: "GET", params });
     };
 
-    const putApiV1ProductsId = <TData = AxiosResponse<ProductResponse>>(
-        id: string,
-        updateProductRequest: UpdateProductRequest,
-        options?: AxiosRequestConfig
-    ): Promise<TData> => {
-        return axios.default.put(`/api/v1/products/${id}`, updateProductRequest, options);
-    };
-
-    const deleteApiV1ProductsId = <TData = AxiosResponse<void>>(id: string, options?: AxiosRequestConfig): Promise<TData> => {
-        return axios.default.delete(`/api/v1/products/${id}`, options);
-    };
-
-    const getApiV1Suppliers = <TData = AxiosResponse<SupplierResponse[]>>(params?: GetApiV1SuppliersParams, options?: AxiosRequestConfig): Promise<TData> => {
-        return axios.default.get(`/api/v1/suppliers`, {
-            responseType: "text",
-            ...options,
-            params: { ...params, ...options?.params },
+    const postApiV1Suppliers = (createSupplierRequest: CreateSupplierRequest) => {
+        return api<SupplierResponse>({
+            url: `/api/v1/suppliers`,
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            data: createSupplierRequest,
         });
     };
 
-    const postApiV1Suppliers = <TData = AxiosResponse<SupplierResponse>>(
-        createSupplierRequest: CreateSupplierRequest,
-        options?: AxiosRequestConfig
-    ): Promise<TData> => {
-        return axios.default.post(`/api/v1/suppliers`, createSupplierRequest, options);
+    const getApiV1SuppliersId = (id: string) => {
+        return api<SupplierResponse>({ url: `/api/v1/suppliers/${id}`, method: "GET" });
     };
 
-    const getApiV1SuppliersId = <TData = AxiosResponse<SupplierResponse>>(id: string, options?: AxiosRequestConfig): Promise<TData> => {
-        return axios.default.get(`/api/v1/suppliers/${id}`, options);
+    const putApiV1SuppliersId = (id: string, updateSupplierRequest: UpdateSupplierRequest) => {
+        return api<SupplierResponse>({
+            url: `/api/v1/suppliers/${id}`,
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            data: updateSupplierRequest,
+        });
     };
 
-    const putApiV1SuppliersId = <TData = AxiosResponse<SupplierResponse>>(
-        id: string,
-        updateSupplierRequest: UpdateSupplierRequest,
-        options?: AxiosRequestConfig
-    ): Promise<TData> => {
-        return axios.default.put(`/api/v1/suppliers/${id}`, updateSupplierRequest, options);
-    };
-
-    const deleteApiV1SuppliersId = <TData = AxiosResponse<void>>(id: string, options?: AxiosRequestConfig): Promise<TData> => {
-        return axios.default.delete(`/api/v1/suppliers/${id}`, options);
+    const deleteApiV1SuppliersId = (id: string) => {
+        return api<void>({ url: `/api/v1/suppliers/${id}`, method: "DELETE" });
     };
 
     return {
@@ -276,15 +267,15 @@ export const getPDVNowAPI = () => {
         deleteApiV1SuppliersId,
     };
 };
-export type PostApiV1AuthLoginResult = AxiosResponse<AuthResponse>;
-export type PostApiV1AuthRefreshResult = AxiosResponse<AuthResponse>;
-export type GetApiV1ProductsResult = AxiosResponse<ProductResponse[]>;
-export type PostApiV1ProductsResult = AxiosResponse<ProductResponse>;
-export type GetApiV1ProductsIdResult = AxiosResponse<ProductResponse>;
-export type PutApiV1ProductsIdResult = AxiosResponse<ProductResponse>;
-export type DeleteApiV1ProductsIdResult = AxiosResponse<void>;
-export type GetApiV1SuppliersResult = AxiosResponse<SupplierResponse[]>;
-export type PostApiV1SuppliersResult = AxiosResponse<SupplierResponse>;
-export type GetApiV1SuppliersIdResult = AxiosResponse<SupplierResponse>;
-export type PutApiV1SuppliersIdResult = AxiosResponse<SupplierResponse>;
-export type DeleteApiV1SuppliersIdResult = AxiosResponse<void>;
+export type PostApiV1AuthLoginResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getPDVNowAPI>["postApiV1AuthLogin"]>>>;
+export type PostApiV1AuthRefreshResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getPDVNowAPI>["postApiV1AuthRefresh"]>>>;
+export type GetApiV1ProductsResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getPDVNowAPI>["getApiV1Products"]>>>;
+export type PostApiV1ProductsResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getPDVNowAPI>["postApiV1Products"]>>>;
+export type GetApiV1ProductsIdResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getPDVNowAPI>["getApiV1ProductsId"]>>>;
+export type PutApiV1ProductsIdResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getPDVNowAPI>["putApiV1ProductsId"]>>>;
+export type DeleteApiV1ProductsIdResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getPDVNowAPI>["deleteApiV1ProductsId"]>>>;
+export type GetApiV1SuppliersResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getPDVNowAPI>["getApiV1Suppliers"]>>>;
+export type PostApiV1SuppliersResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getPDVNowAPI>["postApiV1Suppliers"]>>>;
+export type GetApiV1SuppliersIdResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getPDVNowAPI>["getApiV1SuppliersId"]>>>;
+export type PutApiV1SuppliersIdResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getPDVNowAPI>["putApiV1SuppliersId"]>>>;
+export type DeleteApiV1SuppliersIdResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getPDVNowAPI>["deleteApiV1SuppliersId"]>>>;

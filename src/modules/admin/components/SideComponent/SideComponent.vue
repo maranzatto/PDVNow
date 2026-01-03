@@ -5,16 +5,19 @@ import IconGroup from '@/assets/Icons/IconGroup.vue';
 import IconProducts from '@/assets/Icons/IconProducts.vue';
 import IconSuppliers from '@/assets/Icons/IconSuppliers.vue';
 import router from '@/router';
+import { useAuthStore } from '@/modules/auth/store/auth';
+
+const authStore = useAuthStore();
 
 function logout() {
-    router.push('/login');
+    authStore.logout();
+    router.push({ name: 'Login' });
 }
 
 function enterPDV() {
-    const url = router.resolve('/pdv').href
-    window.open(url, '_blank')
+    const url = router.resolve('/pdv').href;
+    window.open(url, '_blank');
 }
-
 </script>
 
 <template>

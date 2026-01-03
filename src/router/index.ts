@@ -11,19 +11,25 @@ import AdminCashRegister from "@/modules/admin/views/AdminCashRegister.vue";
 import CashRegisterDetail from "@/modules/admin/views/DetailsPages/CashRegisterDetail.vue";
 import NotFound from "@/components/NotFound.vue";
 import AdminConfig from "@/modules/admin/views/AdminConfig.vue";
+import { useAuthStore } from "@/modules/auth/store/auth";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
     routes: [
-        // LOGIN (rota inicial)
-        {
-            path: "/",
-            redirect: "/login",
-        },
+        // LOGIN
         {
             path: "/login",
             name: "Login",
             component: () => import("@/modules/auth/views/LoginView.vue"),
+            meta: { requiresAuth: false },
+        },
+
+        // ROOT - Será tratado pelo navigation guard
+        {
+            path: "/",
+            name: "Root",
+            redirect: "/admin/dashboard", // Fallback padrão
+            meta: { requiresAuth: true },
         },
 
         // PDV (frente de caixa)
@@ -31,11 +37,15 @@ const router = createRouter({
             path: "/pdv",
             name: "PDV",
             component: () => import("@/modules/pdv/views/PDVView.vue"),
+            meta: { requiresAuth: true },
         },
+
+        // ADMIN
         {
             path: "/admin",
             redirect: "/admin/dashboard",
             component: AdminLayout,
+            meta: { requiresAuth: true },
             children: [
                 { path: "dashboard", component: AdminDashboard, name: "AdminDashboard" },
                 { path: "users", component: AdminUsers, name: "AdminUsers" },
@@ -52,12 +62,41 @@ const router = createRouter({
                 { path: "theme-config", component: AdminConfig, name: "AdminConfig" },
             ],
         },
+
+        // NOT FOUND
         {
             path: "/:pathMatch(.*)*",
             name: "NotFound",
             component: NotFound,
         },
     ],
+});
+
+// Navigation Guard
+router.beforeEach((to, from, next) => {
+    const authStore = useAuthStore();
+    const requiresAuth = to.meta.requiresAuth !== false;
+
+    // Se a rota requer autenticação e o usuário não está autenticado
+    if (requiresAuth && !authStore.isAuthenticated) {
+        // Se já está tentando ir para login, permite
+        if (to.name === "Login") {
+            next();
+        } else {
+            // Caso contrário, redireciona para login
+            next({ name: "Login" });
+        }
+        return;
+    }
+
+    // Se o usuário está autenticado e tenta acessar a página de login
+    if (to.name === "Login" && authStore.isAuthenticated) {
+        next({ name: "AdminDashboard" });
+        return;
+    }
+
+    // Permite a navegação
+    next();
 });
 
 export default router;
