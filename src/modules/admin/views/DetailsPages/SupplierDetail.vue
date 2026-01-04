@@ -1,67 +1,90 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { onMounted, watch } from 'vue'
 import { useRouter } from 'vue-router'
-import Button from 'primevue/button'
+import { Button, useToast } from 'primevue'
 
 import MInputText from '../../../../components/MInputText.vue'
-import MSelect from '../../../../components/MSelect.vue'
 
 // Composables
-import { useSupplierForm } from '@/modules/admin/composables/supplierDetails/useSupplierForm'
+import { useSupplierDetail } from '@/modules/admin/composables/supplierDetails/useSupplierDetail'
 import { useSupplierValidation } from '@/modules/admin/composables/supplierDetails/useSupplierValidation'
-import { useSupplierOptions } from '@/modules/admin/composables/supplierDetails/useSupplierOptions'
 
 const router = useRouter()
+const toast = useToast();
 
-interface Props {
-    id?: number
-}
+const props = defineProps<{
+    id?: string
+}>()
 
-const props = defineProps<Props>()
+const {
+    form,
+    errors,
+    isEditing,
+    loadSupplierById,
+    saveSupplier,
+    resetForm,
+    loading
+} = useSupplierDetail()
 
-const isEditing = ref(false)
-const productId = ref<number | null>(null)
-
-// Composables
-const { form, errors, loadSupplier } = useSupplierForm()
 const { validateForm } = useSupplierValidation(form, errors)
-const { statusOptions } = useSupplierOptions()
 
-onMounted(() => {
-    if (props.id) {
-        console.log(props.id, 'fornecedor')
-        isEditing.value = true
-        productId.value = props.id
-
-        const mockProduct = {
-            name: 'Notebook Dell Inspiron 15',
-            cnpj: "26.820.208/0001-40",
-            email: "teste@gmail.com",
-            status: 'inactive' as const,
-        }
-
-        loadSupplier(mockProduct)
-    }
-})
-
-const handleSubmit = () => {
+const handleSubmit = async () => {
     if (!validateForm()) {
-        alert('Por favor, preencha todos os campos obrigatórios')
+        toast.add({
+            severity: 'warn',
+            summary: 'Atenção',
+            detail: 'Por favor, preencha todos os campos obrigatórios',
+            life: 3000
+        });
         return
     }
 
-    if (isEditing.value) {
-        console.log('Atualizando produto:', productId.value, form.value)
-    } else {
-        console.log('Criando produto:', form.value)
-    }
+    loading.value = false;
+    try {
+        const success = await saveSupplier()
 
-    router.push({ name: 'AdminSuppliers' })
+        if (success) {
+            router.push({ name: 'AdminSuppliers' })
+        } else {
+            toast.add({
+                severity: 'error',
+                summary: 'Erro',
+                detail: 'Erro ao salvar o fornecedor',
+                life: 3000
+            });
+        }
+    } catch (error) {
+        toast.add({
+            severity: 'danger',
+            summary: 'Atenção',
+            detail: error,
+            life: 3000
+        });
+    } finally {
+        loading.value = false;
+    }
 }
 
 const goBack = () => {
     router.push({ name: 'AdminSuppliers' })
 }
+
+onMounted(async () => {
+    if (props.id) {
+        await loadSupplierById(props.id)
+    }
+})
+
+watch(
+    () => props.id,
+    async (id) => {
+        if (id) {
+            await loadSupplierById(id)
+        } else {
+            resetForm()
+        }
+    }
+)
 </script>
 
 <template>
@@ -94,28 +117,84 @@ const goBack = () => {
                         <span v-if="errors.name" class="error-message">{{ errors.name }}</span>
                     </div>
 
-                    <div class="form-field form-field-3">
-                        <label class="form-label">CNPJ</label>
-                        <MInputText v-model="form.cnpj" />
+                    <div class="form-field form-field-6">
+                        <label class="form-label">Nome Fantasia *</label>
+                        <MInputText v-model="form.tradeName" :invalid="!!errors.tradeName" />
+                        <span v-if="errors.tradeName" class="error-message">{{ errors.tradeName }}</span>
                     </div>
 
                     <div class="form-field form-field-3">
-                        <label class="form-label">E-mail *</label>
-                        <MInputText v-model="form.email" :invalid="!!errors.sku" />
-                        <span v-if="errors.sku" class="error-message">{{ errors.sku }}</span>
+                        <label class="form-label">CNPJ</label>
+                        <MInputText v-model="form.cnpj" :invalid="!!errors.cnpj" />
+                        <span v-if="errors.cnpj" class="error-message">{{ errors.cnpj }}</span>
+                    </div>
+
+                    <div class="form-field form-field-3">
+                        <label class="form-label">Registro Estatal *</label>
+                        <MInputText v-model="form.stateRegistration" :invalid="!!errors.stateRegistration" />
+                        <span v-if="errors.stateRegistration" class="error-message">{{ errors.stateRegistration
+                        }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SEÇÃO 2: Contato -->
+            <div class="form-section">
+                <h2 class="section-title">Contato</h2>
+                <div class="form-grid">
+                    <div class="form-field form-field-6">
+                        <label class="form-label">Telefone *</label>
+                        <MInputText v-model="form.phone" :invalid="!!errors.phone" />
+                        <span v-if="errors.phone" class="error-message">{{ errors.phone }}</span>
                     </div>
 
                     <div class="form-field form-field-6">
-                        <MSelect v-model="form.status" :options="statusOptions" :invalid="!!errors.status"
-                            label="Status *" option-label="label" option-value="value" />
-                        <span v-if="errors.status" class="error-message">{{ errors.status }}</span>
+                        <label class="form-label">E-mail *</label>
+                        <MInputText v-model="form.email" :invalid="!!errors.email" />
+                        <span v-if="errors.email" class="error-message">{{ errors.email }}</span>
                     </div>
+                </div>
+            </div>
+
+            <!-- SEÇÃO 2: Localização -->
+            <div class="form-section">
+                <h2 class="section-title">Localização</h2>
+                <div class="form-grid">
+                    <div class="form-field form-field-3">
+                        <label class="form-label">Código Postal *</label>
+                        <MInputText v-model="form.postalCode" :invalid="!!errors.postalCode" />
+                        <span v-if="errors.postalCode" class="error-message">{{ errors.postalCode }}</span>
+                    </div>
+
+                    <div class="form-field form-field-3">
+                        <label class="form-label">Cidade *</label>
+                        <MInputText v-model="form.city" :invalid="!!errors.city" />
+                        <span v-if="errors.city" class="error-message">{{ errors.city }}</span>
+                    </div>
+
+                    <div class="form-field form-field-3">
+                        <label class="form-label">Estado *</label>
+                        <MInputText v-model="form.state" :invalid="!!errors.state" />
+                        <span v-if="errors.state" class="error-message">{{ errors.state }}</span>
+                    </div>
+
+                    <div class="form-field form-field-6">
+                        <label class="form-label">Endereço 1 *</label>
+                        <MInputText v-model="form.addressLine1" :invalid="!!errors.addressLine1" />
+                        <span v-if="errors.addressLine1" class="error-message">{{ errors.addressLine1 }}</span>
+                    </div>
+
+                    <!-- <div class="form-field form-field-6">
+                        <label class="form-label">Endereço 2 *</label>
+                        <MInputText v-model="form.addressLine1" :invalid="!!errors.addressLine1" />
+                        <span v-if="errors.addressLine1" class="error-message">{{ errors.addressLine1 }}</span>
+                    </div> -->
                 </div>
             </div>
 
             <div class="form-actions">
                 <Button label="Cancelar" severity="secondary" type="button" @click="goBack" />
-                <Button :label="isEditing ? 'Atualizar Produto' : 'Cadastrar Produto'" type="submit" />
+                <Button :label="isEditing ? 'Atualizar Fornecedor' : 'Cadastrar Fornecedor'" type="submit" />
             </div>
         </form>
     </div>
