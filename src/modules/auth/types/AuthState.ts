@@ -5,4 +5,5 @@ export interface AuthState {
         userType: string | null;
     } | null;
     isAuthenticated: boolean;
+    isLoading: boolean;
 }

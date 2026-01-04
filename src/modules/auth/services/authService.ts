@@ -1,35 +1,41 @@
 import { getPDVNowAPI } from "@/api/generated";
-import type { LoginRequest, AuthResponse, RefreshRequest } from "@/api/generated";
+import type { LoginRequest, AuthResponseDto } from "@/api/generated";
 
 const api = getPDVNowAPI();
 
-export async function login(credentials: LoginRequest): Promise<AuthResponse> {
+export async function login(credentials: LoginRequest): Promise<AuthResponseDto> {
+    // Cookies são definidos automaticamente pelo backend
     const data = await api.postApiV1AuthLogin(credentials);
-    if (data.accessToken) {
-        localStorage.setItem("accessToken", data.accessToken);
-        localStorage.setItem("refreshToken", data.refreshToken || "");
-    }
     return data;
 }
 
-export async function refreshToken(refreshToken: string): Promise<AuthResponse> {
-    const data = await api.postApiV1AuthRefresh({ refreshToken } as RefreshRequest);
-    if (data.accessToken) {
-        localStorage.setItem("accessToken", data.accessToken);
-        localStorage.setItem("refreshToken", data.refreshToken || "");
-    }
+export async function refreshToken(): Promise<AuthResponseDto> {
+    // Não precisa enviar nada - cookies são enviados automaticamente
+    const data = await api.postApiV1AuthRefresh();
     return data;
 }
 
-export function logout(): void {
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("refreshToken");
+export async function logout(): Promise<void> {
+    try {
+        // Chama endpoint de logout que revoga o refresh token
+        await api.postApiV1AuthLogout();
+    } catch (error) {
+        console.error("Logout error:", error);
+    }
 }
 
-export function isAuthenticated(): boolean {
-    return !!localStorage.getItem("accessToken");
+export async function getCurrentUser(): Promise<AuthResponseDto | null> {
+    try {
+        // Verifica se está autenticado consultando /me
+        const data = await api.getApiV1AuthMe();
+        return data;
+    } catch (error) {
+        console.error("Get current user error:", error);
+        return null;
+    }
 }
 
-export function getAuthToken(): string | null {
-    return localStorage.getItem("accessToken");
+export async function isAuthenticated(): Promise<boolean> {
+    const user = await getCurrentUser();
+    return user !== null;
 }
