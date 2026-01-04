@@ -3,13 +3,15 @@ import { onMounted, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import MInputText from '../../../../components/MInputText.vue'
 import MInputNumber from '../../../../components/MInputNumber.vue'
-import { Button } from 'primevue'
+import MInputMoney from '../../../../components/MInputMoney.vue'
+import { Button, useToast } from 'primevue'
 
 // Composables
 import { useProductDetail } from '../../composables/productDetails/useProductDetail'
 import { useProductValidation } from '@/modules/admin/composables/productDetails/useProductValidation'
 
 const router = useRouter()
+const toast = useToast();
 
 const props = defineProps<{
     id?: string
@@ -21,28 +23,47 @@ const {
     isEditing,
     loadProductById,
     saveProduct,
-    resetForm
+    resetForm,
+    loading
 } = useProductDetail()
 
 const { validateForm } = useProductValidation(form, errors)
 
 const handleSubmit = async () => {
     if (!validateForm()) {
-        alert('Por favor, preencha todos os campos obrigatórios')
+        toast.add({
+            severity: 'warn',
+            summary: 'Atenção',
+            detail: 'Por favor, preencha todos os campos obrigatórios',
+            life: 3000
+        });
+        console.error('Por favor, preencha todos os campos obrigatórios')
         return
     }
 
+    loading.value = false;
     try {
         const success = await saveProduct()
 
         if (success) {
             router.push({ name: 'AdminProducts' })
         } else {
-            alert('Erro ao salvar o produto')
+            toast.add({
+                severity: 'error',
+                summary: 'Erro',
+                detail: 'Erro ao salvar o produto',
+                life: 3000
+            });
         }
     } catch (error) {
-        console.error('Erro ao salvar produto:', error)
-        alert('Erro ao salvar o produto')
+        toast.add({
+            severity: 'danger',
+            summary: 'Atenção',
+            detail: error,
+            life: 3000
+        });
+    } finally {
+        loading.value = false;
     }
 }
 
@@ -101,7 +122,8 @@ watch(
 
                     <div class="form-field form-field-3">
                         <label class="form-label">Código de barras</label>
-                        <MInputText v-model="form.barcode" />
+                        <MInputText v-model="form.barcode" maxlength="13" :invalid="!!errors.barcode" />
+                        <span v-if="errors.barcode" class="error-message">{{ errors.barcode }}</span>
                     </div>
 
                     <div class="form-field form-field-3">
@@ -118,13 +140,13 @@ watch(
                 <div class="form-grid">
                     <div class="form-field form-field-6">
                         <label class="form-label">Preço de Venda *</label>
-                        <MInputNumber v-model="form.salePrice" :invalid="!!errors.salePrice" />
+                        <MInputMoney v-model="form.salePrice" :invalid="!!errors.salePrice" />
                         <span v-if="errors.salePrice" class="error-message">{{ errors.salePrice }}</span>
                     </div>
 
                     <div class="form-field form-field-6">
                         <label class="form-label">Preço de Custo *</label>
-                        <MInputNumber v-model="form.costPrice" :invalid="!!errors.costPrice" />
+                        <MInputMoney v-model="form.costPrice" :invalid="!!errors.costPrice" />
                         <span v-if="errors.costPrice" class="error-message">{{ errors.costPrice }}</span>
                     </div>
                 </div>
@@ -136,7 +158,8 @@ watch(
                 <div class="form-grid">
                     <div class="form-field form-field-6">
                         <label>Estoque Atual</label>
-                        <MInputNumber v-model="form.stockQuantity!" />
+                        <MInputNumber v-model="form.stockQuantity!" :invalid="!!errors.stockQuantity" />
+                        <span v-if="errors.stockQuantity" class="error-message">{{ errors.stockQuantity }}</span>
                     </div>
 
                     <div class="form-field form-field-6">
@@ -159,7 +182,8 @@ watch(
 
             <div class="form-actions">
                 <Button label="Cancelar" severity="secondary" type="button" @click="goBack" />
-                <Button :label="isEditing ? 'Atualizar Produto' : 'Cadastrar Produto'" type="submit" />
+                <Button :label="isEditing ? 'Atualizar Produto' : 'Cadastrar Produto'" type="submit"
+                    :loading="loading" />
             </div>
         </form>
     </div>

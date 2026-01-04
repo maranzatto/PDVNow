@@ -284,6 +284,74 @@ button.outline:hover:not(:disabled) {
 .ml-2 {
     margin-left: 0.5rem;
 }
+
 .mb-0 {
     margin-bottom: 0 !important;
+}
+
+/* ==========================================================================
+    9. TOAST STYLES
+   ========================================================================== */
+
+/* layout base */
+.p-toast-message-content {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+}
+
+/* ícone alinhado ao topo */
+.p-toast-message-icon {
+    align-self: flex-start;
+    margin-top: 0.125rem;
+}
+
+/* bloco de texto */
+.p-toast-message-text {
+    display: flex;
+    flex-direction: column;
+}
+
+/* título */
+.p-toast-summary {
+    line-height: 1.2;
+    font-weight: 600;
+}
+
+/* detalhe */
+.p-toast-detail {
+    margin-top: 0.25rem;
+    opacity: 0.95;
+}
+
+/* severidades */
+.p-toast-message-success {
+    background: #ecfdf5 !important;
+    border-left: 6px solid #16a34a !important;
+    --toast-text-color: #064e3b;
+}
+
+.p-toast-message-error {
+    background: #fef2f2 !important;
+    border-left: 6px solid #dc2626 !important;
+    --toast-text-color: #7f1d1d;
+}
+
+.p-toast-message-warn {
+    background: #fffbeb !important;
+    border-left: 6px solid #f59e0b !important;
+    --toast-text-color: #78350f;
+}
+
+.p-toast-message-info {
+    background: #eff6ff !important;
+    border-left: 6px solid #2563eb !important;
+    --toast-text-color: #1e3a8a;
+}
+
+/* aplica a cor no texto real */
+.p-toast-message-text,
+.p-toast-summary,
+.p-toast-detail {
+    color: var(--toast-text-color) !important;
 }

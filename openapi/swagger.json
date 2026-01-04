@@ -35,17 +35,17 @@
                         "content": {
                             "text/plain": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/AuthResponse"
+                                    "$ref": "#/components/schemas/AuthResponseDto"
                                 }
                             },
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/AuthResponse"
+                                    "$ref": "#/components/schemas/AuthResponseDto"
                                 }
                             },
                             "text/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/AuthResponse"
+                                    "$ref": "#/components/schemas/AuthResponseDto"
                                 }
                             }
                         }
@@ -58,42 +58,64 @@
                 "tags": [
                     "Auth"
                 ],
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/RefreshRequest"
-                            }
-                        },
-                        "text/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/RefreshRequest"
-                            }
-                        },
-                        "application/*+json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/RefreshRequest"
-                            }
-                        }
-                    }
-                },
                 "responses": {
                     "200": {
                         "description": "OK",
                         "content": {
                             "text/plain": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/AuthResponse"
+                                    "$ref": "#/components/schemas/AuthResponseDto"
                                 }
                             },
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/AuthResponse"
+                                    "$ref": "#/components/schemas/AuthResponseDto"
                                 }
                             },
                             "text/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/AuthResponse"
+                                    "$ref": "#/components/schemas/AuthResponseDto"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/auth/logout": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/v1/auth/me": {
+            "get": {
+                "tags": [
+                    "Auth"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthResponseDto"
+                                }
+                            },
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthResponseDto"
+                                }
+                            },
+                            "text/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthResponseDto"
                                 }
                             }
                         }
@@ -583,7 +605,7 @@
     },
     "components": {
         "schemas": {
-            "AuthResponse": {
+            "AuthResponseDto": {
                 "type": "object",
                 "properties": {
                     "userId": {
@@ -597,22 +619,6 @@
                     "userType": {
                         "type": "string",
                         "nullable": true
-                    },
-                    "accessToken": {
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "accessTokenExpiresAtUtc": {
-                        "type": "string",
-                        "format": "date-time"
-                    },
-                    "refreshToken": {
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "refreshTokenExpiresAtUtc": {
-                        "type": "string",
-                        "format": "date-time"
                     }
                 },
                 "additionalProperties": false
@@ -784,20 +790,6 @@
                     "updatedAtUtc": {
                         "type": "string",
                         "format": "date-time",
-                        "nullable": true
-                    }
-                },
-                "additionalProperties": false
-            },
-            "RefreshRequest": {
-                "type": "object",
-                "properties": {
-                    "userId": {
-                        "type": "string",
-                        "format": "uuid"
-                    },
-                    "refreshToken": {
-                        "type": "string",
                         "nullable": true
                     }
                 },

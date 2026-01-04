@@ -1,11 +1,12 @@
 import { defineStore } from "pinia";
-import { login, logout as logoutService, refreshToken, isAuthenticated } from "@/modules/auth/services/authService";
+import { login, logout as logoutService, getCurrentUser } from "@/modules/auth/services/authService";
 import type { AuthState } from "../types/AuthState";
 
 export const useAuthStore = defineStore("auth", {
     state: (): AuthState => ({
         user: null,
-        isAuthenticated: isAuthenticated(),
+        isAuthenticated: false,
+        isLoading: true, // Para controlar carregamento inicial
     }),
 
     actions: {
@@ -25,30 +26,47 @@ export const useAuthStore = defineStore("auth", {
             }
         },
 
-        logout() {
-            logoutService(); // Remove tokens do localStorage
-            this.user = null;
-            this.isAuthenticated = false;
+        async logout() {
+            try {
+                await logoutService(); // Chama endpoint de logout
+            } finally {
+                this.user = null;
+                this.isAuthenticated = false;
+            }
         },
 
-        async refresh() {
-            const token = localStorage.getItem("refreshToken");
-            if (!token) return false;
-
+        async checkAuth() {
+            // Verifica autenticação consultando /me
+            this.isLoading = true;
             try {
-                const response = await refreshToken(token);
-                this.user = {
-                    id: response.userId || null,
-                    username: response.username || null,
-                    userType: response.userType || null,
-                };
-                this.isAuthenticated = true;
-                return true;
+                const response = await getCurrentUser();
+
+                if (response) {
+                    this.user = {
+                        id: response.userId || null,
+                        username: response.username || null,
+                        userType: response.userType || null,
+                    };
+                    this.isAuthenticated = true;
+                    return true;
+                } else {
+                    this.user = null;
+                    this.isAuthenticated = false;
+                    return false;
+                }
             } catch (error) {
-                console.error("Failed to refresh token:", error);
-                this.logout();
+                console.error("Failed to check auth:", error);
+                this.user = null;
+                this.isAuthenticated = false;
                 return false;
+            } finally {
+                this.isLoading = false;
             }
+        },
+
+        // Método para inicializar a store ao carregar a aplicação
+        async initialize() {
+            await this.checkAuth();
         },
     },
 });

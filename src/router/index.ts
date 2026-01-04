@@ -72,9 +72,15 @@ const router = createRouter({
     ],
 });
 
-// Navigation Guard
-router.beforeEach((to, from, next) => {
+// Navigation Guard com suporte a autenticação assíncrona
+router.beforeEach(async (to, from, next) => {
     const authStore = useAuthStore();
+
+    // Aguarda inicialização se ainda estiver carregando
+    if (authStore.isLoading) {
+        await authStore.initialize();
+    }
+
     const requiresAuth = to.meta.requiresAuth !== false;
 
     // Se a rota requer autenticação e o usuário não está autenticado
@@ -83,15 +89,20 @@ router.beforeEach((to, from, next) => {
         if (to.name === "Login") {
             next();
         } else {
-            // Caso contrário, redireciona para login
-            next({ name: "Login" });
+            // Caso contrário, redireciona para login com query de redirecionamento
+            next({
+                name: "Login",
+                query: { redirect: to.fullPath },
+            });
         }
         return;
     }
 
     // Se o usuário está autenticado e tenta acessar a página de login
     if (to.name === "Login" && authStore.isAuthenticated) {
-        next({ name: "AdminDashboard" });
+        // Redireciona para a página que estava tentando acessar ou dashboard
+        const redirect = (to.query.redirect as string) || "/admin/dashboard";
+        next(redirect);
         return;
     }
 

@@ -9,10 +9,11 @@ import { useAuthStore } from '@/modules/auth/store/auth';
 
 const authStore = useAuthStore();
 
-function logout() {
-    authStore.logout();
-    router.push({ name: 'Login' });
+async function logout() {
+    await authStore.logout();
+    router.replace({ name: 'Login' });
 }
+
 
 function enterPDV() {
     const url = router.resolve('/pdv').href;
