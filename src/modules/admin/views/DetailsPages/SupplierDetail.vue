@@ -2,8 +2,8 @@
 import { onMounted, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { Button, useToast } from 'primevue'
-
 import MInputText from '../../../../components/MInputText.vue'
+import MInputMask from '@/components/MInputMask.vue'
 
 // Composables
 import { useSupplierDetail } from '@/modules/admin/composables/supplierDetails/useSupplierDetail'
@@ -125,7 +125,9 @@ watch(
 
                     <div class="form-field form-field-3">
                         <label class="form-label">CNPJ</label>
-                        <MInputText v-model="form.cnpj" :invalid="!!errors.cnpj" />
+                        <!-- <MInputText v-model="form.cnpj" :invalid="!!errors.cnpj" /> -->
+                        <MInputMask v-model="form.cnpj!" :invalid="!!errors.cnpj" mask-type="cnpj"
+                            placeholder="00.000.000/0000-00" :disabled="loading" />
                         <span v-if="errors.cnpj" class="error-message">{{ errors.cnpj }}</span>
                     </div>
 
@@ -144,7 +146,8 @@ watch(
                 <div class="form-grid">
                     <div class="form-field form-field-6">
                         <label class="form-label">Telefone *</label>
-                        <MInputText v-model="form.phone" :invalid="!!errors.phone" />
+                        <MInputMask v-model="form.phone!" :invalid="!!errors.phone" mask-type="phone"
+                            placeholder="(00) 00000-0000" :disabled="loading" />
                         <span v-if="errors.phone" class="error-message">{{ errors.phone }}</span>
                     </div>
 
@@ -162,7 +165,9 @@ watch(
                 <div class="form-grid">
                     <div class="form-field form-field-3">
                         <label class="form-label">Código Postal *</label>
-                        <MInputText v-model="form.postalCode" :invalid="!!errors.postalCode" />
+                        <!-- <MInputText v-model="form.postalCode" :invalid="!!errors.postalCode" /> -->
+                        <MInputMask v-model="form.postalCode!" :invalid="!!errors.postalCode" mask-type="cep"
+                            placeholder="00000-000" :disabled="loading" />
                         <span v-if="errors.postalCode" class="error-message">{{ errors.postalCode }}</span>
                     </div>
 
