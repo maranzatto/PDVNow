@@ -65,12 +65,6 @@ export function useProducts() {
         return `R$ ${price.toFixed(2).replace(".", ",")}`;
     };
 
-    const getStockClass = (stock?: number) => {
-        if (!stock || stock === 0) return "text-error";
-        if (stock < 10) return "text-warning";
-        return "text-success";
-    };
-
     // Auto-carregar ao montar
     onMounted(loadProducts);
 
@@ -83,6 +77,5 @@ export function useProducts() {
         handleEdit,
         handleDelete,
         formatPrice,
-        getStockClass,
     };
 }

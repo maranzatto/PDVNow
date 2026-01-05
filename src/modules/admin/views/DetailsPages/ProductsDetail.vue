@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { onMounted, watch } from 'vue'
 import { useRouter } from 'vue-router'
+
 import MInputText from '../../../../components/MInputText.vue'
 import MInputNumber from '../../../../components/MInputNumber.vue'
 import MInputMoney from '../../../../components/MInputMoney.vue'
@@ -37,7 +38,6 @@ const handleSubmit = async () => {
             detail: 'Por favor, preencha todos os campos obrigatórios',
             life: 3000
         });
-        console.error('Por favor, preencha todos os campos obrigatórios')
         return
     }
 

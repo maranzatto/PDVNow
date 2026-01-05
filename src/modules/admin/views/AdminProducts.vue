@@ -3,7 +3,7 @@ import DataTable from '@/modules/admin/components/DataTablesComponent/DataTables
 import { useProducts } from '../composables/useProducts'
 import { Button } from 'primevue';
 
-const { products, columns, handleNew, handleEdit, handleDelete, formatPrice, getStockClass } = useProducts()
+const { products, columns, handleNew, handleEdit, handleDelete, formatPrice } = useProducts()
 </script>
 
 <template>
@@ -23,9 +23,7 @@ const { products, columns, handleNew, handleEdit, handleDelete, formatPrice, get
             </template>
 
             <template #stock="{ row }">
-                <span :class="getStockClass(row.stockQuantity)">
-                    {{ row.stockQuantity }}
-                </span>
+                {{ row.stockQuantity }}
             </template>
 
             <template #actions="{ row }">

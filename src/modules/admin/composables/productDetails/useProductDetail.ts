@@ -1,6 +1,3 @@
-// ============================================
-// composables/useProductDetail.ts (Unificado)
-// ============================================
 import { ref, computed } from "vue";
 import type { ProductForm, ProductErrors } from "@/modules/admin/types/productDetails/productType";
 import { getProductById, addNewProduct, updateProduct } from "@/modules/admin/services/productService";

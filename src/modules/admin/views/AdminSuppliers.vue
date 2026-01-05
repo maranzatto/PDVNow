@@ -2,7 +2,8 @@
 import DataTable from '@/modules/admin/components/DataTablesComponent/DataTablesComponent.vue'
 import { useSuppliers } from '../composables/useSuppliers'
 import { Button } from 'primevue';
-const { suppliers, columns, handleNew, getStatusBadge, handleEdit, handleDelete } = useSuppliers()
+
+const { suppliers, columns, handleNew, handleEdit, handleDelete } = useSuppliers()
 </script>
 
 <template>
@@ -18,18 +19,12 @@ const { suppliers, columns, handleNew, getStatusBadge, handleEdit, handleDelete 
                 </Button>
             </template>
 
-            <template #status="{ row }">
-                <span class="badge" :class="getStatusBadge(row.status).class">
-                    {{ getStatusBadge(row.status).text }}
-                </span>
-            </template>
-
             <template #actions="{ row }">
                 <div class="action-buttons">
-                    <button class="btn-action btn-edit" @click="handleEdit(row.id)">
+                    <button class="btn-action btn-edit" @click="handleEdit(row.id!)">
                         <i class="pi pi-pencil"></i>
                     </button>
-                    <button class="btn-action btn-delete" @click="handleDelete(row.id)">
+                    <button class="btn-action btn-delete" @click="handleDelete(row.id!)">
                         <i class="pi pi-trash"></i>
                     </button>
                 </div>
