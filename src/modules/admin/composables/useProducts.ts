@@ -11,7 +11,7 @@ export function useProducts() {
 
     // Configuração das colunas do grid
     const columns: ColumnDef<ProductResponse>[] = [
-        { accessorKey: "id", header: "Código", size: 120 },
+        { accessorKey: "code", header: "Código", size: 120 },
         { accessorKey: "name", header: "Produto", size: 180 },
         { accessorKey: "sku", header: "SKU", size: 180 },
         { accessorKey: "salePrice", header: "Preço", size: 120 },

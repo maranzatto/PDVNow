@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted, watch, onUnmounted } from 'vue';
+import { useRouter } from 'vue-router';
 import { usePDV, type CartItem } from '../composables/usePDV';
 import Button from 'primevue/button';
 import MButton from '@/components/MButton.vue';
@@ -10,6 +11,7 @@ import IconUser from '@/assets/Icons/IconUser.vue';
 import MInputText from '@/components/MInputText.vue';
 
 const toast = useToast();
+const router = useRouter();
 const {
     cart,
     barcodeInput,
@@ -129,13 +131,20 @@ function formatCurrency(value: number) {
         currency: 'BRL'
     }).format(value);
 }
+
+function goBack() {
+    router.push('/admin/dashboard');
+}
 </script>
 
 <template>
     <div class="admin-layout">
         <div class="content-area">
             <header class="header">
-                <h4 class="header-title">PDV - Ponto de Venda</h4>
+                <div class="header-left">
+                    <MButton @click="goBack" class="back-button" icon="pi pi-arrow-left" />
+                    <h4 class="header-title">PDV - Ponto de Venda</h4>
+                </div>
                 <div class="header-user">
                     <IconUser :width="32" :height="32" />
                 </div>
@@ -342,6 +351,14 @@ function formatCurrency(value: number) {
 .header {
     @apply flex items-center justify-between p-4 h-16 border-b border-gray-200 dark:border-gray-300 shrink-0;
     background-color: var(--color-bg-primary);
+}
+
+.header-left {
+    @apply flex items-center gap-3;
+}
+
+.back-button {
+    @apply p-2;
 }
 
 .header-title {

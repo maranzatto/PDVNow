@@ -15,6 +15,10 @@ dist/
 dist-ssr/
 coverage/
 
+# Tauri
+src-tauri/target/
+src-tauri/icons/
+
 # System files
 .DS_Store
 

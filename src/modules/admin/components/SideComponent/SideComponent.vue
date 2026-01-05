@@ -15,9 +15,9 @@ async function logout() {
 }
 
 
-function enterPDV() {
-    const url = router.resolve('/pdv').href;
-    window.open(url, '_blank');
+async function enterPDV() {
+    // Navegação normal - mesma janela
+    router.push('/pdv');
 }
 </script>
 

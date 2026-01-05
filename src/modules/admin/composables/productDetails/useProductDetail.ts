@@ -1,6 +1,7 @@
 import { ref, computed } from "vue";
 import type { ProductForm, ProductErrors } from "@/modules/admin/types/productDetails/productType";
 import { getProductById, addNewProduct, updateProduct } from "@/modules/admin/services/productService";
+import { ProductUnit } from "@/api/generated";
 
 export function useProductDetail() {
     const loading = ref(false);
@@ -8,11 +9,12 @@ export function useProductDetail() {
 
     const form = ref<ProductForm>({
         id: undefined,
+        code: 0,
         name: "",
         description: "",
         sku: "",
         barcode: "",
-        unit: "un",
+        unit: ProductUnit.UN,
         costPrice: 0,
         salePrice: 0,
         stockQuantity: 0,
@@ -97,11 +99,12 @@ export function useProductDetail() {
     const resetForm = () => {
         form.value = {
             id: undefined,
+            code: 0,
             name: "",
             description: "",
             sku: "",
             barcode: "",
-            unit: "un",
+            unit: ProductUnit.UN,
             costPrice: 0,
             salePrice: 0,
             stockQuantity: 0,
