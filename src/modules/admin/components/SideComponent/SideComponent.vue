@@ -6,6 +6,7 @@ import IconProducts from '@/assets/Icons/IconProducts.vue';
 import IconSuppliers from '@/assets/Icons/IconSuppliers.vue';
 import router from '@/router';
 import { useAuthStore } from '@/modules/auth/store/auth';
+import IconCustomers from '@/assets/Icons/IconCustomers.vue';
 
 const authStore = useAuthStore();
 
@@ -32,6 +33,11 @@ async function enterPDV() {
             <router-link to="/admin/users" class="icon-link">
                 <IconGroup />
                 Usuários
+            </router-link>
+
+            <router-link to="/admin/costumers">
+                <IconCustomers />
+                Clientes
             </router-link>
 
             <router-link to="/admin/products">

@@ -2,7 +2,7 @@
 import { computed } from 'vue'
 import Calendar from 'primevue/datepicker';
 
-type DateValue = Date | Date[] | null | undefined
+type DateValue = Date | Date[] | string | null | undefined
 
 defineOptions({
     inheritAttrs: false
@@ -44,7 +44,12 @@ const emit = defineEmits<{
 }>()
 
 const model = computed({
-    get: () => props.modelValue,
+    get: () => {
+        if (typeof props.modelValue === 'string') {
+            return props.modelValue ? new Date(props.modelValue) : null
+        }
+        return props.modelValue
+    },
     set: (value: Date | Date[] | null) => {
         emit('update:modelValue', value)
     }

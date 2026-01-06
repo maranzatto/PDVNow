@@ -12,6 +12,8 @@ import CashRegisterDetail from "@/modules/admin/views/DetailsPages/CashRegisterD
 import NotFound from "@/components/NotFound.vue";
 import AdminConfig from "@/modules/admin/views/AdminConfig.vue";
 import { useAuthStore } from "@/modules/auth/store/auth";
+import AdminCustomers from "@/modules/admin/views/AdminCustomers.vue";
+import CustomersDetail from "@/modules/admin/views/DetailsPages/CustomersDetail.vue";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -51,6 +53,9 @@ const router = createRouter({
                 { path: "users", component: AdminUsers, name: "AdminUsers" },
                 { path: "users/new", component: UsersDetail, name: "AdminUsersNew", props: true },
                 { path: "users/:id/edit", component: UsersDetail, name: "AdminUsersEdit", props: true },
+                { path: "costumers", component: AdminCustomers, name: "AdminCostumers" },
+                { path: "costumers/new", component: CustomersDetail, name: "AdminCostumersNew", props: true },
+                { path: "costumers/:id/edit", component: CustomersDetail, name: "AdminCostumersEdit", props: true },
                 { path: "suppliers", component: AdminSuppliers, name: "AdminSuppliers" },
                 { path: "suppliers/new", component: SupplierDetail, name: "AdminSuppliersNew", props: true },
                 { path: "suppliers/:id/edit", component: SupplierDetail, name: "AdminSuppliersEdit", props: true },

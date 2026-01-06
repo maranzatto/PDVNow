@@ -122,7 +122,7 @@ const stats = {
 .recent-orders,
 .low-stock,
 .activity-list {
-    @apply bg-gray-700 p-4 rounded mt-4 min-h-[200px] flex items-center justify-center text-gray-300;
+    @apply bg-gray-700 p-4 rounded mt-4 flex items-center justify-center text-gray-300;
     background-color: var(--color-bg-primary);
 }
 
