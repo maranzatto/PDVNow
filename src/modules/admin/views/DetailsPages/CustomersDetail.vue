@@ -193,7 +193,7 @@ watch(
                         <span v-if="errors.state" class="error-message">{{ errors.state }}</span>
                     </div>
 
-                    <div class="form-field form-field-4">
+                    <div class="form-field form-field-6">
                         <label class="form-label">Cidade *</label>
                         <MInputText v-model="form.city" :invalid="!!errors.city" />
                         <span v-if="errors.city" class="error-message">{{ errors.city }}</span>

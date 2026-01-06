@@ -134,7 +134,7 @@ watch(
                         <label class="form-label">Registro Estadual *</label>
                         <MInputText v-model="form.stateRegistration" :invalid="!!errors.stateRegistration" />
                         <span v-if="errors.stateRegistration" class="error-message">{{ errors.stateRegistration
-                            }}</span>
+                        }}</span>
                     </div>
                 </div>
             </div>
@@ -181,7 +181,7 @@ watch(
                         <span v-if="errors.state" class="error-message">{{ errors.state }}</span>
                     </div>
 
-                    <div class="form-field form-field-6">
+                    <div class="form-field form-field-4">
                         <label class="form-label">Endereço 1 *</label>
                         <MInputText v-model="form.addressLine1" :invalid="!!errors.addressLine1" />
                         <span v-if="errors.addressLine1" class="error-message">{{ errors.addressLine1 }}</span>
