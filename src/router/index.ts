@@ -60,6 +60,7 @@ const router = createRouter({
                 { path: "suppliers/new", component: SupplierDetail, name: "AdminSuppliersNew", props: true },
                 { path: "suppliers/:id/edit", component: SupplierDetail, name: "AdminSuppliersEdit", props: true },
                 { path: "cash-register", component: AdminCashRegister, name: "AdminCashRegister" },
+                { path: "cash-register/new", component: CashRegisterDetail, name: "AdminCashRegisterNew" },
                 { path: "cash-register/:id/edit", component: CashRegisterDetail, name: "AdminCashRegisterEdit", props: true },
                 { path: "products", component: AdminProducts, name: "AdminProducts" },
                 { path: "products/new", component: ProductsDetail, name: "AdminProductNew" },
