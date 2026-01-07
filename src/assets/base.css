@@ -290,7 +290,225 @@ button.outline:hover:not(:disabled) {
 }
 
 /* ==========================================================================
-    9. TOAST STYLES
+    10. FORM GRID SYSTEM
+   ========================================================================== */
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 1rem;
+}
+
+.form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+/* Mobile first - todos ocupam linha inteira */
+.form-field-1 {
+    grid-column: span 12;
+}
+
+.form-field-2 {
+    grid-column: span 12;
+}
+
+.form-field-3 {
+    grid-column: span 12;
+}
+
+.form-field-4 {
+    grid-column: span 12;
+}
+
+.form-field-5 {
+    grid-column: span 12;
+}
+
+.form-field-6 {
+    grid-column: span 12;
+}
+
+.form-field-7 {
+    grid-column: span 12;
+}
+
+.form-field-8 {
+    grid-column: span 12;
+}
+
+.form-field-9 {
+    grid-column: span 12;
+}
+
+.form-field-10 {
+    grid-column: span 12;
+}
+
+.form-field-11 {
+    grid-column: span 12;
+}
+
+.form-field-12 {
+    grid-column: span 12;
+}
+
+/* Tablets - 768px a 1023px */
+@media (min-width: 768px) {
+    .form-field-1 {
+        grid-column: span 2;
+    }
+
+    .form-field-2 {
+        grid-column: span 4;
+    }
+
+    .form-field-3 {
+        grid-column: span 6;
+    }
+
+    .form-field-4 {
+        grid-column: span 6;
+    }
+
+    .form-field-5 {
+        grid-column: span 12;
+    }
+
+    .form-field-6 {
+        grid-column: span 12;
+    }
+
+    .form-field-7 {
+        grid-column: span 12;
+    }
+
+    .form-field-8 {
+        grid-column: span 12;
+    }
+
+    .form-field-9 {
+        grid-column: span 12;
+    }
+
+    .form-field-10 {
+        grid-column: span 12;
+    }
+
+    .form-field-11 {
+        grid-column: span 12;
+    }
+
+    .form-field-12 {
+        grid-column: span 12;
+    }
+}
+
+/* Small desktop - 1024px a 1279px */
+@media (min-width: 1024px) {
+    .form-field-1 {
+        grid-column: span 1;
+    }
+
+    .form-field-2 {
+        grid-column: span 2;
+    }
+
+    .form-field-3 {
+        grid-column: span 3;
+    }
+
+    .form-field-4 {
+        grid-column: span 4;
+    }
+
+    .form-field-5 {
+        grid-column: span 6;
+    }
+
+    .form-field-6 {
+        grid-column: span 6;
+    }
+
+    .form-field-7 {
+        grid-column: span 12;
+    }
+
+    .form-field-8 {
+        grid-column: span 12;
+    }
+
+    .form-field-9 {
+        grid-column: span 12;
+    }
+
+    .form-field-10 {
+        grid-column: span 12;
+    }
+
+    .form-field-11 {
+        grid-column: span 12;
+    }
+
+    .form-field-12 {
+        grid-column: span 12;
+    }
+}
+
+/* Desktop - 1280px+ */
+@media (min-width: 1280px) {
+    .form-field-1 {
+        grid-column: span 1;
+    }
+
+    .form-field-2 {
+        grid-column: span 2;
+    }
+
+    .form-field-3 {
+        grid-column: span 3;
+    }
+
+    .form-field-4 {
+        grid-column: span 4;
+    }
+
+    .form-field-5 {
+        grid-column: span 5;
+    }
+
+    .form-field-6 {
+        grid-column: span 6;
+    }
+
+    .form-field-7 {
+        grid-column: span 7;
+    }
+
+    .form-field-8 {
+        grid-column: span 8;
+    }
+
+    .form-field-9 {
+        grid-column: span 9;
+    }
+
+    .form-field-10 {
+        grid-column: span 10;
+    }
+
+    .form-field-11 {
+        grid-column: span 11;
+    }
+
+    .form-field-12 {
+        grid-column: span 12;
+    }
+}
+
+/* ==========================================================================
+    11. TOAST STYLES
    ========================================================================== */
 
 /* layout base */

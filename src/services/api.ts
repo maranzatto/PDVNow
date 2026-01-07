@@ -1,4 +1,5 @@
 import axios, { type AxiosInstance, type AxiosRequestConfig } from "axios";
+import { useLoadingStore } from "@/stores/loadingStore";
 
 const axiosInstance: AxiosInstance = axios.create({
     baseURL: import.meta.env.VITE_API_URL,
@@ -7,6 +8,41 @@ const axiosInstance: AxiosInstance = axios.create({
     },
     withCredentials: true,
 });
+
+let loadingStore: ReturnType<typeof useLoadingStore> | null = null;
+
+const getLoadingStore = () => {
+    if (!loadingStore) {
+        loadingStore = useLoadingStore();
+    }
+    return loadingStore;
+};
+
+axiosInstance.interceptors.request.use(
+    (config) => {
+        const store = getLoadingStore();
+        store.startLoading();
+        return config;
+    },
+    (error) => {
+        const store = getLoadingStore();
+        store.stopLoading();
+        return Promise.reject(error);
+    }
+);
+
+axiosInstance.interceptors.response.use(
+    (response) => {
+        const store = getLoadingStore();
+        store.stopLoading();
+        return response;
+    },
+    (error) => {
+        const store = getLoadingStore();
+        store.stopLoading();
+        return Promise.reject(error);
+    }
+);
 
 let isRefreshing = false;
 let failedQueue: Array<{
@@ -31,7 +67,11 @@ axiosInstance.interceptors.response.use(
         const originalRequest = error.config;
 
         // Ignora erros que não são 401 ou se é o próprio endpoint de refresh/login
-        if (error.response?.status !== 401 || originalRequest.url?.includes("/api/v1/auth/refresh") || originalRequest.url?.includes("/api/v1/auth/login")) {
+        if (
+            error.response?.status !== 401 ||
+            originalRequest.url?.includes("/api/v1/auth/refresh") ||
+            originalRequest.url?.includes("/api/v1/auth/login")
+        ) {
             return Promise.reject(error);
         }
 

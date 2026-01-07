@@ -5,12 +5,118 @@
  * OpenAPI spec version: v1
  */
 import { api } from '../services/api';
+export type AdminOverridePurpose = typeof AdminOverridePurpose[keyof typeof AdminOverridePurpose];
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AdminOverridePurpose = {
+  OpenSession: 'OpenSession',
+  CloseSession: 'CloseSession',
+  ReopenSession: 'ReopenSession',
+  CashMovement: 'CashMovement',
+} as const;
+
 export interface AuthResponseDto {
   userId?: string;
   /** @nullable */
   username?: string | null;
   /** @nullable */
   userType?: string | null;
+}
+
+export interface CashDenominationCountDto {
+  denomination?: number;
+  quantity?: number;
+}
+
+export type CashMovementType = typeof CashMovementType[keyof typeof CashMovementType];
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const CashMovementType = {
+  Supply: 'Supply',
+  Withdrawal: 'Withdrawal',
+} as const;
+
+export interface CashRegisterResponse {
+  id?: string;
+  code?: number;
+  /** @nullable */
+  name?: string | null;
+  /** @nullable */
+  location?: string | null;
+  isActive?: boolean;
+  createdAtUtc?: string;
+  /** @nullable */
+  updatedAtUtc?: string | null;
+}
+
+export interface CashSessionResponse {
+  id?: string;
+  cashRegisterId?: string;
+  openedByUserId?: string;
+  /** @nullable */
+  closedByUserId?: string | null;
+  openedAtUtc?: string;
+  /** @nullable */
+  closedAtUtc?: string | null;
+  openingFloatAmount?: number;
+  /** @nullable */
+  closingCountedAmount?: number | null;
+  /** @nullable */
+  closingNotes?: string | null;
+}
+
+export interface CloseCashSessionRequest {
+  cashRegisterId?: string;
+  /** @nullable */
+  denominations?: CashDenominationCountDto[] | null;
+  /** @nullable */
+  notes?: string | null;
+  /** @nullable */
+  overrideCode?: string | null;
+}
+
+export interface CreateCashMovementRequest {
+  cashRegisterId?: string;
+  type?: CashMovementType;
+  amount?: number;
+  /** @nullable */
+  notes?: string | null;
+  /** @nullable */
+  overrideCode?: string | null;
+}
+
+export interface CreateCustomerRequest {
+  personType?: CustomerPersonType;
+  /** @nullable */
+  name?: string | null;
+  /** @nullable */
+  tradeName?: string | null;
+  /** @nullable */
+  document?: string | null;
+  /** @nullable */
+  email?: string | null;
+  /** @nullable */
+  phone?: string | null;
+  /** @nullable */
+  mobile?: string | null;
+  /** @nullable */
+  birthDate?: string | null;
+  /** @nullable */
+  addressLine1?: string | null;
+  /** @nullable */
+  addressLine2?: string | null;
+  /** @nullable */
+  city?: string | null;
+  /** @nullable */
+  state?: string | null;
+  /** @nullable */
+  postalCode?: string | null;
+  /** @nullable */
+  notes?: string | null;
+  creditLimit?: number;
+  isActive?: boolean;
 }
 
 export interface CreateProductRequest {
@@ -22,8 +128,7 @@ export interface CreateProductRequest {
   sku?: string | null;
   /** @nullable */
   barcode?: string | null;
-  /** @nullable */
-  unit?: string | null;
+  unit?: ProductUnit;
   costPrice?: number;
   salePrice?: number;
   stockQuantity?: number;
@@ -56,6 +161,76 @@ export interface CreateSupplierRequest {
   postalCode?: string | null;
 }
 
+export interface CreateUserRequest {
+  /** @nullable */
+  username?: string | null;
+  /** @nullable */
+  password?: string | null;
+  /** @nullable */
+  email?: string | null;
+  userType?: UserType;
+  isActive?: boolean;
+}
+
+export type CustomerPersonType = typeof CustomerPersonType[keyof typeof CustomerPersonType];
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const CustomerPersonType = {
+  Individual: 'Individual',
+  Company: 'Company',
+} as const;
+
+export interface CustomerResponse {
+  id?: string;
+  code?: number;
+  personType?: CustomerPersonType;
+  /** @nullable */
+  name?: string | null;
+  /** @nullable */
+  tradeName?: string | null;
+  /** @nullable */
+  document?: string | null;
+  /** @nullable */
+  email?: string | null;
+  /** @nullable */
+  phone?: string | null;
+  /** @nullable */
+  mobile?: string | null;
+  /** @nullable */
+  birthDate?: string | null;
+  /** @nullable */
+  addressLine1?: string | null;
+  /** @nullable */
+  addressLine2?: string | null;
+  /** @nullable */
+  city?: string | null;
+  /** @nullable */
+  state?: string | null;
+  /** @nullable */
+  postalCode?: string | null;
+  /** @nullable */
+  notes?: string | null;
+  creditLimit?: number;
+  currentBalance?: number;
+  isActive?: boolean;
+  createdAtUtc?: string;
+  /** @nullable */
+  updatedAtUtc?: string | null;
+}
+
+export interface GenerateOverrideCodeRequest {
+  purpose?: AdminOverridePurpose;
+  /** @nullable */
+  justification?: string | null;
+}
+
+export interface GenerateOverrideCodeResponse {
+  /** @nullable */
+  code?: string | null;
+  expiresAtUtc?: string;
+}
+
 export interface LoginRequest {
   /** @nullable */
   username?: string | null;
@@ -63,8 +238,19 @@ export interface LoginRequest {
   password?: string | null;
 }
 
+export interface OpenCashSessionRequest {
+  /** @nullable */
+  cashRegisterName?: string | null;
+  /** @nullable */
+  location?: string | null;
+  openingFloatAmount?: number;
+  /** @nullable */
+  overrideCode?: string | null;
+}
+
 export interface ProductResponse {
   id?: string;
+  code?: number;
   /** @nullable */
   name?: string | null;
   /** @nullable */
@@ -73,8 +259,7 @@ export interface ProductResponse {
   sku?: string | null;
   /** @nullable */
   barcode?: string | null;
-  /** @nullable */
-  unit?: string | null;
+  unit?: ProductUnit;
   costPrice?: number;
   salePrice?: number;
   stockQuantity?: number;
@@ -88,8 +273,35 @@ export interface ProductResponse {
   updatedAtUtc?: string | null;
 }
 
+export type ProductUnit = typeof ProductUnit[keyof typeof ProductUnit];
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ProductUnit = {
+  UN: 'UN',
+  KG: 'KG',
+  G: 'G',
+  MG: 'MG',
+  L: 'L',
+  ML: 'ML',
+  M: 'M',
+  CM: 'CM',
+  MM: 'MM',
+  M2: 'M2',
+  M3: 'M3',
+  CX: 'CX',
+  PC: 'PC',
+  PT: 'PT',
+  FD: 'FD',
+  RL: 'RL',
+  PR: 'PR',
+  SC: 'SC',
+  LT: 'LT',
+} as const;
+
 export interface SupplierResponse {
   id?: string;
+  code?: number;
   /** @nullable */
   name?: string | null;
   /** @nullable */
@@ -116,6 +328,38 @@ export interface SupplierResponse {
   updatedAtUtc?: string | null;
 }
 
+export interface UpdateCustomerRequest {
+  personType?: CustomerPersonType;
+  /** @nullable */
+  name?: string | null;
+  /** @nullable */
+  tradeName?: string | null;
+  /** @nullable */
+  document?: string | null;
+  /** @nullable */
+  email?: string | null;
+  /** @nullable */
+  phone?: string | null;
+  /** @nullable */
+  mobile?: string | null;
+  /** @nullable */
+  birthDate?: string | null;
+  /** @nullable */
+  addressLine1?: string | null;
+  /** @nullable */
+  addressLine2?: string | null;
+  /** @nullable */
+  city?: string | null;
+  /** @nullable */
+  state?: string | null;
+  /** @nullable */
+  postalCode?: string | null;
+  /** @nullable */
+  notes?: string | null;
+  creditLimit?: number;
+  isActive?: boolean;
+}
+
 export interface UpdateProductRequest {
   /** @nullable */
   name?: string | null;
@@ -125,8 +369,7 @@ export interface UpdateProductRequest {
   sku?: string | null;
   /** @nullable */
   barcode?: string | null;
-  /** @nullable */
-  unit?: string | null;
+  unit?: ProductUnit;
   costPrice?: number;
   salePrice?: number;
   stockQuantity?: number;
@@ -161,6 +404,37 @@ export interface UpdateSupplierRequest {
   isActive?: boolean;
 }
 
+export interface UserResponse {
+  id?: string;
+  /** @nullable */
+  username?: string | null;
+  /** @nullable */
+  email?: string | null;
+  /** @nullable */
+  userType?: string | null;
+  isActive?: boolean;
+  createdAtUtc?: string;
+}
+
+export type UserType = typeof UserType[keyof typeof UserType];
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const UserType = {
+  Admin: 'Admin',
+  PdvUser: 'PdvUser',
+} as const;
+
+export type GetApiV1CustomersParams = {
+query?: string;
+document?: string;
+email?: string;
+phone?: string;
+active?: boolean;
+skip?: number;
+take?: number;
+};
+
 export type GetApiV1ProductsParams = {
 query?: string;
 sku?: string;
@@ -188,6 +462,17 @@ const postApiV1AuthLogin = (
       );
     }
   
+const postApiV1AuthGenerateCode = (
+    generateOverrideCodeRequest: GenerateOverrideCodeRequest,
+ ) => {
+      return api<GenerateOverrideCodeResponse>(
+      {url: `/api/v1/auth/generate-code`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: generateOverrideCodeRequest
+    },
+      );
+    }
+  
 const postApiV1AuthRefresh = (
     
  ) => {
@@ -211,6 +496,120 @@ const getApiV1AuthMe = (
  ) => {
       return api<AuthResponseDto>(
       {url: `/api/v1/auth/me`, method: 'GET'
+    },
+      );
+    }
+  
+const getApiV1CashRegisters = (
+    
+ ) => {
+      return api<CashRegisterResponse[]>(
+      {url: `/api/v1/cash/registers`, method: 'GET'
+    },
+      );
+    }
+  
+const getApiV1CashRegistersCashRegisterIdSession = (
+    cashRegisterId: string,
+ ) => {
+      return api<CashSessionResponse>(
+      {url: `/api/v1/cash/registers/${cashRegisterId}/session`, method: 'GET'
+    },
+      );
+    }
+  
+const postApiV1CashOpen = (
+    openCashSessionRequest: OpenCashSessionRequest,
+ ) => {
+      return api<CashSessionResponse>(
+      {url: `/api/v1/cash/open`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: openCashSessionRequest
+    },
+      );
+    }
+  
+const postApiV1CashClose = (
+    closeCashSessionRequest: CloseCashSessionRequest,
+ ) => {
+      return api<CashSessionResponse>(
+      {url: `/api/v1/cash/close`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: closeCashSessionRequest
+    },
+      );
+    }
+  
+const postApiV1CashMovements = (
+    createCashMovementRequest: CreateCashMovementRequest,
+ ) => {
+      return api<void>(
+      {url: `/api/v1/cash/movements`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: createCashMovementRequest
+    },
+      );
+    }
+  
+const postApiV1CashReopenCashSessionId = (
+    cashSessionId: string,
+    postApiV1CashReopenCashSessionIdBody: string,
+ ) => {
+      return api<void>(
+      {url: `/api/v1/cash/reopen/${cashSessionId}`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: postApiV1CashReopenCashSessionIdBody
+    },
+      );
+    }
+  
+const getApiV1Customers = (
+    params?: GetApiV1CustomersParams,
+ ) => {
+      return api<CustomerResponse[]>(
+      {url: `/api/v1/customers`, method: 'GET',
+        params
+    },
+      );
+    }
+  
+const postApiV1Customers = (
+    createCustomerRequest: CreateCustomerRequest,
+ ) => {
+      return api<CustomerResponse>(
+      {url: `/api/v1/customers`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: createCustomerRequest
+    },
+      );
+    }
+  
+const getApiV1CustomersId = (
+    id: string,
+ ) => {
+      return api<CustomerResponse>(
+      {url: `/api/v1/customers/${id}`, method: 'GET'
+    },
+      );
+    }
+  
+const putApiV1CustomersId = (
+    id: string,
+    updateCustomerRequest: UpdateCustomerRequest,
+ ) => {
+      return api<CustomerResponse>(
+      {url: `/api/v1/customers/${id}`, method: 'PUT',
+      headers: {'Content-Type': 'application/json', },
+      data: updateCustomerRequest
+    },
+      );
+    }
+  
+const deleteApiV1CustomersId = (
+    id: string,
+ ) => {
+      return api<void>(
+      {url: `/api/v1/customers/${id}`, method: 'DELETE'
     },
       );
     }
@@ -317,11 +716,52 @@ const deleteApiV1SuppliersId = (
       );
     }
   
-return {postApiV1AuthLogin,postApiV1AuthRefresh,postApiV1AuthLogout,getApiV1AuthMe,getApiV1Products,postApiV1Products,getApiV1ProductsId,putApiV1ProductsId,deleteApiV1ProductsId,getApiV1Suppliers,postApiV1Suppliers,getApiV1SuppliersId,putApiV1SuppliersId,deleteApiV1SuppliersId}};
+const postApiV1Users = (
+    createUserRequest: CreateUserRequest,
+ ) => {
+      return api<UserResponse>(
+      {url: `/api/v1/users`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: createUserRequest
+    },
+      );
+    }
+  
+const getApiV1UsersId = (
+    id: string,
+ ) => {
+      return api<UserResponse>(
+      {url: `/api/v1/users/${id}`, method: 'GET'
+    },
+      );
+    }
+  
+const deleteApiV1UsersId = (
+    id: string,
+ ) => {
+      return api<void>(
+      {url: `/api/v1/users/${id}`, method: 'DELETE'
+    },
+      );
+    }
+  
+return {postApiV1AuthLogin,postApiV1AuthGenerateCode,postApiV1AuthRefresh,postApiV1AuthLogout,getApiV1AuthMe,getApiV1CashRegisters,getApiV1CashRegistersCashRegisterIdSession,postApiV1CashOpen,postApiV1CashClose,postApiV1CashMovements,postApiV1CashReopenCashSessionId,getApiV1Customers,postApiV1Customers,getApiV1CustomersId,putApiV1CustomersId,deleteApiV1CustomersId,getApiV1Products,postApiV1Products,getApiV1ProductsId,putApiV1ProductsId,deleteApiV1ProductsId,getApiV1Suppliers,postApiV1Suppliers,getApiV1SuppliersId,putApiV1SuppliersId,deleteApiV1SuppliersId,postApiV1Users,getApiV1UsersId,deleteApiV1UsersId}};
 export type PostApiV1AuthLoginResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getPDVNowAPI>['postApiV1AuthLogin']>>>
+export type PostApiV1AuthGenerateCodeResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getPDVNowAPI>['postApiV1AuthGenerateCode']>>>
 export type PostApiV1AuthRefreshResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getPDVNowAPI>['postApiV1AuthRefresh']>>>
 export type PostApiV1AuthLogoutResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getPDVNowAPI>['postApiV1AuthLogout']>>>
 export type GetApiV1AuthMeResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getPDVNowAPI>['getApiV1AuthMe']>>>
+export type GetApiV1CashRegistersResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getPDVNowAPI>['getApiV1CashRegisters']>>>
+export type GetApiV1CashRegistersCashRegisterIdSessionResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getPDVNowAPI>['getApiV1CashRegistersCashRegisterIdSession']>>>
+export type PostApiV1CashOpenResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getPDVNowAPI>['postApiV1CashOpen']>>>
+export type PostApiV1CashCloseResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getPDVNowAPI>['postApiV1CashClose']>>>
+export type PostApiV1CashMovementsResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getPDVNowAPI>['postApiV1CashMovements']>>>
+export type PostApiV1CashReopenCashSessionIdResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getPDVNowAPI>['postApiV1CashReopenCashSessionId']>>>
+export type GetApiV1CustomersResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getPDVNowAPI>['getApiV1Customers']>>>
+export type PostApiV1CustomersResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getPDVNowAPI>['postApiV1Customers']>>>
+export type GetApiV1CustomersIdResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getPDVNowAPI>['getApiV1CustomersId']>>>
+export type PutApiV1CustomersIdResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getPDVNowAPI>['putApiV1CustomersId']>>>
+export type DeleteApiV1CustomersIdResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getPDVNowAPI>['deleteApiV1CustomersId']>>>
 export type GetApiV1ProductsResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getPDVNowAPI>['getApiV1Products']>>>
 export type PostApiV1ProductsResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getPDVNowAPI>['postApiV1Products']>>>
 export type GetApiV1ProductsIdResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getPDVNowAPI>['getApiV1ProductsId']>>>
@@ -332,3 +772,6 @@ export type PostApiV1SuppliersResult = NonNullable<Awaited<ReturnType<ReturnType
 export type GetApiV1SuppliersIdResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getPDVNowAPI>['getApiV1SuppliersId']>>>
 export type PutApiV1SuppliersIdResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getPDVNowAPI>['putApiV1SuppliersId']>>>
 export type DeleteApiV1SuppliersIdResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getPDVNowAPI>['deleteApiV1SuppliersId']>>>
+export type PostApiV1UsersResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getPDVNowAPI>['postApiV1Users']>>>
+export type GetApiV1UsersIdResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getPDVNowAPI>['getApiV1UsersId']>>>
+export type DeleteApiV1UsersIdResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getPDVNowAPI>['deleteApiV1UsersId']>>>

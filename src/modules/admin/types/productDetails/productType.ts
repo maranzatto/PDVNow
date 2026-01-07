@@ -1,13 +1,16 @@
+import type { ProductUnit } from "@/api/generated";
+
 // types/product.types.ts
 export interface ProductForm {
     // ===== BACK (ProductResponse) =====
     id?: string;
+    code?: number;
 
     name?: string | null | undefined;
     description?: string | null;
     sku?: string | null;
     barcode?: string | null;
-    unit?: string | null;
+    unit?: ProductUnit;
 
     costPrice?: number;
     salePrice?: number;

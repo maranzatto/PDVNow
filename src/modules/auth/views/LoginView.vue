@@ -1,8 +1,10 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useToast } from 'primevue/usetoast';
 import { useAuthStore } from '../store/auth';
+import { useLoadingStore } from '@/stores/loadingStore';
+import { storeToRefs } from 'pinia';
 import { Button, Card } from 'primevue';
 import MInputText from '@/components/MInputText.vue';
 import MPassword from '@/components/MPassword.vue';
@@ -18,10 +20,14 @@ interface ApiError extends Error {
 const router = useRouter();
 const toast = useToast();
 const authStore = useAuthStore();
+const loadingStore = useLoadingStore();
+const { isLoading: globalLoading } = storeToRefs(loadingStore);
 
 const email = ref<string>('');
 const password = ref<string>('');
 const loading = ref<boolean>(false);
+
+const isFormDisabled = computed(() => loading.value || globalLoading.value);
 
 const handleLogin = async (): Promise<void> => {
     if (!email.value.trim() || !password.value.trim()) {
@@ -66,7 +72,7 @@ const handleLogin = async (): Promise<void> => {
 };
 
 const handleKeyPress = (event: KeyboardEvent): void => {
-    if (event.key === 'Enter') {
+    if (event.key === 'Enter' && !isFormDisabled.value) {
         handleLogin();
     }
 };
@@ -92,14 +98,27 @@ const handleKeyPress = (event: KeyboardEvent): void => {
                 <form class="login-form" @submit.prevent="handleLogin" @keyup.enter="handleKeyPress">
                     <div class="field">
                         <label for="email" class="form-label">E-mail</label>
-                        <MInputText id="email" v-model="email" placeholder="Digite seu e-mail" :disabled="loading"
-                            autocomplete="username" class="form-input" />
+                        <MInputText
+                            id="email"
+                            v-model="email"
+                            placeholder="Digite seu e-mail"
+                            :disabled="isFormDisabled"
+                            autocomplete="username"
+                            class="form-input"
+                        />
                     </div>
 
                     <div class="field">
                         <label for="password" class="form-label">Senha</label>
-                        <MPassword id="password" v-model="password" placeholder="Digite sua senha" :disabled="loading"
-                            input-class="password-input" class="form-input" autocomplete="current-password" />
+                        <MPassword
+                            id="password"
+                            v-model="password"
+                            placeholder="Digite sua senha"
+                            :disabled="isFormDisabled"
+                            input-class="password-input"
+                            class="form-input"
+                            autocomplete="current-password"
+                        />
 
                         <div class="forgot-password-container">
                             <router-link to="/forgot-password" class="forgot-password-link">
@@ -108,8 +127,15 @@ const handleKeyPress = (event: KeyboardEvent): void => {
                         </div>
                     </div>
 
-                    <Button type="submit" label="Entrar" :loading="loading" class="login-button" icon="pi pi-sign-in"
-                        icon-pos="right" />
+                    <Button
+                        type="submit"
+                        label="Entrar"
+                        :loading="loading"
+                        :disabled="isFormDisabled"
+                        class="login-button"
+                        icon="pi pi-sign-in"
+                        icon-pos="right"
+                    />
                 </form>
             </template>
         </Card>

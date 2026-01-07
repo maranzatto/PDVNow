@@ -2,20 +2,20 @@ import { ref, onMounted } from "vue";
 import { type ColumnDef } from "@tanstack/vue-table";
 import router from "@/router";
 
-import type { ProductResponse } from "@/api/generated";
-import { fetchProducts, deleteProduct } from "@/modules/admin/services/productService";
+import type { CustomerResponse } from "@/api/generated";
+import { fetchCustomers, deleteCustomer } from "@/modules/admin/services/customerService";
 
-export function useProducts() {
-    const products = ref<ProductResponse[]>([]);
+export function useCostumers() {
+    const customers = ref<CustomerResponse[]>([]);
     const loading = ref(false);
 
     // Configuração das colunas do grid
-    const columns: ColumnDef<ProductResponse>[] = [
+    const columns: ColumnDef<CustomerResponse>[] = [
         { accessorKey: "code", header: "Código", size: 120 },
-        { accessorKey: "name", header: "Produto", size: 180 },
-        { accessorKey: "sku", header: "SKU", size: 180 },
-        { accessorKey: "salePrice", header: "Preço", size: 120 },
-        { accessorKey: "stockQuantity", header: "Estoque", size: 120 },
+        { accessorKey: "name", header: "Nome", size: 180 },
+        { accessorKey: "tradeName", header: "Nome fantasia", size: 180 },
+        { accessorKey: "document", header: "CPF", size: 120 },
+        { accessorKey: "email", header: "E-mail", size: 120 },
         {
             accessorKey: "isActive",
             header: "Status",
@@ -31,10 +31,10 @@ export function useProducts() {
     ];
 
     // Carregar lista de produtos
-    const loadProducts = async () => {
+    const loadCustomers = async () => {
         loading.value = true;
         try {
-            products.value = await fetchProducts({
+            customers.value = await fetchCustomers({
                 skip: 0,
                 take: 50,
             });
@@ -45,18 +45,18 @@ export function useProducts() {
 
     // Navegar para criar novo produto
     const handleNew = () => {
-        router.push({ name: "AdminProductNew" });
+        router.push({ name: "AdminCostumersNew" });
     };
 
     // Navegar para editar produto
     const handleEdit = (id: string) => {
-        router.push({ name: "AdminProductEdit", params: { id } });
+        router.push({ name: "AdminCostumersEdit", params: { id } });
     };
 
     // Deletar produto
     const handleDelete = async (id: string) => {
-        await deleteProduct(id);
-        await loadProducts();
+        await deleteCustomer(id);
+        await loadCustomers();
     };
 
     // Helpers de formatação
@@ -66,13 +66,13 @@ export function useProducts() {
     };
 
     // Auto-carregar ao montar
-    onMounted(loadProducts);
+    onMounted(loadCustomers);
 
     return {
-        products,
+        customers,
         columns,
         loading,
-        loadProducts,
+        loadCustomers,
         handleNew,
         handleEdit,
         handleDelete,

@@ -121,7 +121,7 @@ watch(
                     </div>
 
                     <div class="form-field form-field-3">
-                        <label class="form-label">Código de barras</label>
+                        <label class="form-label">Cód de barras</label>
                         <MInputText v-model="form.barcode" maxlength="13" :invalid="!!errors.barcode" />
                         <span v-if="errors.barcode" class="error-message">{{ errors.barcode }}</span>
                     </div>
@@ -157,14 +157,15 @@ watch(
                 <h2 class="section-title">Estoque</h2>
                 <div class="form-grid">
                     <div class="form-field form-field-6">
-                        <label>Estoque Atual</label>
+                        <label class="form-label">Estoque Atual</label>
                         <MInputNumber v-model="form.stockQuantity!" :invalid="!!errors.stockQuantity" />
                         <span v-if="errors.stockQuantity" class="error-message">{{ errors.stockQuantity }}</span>
                     </div>
 
                     <div class="form-field form-field-6">
-                        <label>Estoque Mínimo</label>
+                        <label class="form-label">Estoque Mínimo</label>
                         <MInputNumber v-model="form.minStockQuantity!" />
+                        <span v-if="errors.minStockQuantity" class="error-message">{{ errors.minStockQuantity }}</span>
                     </div>
                 </div>
             </div>
@@ -174,8 +175,9 @@ watch(
                 <h2 class="section-title">Fornecedor</h2>
                 <div class="form-grid">
                     <div class="form-field form-field-12">
-                        <label>Fornecedor</label>
+                        <label class="form-label">Fornecedor</label>
                         <MInputText v-model="form.supplierId" />
+                        <span v-if="errors.supplierId" class="error-message">{{ errors.supplierId }}</span>
                     </div>
                 </div>
             </div>
@@ -270,49 +272,6 @@ watch(
     background-color: var(--color-bg-primary);
 }
 
-/* ==================== FORM GRID ==================== */
-.form-grid {
-    display: grid;
-    grid-template-columns: repeat(12, 1fr);
-    gap: 1rem;
-}
-
-.form-field {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-}
-
-.form-field-3 {
-    grid-column: span 12;
-}
-
-.form-field-6 {
-    grid-column: span 12;
-}
-
-.form-field-12 {
-    grid-column: span 12;
-}
-
-@media (min-width: 768px) {
-    .form-grid {
-        grid-template-columns: repeat(12, 1fr);
-    }
-
-    .form-field-3 {
-        grid-column: span 3;
-    }
-
-    .form-field-6 {
-        grid-column: span 6;
-    }
-
-    .form-field-12 {
-        grid-column: span 12;
-    }
-}
-
 .form-label {
     font-size: 0.875rem;
     font-weight: 500;
@@ -331,4 +290,3 @@ watch(
     align-items: center !important;
 }
 </style>
-<!-- productDetails.VUE -->

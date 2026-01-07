@@ -164,7 +164,7 @@ watch(successMessage, (msg) => msg && showToast('success', 'Sucesso', msg));
                         <div class="form-section">
                             <div class="form-grid">
                                 <div class="form-field form-field-12">
-                                    <label class="form-label">Código de Barras</label>
+                                    <label class="form-label">Cód de Barras</label>
                                     <InputText id="barcode" v-model="barcodeInput" @keyup.enter="processBarcodeInput"
                                         @keyup="handleBarcodeInput" ref="barcodeInputRef"
                                         placeholder="Passe o código de barras ou digite e pressione Enter" />

@@ -174,4 +174,8 @@ const safeLabelDataP = computed(() => ({
     background: var(--color-primary) !important;
     color: white !important;
 }
+
+.p-datepicker {
+    width: 100%;
+}
 </style>

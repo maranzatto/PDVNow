@@ -12,7 +12,7 @@ export function useSuppliers() {
 
     // Colunas
     const columns: ColumnDef<SupplierResponse>[] = [
-        { accessorKey: "id", header: "Código", size: 60 },
+        { accessorKey: "code", header: "Código", size: 60 },
         { accessorKey: "name", header: "Razão Social", size: 250 },
         { accessorKey: "tradeName", header: "Nome Fantasia", size: 250 },
         { accessorKey: "cnpj", header: "CNPJ", size: 180 },

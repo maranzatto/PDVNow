@@ -11,7 +11,7 @@ const props = defineProps({
         default: ''
     },
     modelValue: {
-        type: String,
+        type: [String, null],
         default: ''
     },
     rows: {
@@ -35,7 +35,7 @@ const emit = defineEmits(['update:modelValue'])
     <div class="m-textarea-wrapper">
         <Textarea v-bind="$attrs" :model-value="modelValue" :rows="rows" :auto-resize="autoResize"
             :placeholder="placeholder" :class="['m-textarea', props.class]" :style="{ '--rows': rows }"
-            @update:model-value="(val: string) => emit('update:modelValue', val)" />
+            @update:model-value="(val: string | null) => emit('update:modelValue', val)" />
     </div>
 </template>
 
