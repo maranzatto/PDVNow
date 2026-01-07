@@ -11,9 +11,9 @@ import { useCustomerValidation } from '@/modules/admin/composables/customerDetai
 import MInputMask from '@/components/MInputMask.vue'
 import MCalendar from '@/components/MCalendar.vue'
 import MSelect from '@/components/MSelect.vue'
-import { CustomerPersonType } from '@/api/generated'
 import MInputMoney from '@/components/MInputMoney.vue'
 import MTextarea from '@/components/MTextarea.vue'
+import { CustomerPersonType } from '@/api/generated'
 
 const router = useRouter()
 const toast = useToast();

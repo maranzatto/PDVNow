@@ -20,8 +20,7 @@ export interface AuthResponseDto {
   userId?: string;
   /** @nullable */
   username?: string | null;
-  /** @nullable */
-  userType?: string | null;
+  userType?: UserType;
 }
 
 export interface CashDenominationCountDto {
@@ -404,14 +403,20 @@ export interface UpdateSupplierRequest {
   isActive?: boolean;
 }
 
+export interface UpdateUserRequest {
+  /** @nullable */
+  email?: string | null;
+  userType?: UserType;
+  isActive?: boolean;
+}
+
 export interface UserResponse {
   id?: string;
   /** @nullable */
   username?: string | null;
   /** @nullable */
   email?: string | null;
-  /** @nullable */
-  userType?: string | null;
+  userType?: UserType;
   isActive?: boolean;
   createdAtUtc?: string;
 }
@@ -445,6 +450,12 @@ take?: number;
 };
 
 export type GetApiV1SuppliersParams = {
+query?: string;
+skip?: number;
+take?: number;
+};
+
+export type GetApiV1UsersParams = {
 query?: string;
 skip?: number;
 take?: number;
@@ -716,6 +727,16 @@ const deleteApiV1SuppliersId = (
       );
     }
   
+const getApiV1Users = (
+    params?: GetApiV1UsersParams,
+ ) => {
+      return api<UserResponse[]>(
+      {url: `/api/v1/users`, method: 'GET',
+        params
+    },
+      );
+    }
+  
 const postApiV1Users = (
     createUserRequest: CreateUserRequest,
  ) => {
@@ -736,6 +757,18 @@ const getApiV1UsersId = (
       );
     }
   
+const putApiV1UsersId = (
+    id: string,
+    updateUserRequest: UpdateUserRequest,
+ ) => {
+      return api<UserResponse>(
+      {url: `/api/v1/users/${id}`, method: 'PUT',
+      headers: {'Content-Type': 'application/json', },
+      data: updateUserRequest
+    },
+      );
+    }
+  
 const deleteApiV1UsersId = (
     id: string,
  ) => {
@@ -745,7 +778,7 @@ const deleteApiV1UsersId = (
       );
     }
   
-return {postApiV1AuthLogin,postApiV1AuthGenerateCode,postApiV1AuthRefresh,postApiV1AuthLogout,getApiV1AuthMe,getApiV1CashRegisters,getApiV1CashRegistersCashRegisterIdSession,postApiV1CashOpen,postApiV1CashClose,postApiV1CashMovements,postApiV1CashReopenCashSessionId,getApiV1Customers,postApiV1Customers,getApiV1CustomersId,putApiV1CustomersId,deleteApiV1CustomersId,getApiV1Products,postApiV1Products,getApiV1ProductsId,putApiV1ProductsId,deleteApiV1ProductsId,getApiV1Suppliers,postApiV1Suppliers,getApiV1SuppliersId,putApiV1SuppliersId,deleteApiV1SuppliersId,postApiV1Users,getApiV1UsersId,deleteApiV1UsersId}};
+return {postApiV1AuthLogin,postApiV1AuthGenerateCode,postApiV1AuthRefresh,postApiV1AuthLogout,getApiV1AuthMe,getApiV1CashRegisters,getApiV1CashRegistersCashRegisterIdSession,postApiV1CashOpen,postApiV1CashClose,postApiV1CashMovements,postApiV1CashReopenCashSessionId,getApiV1Customers,postApiV1Customers,getApiV1CustomersId,putApiV1CustomersId,deleteApiV1CustomersId,getApiV1Products,postApiV1Products,getApiV1ProductsId,putApiV1ProductsId,deleteApiV1ProductsId,getApiV1Suppliers,postApiV1Suppliers,getApiV1SuppliersId,putApiV1SuppliersId,deleteApiV1SuppliersId,getApiV1Users,postApiV1Users,getApiV1UsersId,putApiV1UsersId,deleteApiV1UsersId}};
 export type PostApiV1AuthLoginResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getPDVNowAPI>['postApiV1AuthLogin']>>>
 export type PostApiV1AuthGenerateCodeResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getPDVNowAPI>['postApiV1AuthGenerateCode']>>>
 export type PostApiV1AuthRefreshResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getPDVNowAPI>['postApiV1AuthRefresh']>>>
@@ -772,6 +805,8 @@ export type PostApiV1SuppliersResult = NonNullable<Awaited<ReturnType<ReturnType
 export type GetApiV1SuppliersIdResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getPDVNowAPI>['getApiV1SuppliersId']>>>
 export type PutApiV1SuppliersIdResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getPDVNowAPI>['putApiV1SuppliersId']>>>
 export type DeleteApiV1SuppliersIdResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getPDVNowAPI>['deleteApiV1SuppliersId']>>>
+export type GetApiV1UsersResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getPDVNowAPI>['getApiV1Users']>>>
 export type PostApiV1UsersResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getPDVNowAPI>['postApiV1Users']>>>
 export type GetApiV1UsersIdResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getPDVNowAPI>['getApiV1UsersId']>>>
+export type PutApiV1UsersIdResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getPDVNowAPI>['putApiV1UsersId']>>>
 export type DeleteApiV1UsersIdResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getPDVNowAPI>['deleteApiV1UsersId']>>>

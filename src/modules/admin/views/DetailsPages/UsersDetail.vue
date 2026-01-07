@@ -1,63 +1,94 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { onMounted, watch } from 'vue'
 import { useRouter } from 'vue-router'
-import Button from 'primevue/button'
-
+import { Button, useToast } from 'primevue'
 import MInputText from '../../../../components/MInputText.vue'
 
 // Composables
-import { useUserForm } from '../../composables/userDetails/useUserForm'
-import { useUserValidation } from '../../composables/userDetails/useUserValidation'
-
+import { useUserDetails } from '@/modules/admin/composables/userDetails/useUserDetails'
+import { useUserValidation } from '@/modules/admin/composables/userDetails/useUserValidation'
+import MSelect from '@/components/MSelect.vue'
+import { UserType } from '@/api/generated'
 
 const router = useRouter()
+const toast = useToast();
+const userType = Object.values(UserType).map(value => ({
+    label: value === 'Admin' ? 'Administrador' : 'Usuário PDV',
+    value: value
+}));
 
-interface Props {
-    id?: number
-}
+const props = defineProps<{
+    id?: string
+}>()
 
-const props = defineProps<Props>()
+const {
+    form,
+    errors,
+    isEditing,
+    loadUserById,
+    saveUser,
+    resetForm,
+    loading
+} = useUserDetails()
 
-const isEditing = ref(false)
-const productId = ref<number | null>(null)
-
-// Composables
-const { form, errors, loadUser } = useUserForm()
 const { validateForm } = useUserValidation(form, errors)
 
-onMounted(() => {
-    if (props.id) {
-        console.log(props.id, 'fornecedor')
-        isEditing.value = true
-        productId.value = props.id
-
-        const mockProduct = {
-            name: 'Notebook Dell Inspiron 15',
-            position: "Admin"
-        }
-
-        loadUser(mockProduct)
-    }
-})
-
-const handleSubmit = () => {
+const handleSubmit = async () => {
     if (!validateForm()) {
-        alert('Por favor, preencha todos os campos obrigatórios')
+        toast.add({
+            severity: 'warn',
+            summary: 'Atenção',
+            detail: 'Por favor, preencha todos os campos obrigatórios',
+            life: 3000
+        });
         return
     }
 
-    if (isEditing.value) {
-        console.log('Atualizando produto:', productId.value, form.value)
-    } else {
-        console.log('Criando produto:', form.value)
+    loading.value = false;
+    try {
+        const success = await saveUser()
+
+        if (success) {
+            router.push({ name: 'AdminUsers' })
+        } else {
+            toast.add({
+                severity: 'error',
+                summary: 'Erro',
+                detail: 'Erro ao salvar o Usuário',
+                life: 3000
+            });
+        }
+    } catch (error) {
+        toast.add({
+            severity: 'danger',
+            summary: 'Atenção',
+            detail: error,
+            life: 3000
+        });
+    } finally {
+        loading.value = false;
     }
-
-    router.push({ name: 'AdminUsers' })
 }
-
 const goBack = () => {
     router.push({ name: 'AdminUsers' })
 }
+
+onMounted(async () => {
+    if (props.id) {
+        await loadUserById(props.id)
+    }
+})
+
+watch(
+    () => props.id,
+    async (id) => {
+        if (id) {
+            await loadUserById(id)
+        } else {
+            resetForm()
+        }
+    }
+)
 </script>
 
 <template>
@@ -85,22 +116,34 @@ const goBack = () => {
                 <h2 class="section-title">Identificação</h2>
                 <div class="form-grid">
                     <div class="form-field form-field-6">
-                        <label class="form-label">Nome do Fornecedor *</label>
-                        <MInputText v-model="form.name" :invalid="!!errors.name" />
-                        <span v-if="errors.name" class="error-message">{{ errors.name }}</span>
+                        <label class="form-label">Login Usuário *</label>
+                        <MInputText v-model="form.username" :invalid="!!errors.username" />
+                        <span v-if="errors.username" class="error-message">{{ errors.username }}</span>
                     </div>
 
-                    <div class="form-field form-field-3">
-                        <label class="form-label">Cargo *</label>
-                        <MInputText v-model="form.position" :invalid="!!errors.sku" />
-                        <span v-if="errors.sku" class="error-message">{{ errors.sku }}</span>
+                    <div class="form-field form-field-6">
+                        <label class="form-label">Senha *</label>
+                        <MInputText v-model="form.password" :invalid="!!errors.password" />
+                        <span v-if="errors.password" class="error-message">{{ errors.password }}</span>
+                    </div>
+
+                    <div class="form-field form-field-6">
+                        <label class="form-label">E-mail *</label>
+                        <MInputText v-model="form.email" :invalid="!!errors.email" />
+                        <span v-if="errors.email" class="error-message">{{ errors.email }}</span>
+                    </div>
+
+                    <div class="form-field form-field-6">
+                        <label class="form-label">Tipo Usuário *</label>
+                        <MSelect v-model="form.userType!" :options="userType" />
+                        <span v-if="errors.userType" class="error-message">{{ errors.userType }}</span>
                     </div>
                 </div>
             </div>
 
             <div class="form-actions">
                 <Button label="Cancelar" severity="secondary" type="button" @click="goBack" />
-                <Button :label="isEditing ? 'Atualizar Produto' : 'Cadastrar Produto'" type="submit" />
+                <Button :label="isEditing ? 'Atualizar Usuário' : 'Cadastrar Usuário'" type="submit" />
             </div>
         </form>
     </div>

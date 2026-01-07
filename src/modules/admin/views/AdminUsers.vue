@@ -19,10 +19,10 @@ const { users, columns, handleNew, handleEdit, handleDelete } = useUsers()
 
             <template #actions="{ row }">
                 <div class="action-buttons">
-                    <button class="btn-action btn-edit" @click="handleEdit(row.id)">
+                    <button class="btn-action btn-edit" @click="handleEdit(row.id!)">
                         <i class="pi pi-pencil"></i>
                     </button>
-                    <button class="btn-action btn-delete" @click="handleDelete(row.id)">
+                    <button class="btn-action btn-delete" @click="handleDelete(row.id!)">
                         <i class="pi pi-trash"></i>
                     </button>
                 </div>

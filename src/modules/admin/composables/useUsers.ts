@@ -1,93 +1,59 @@
 // composables/useProducts.ts
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 import { type ColumnDef } from "@tanstack/vue-table";
-import type { Users } from "../types/Users";
 import router from "@/router";
 
+import type { UserResponse } from "@/api/generated";
+import { fetchUsers, deleteUser } from "@/modules/admin/services/userService";
+
 export function useUsers() {
-    // Dados
-    const users = ref<Users[]>(generateUsers(100));
+    const users = ref<UserResponse[]>([]);
+    const loading = ref(false);
 
     // Colunas
-    const columns: ColumnDef<Users>[] = [
+    const columns: ColumnDef<UserResponse>[] = [
         { accessorKey: "id", header: "Código", size: 80 },
-        { accessorKey: "name", header: "Nome", size: 250 },
-        { accessorKey: "position", header: "Cargo", size: 150 },
+        { accessorKey: "username", header: "Usuário", size: 250 },
+        { accessorKey: "email", header: "E-mail", size: 150 },
+        { accessorKey: "userType", header: "Tipo Usuário", size: 150 },
+
         { id: "actions", header: "Ações", enableSorting: false, size: 100 },
     ];
 
-    // Actions
+    const loadUsers = async () => {
+        loading.value = true;
+        try {
+            users.value = await fetchUsers({
+                skip: 0,
+                take: 50,
+            });
+        } finally {
+            loading.value = false;
+        }
+    };
+
     const handleNew = () => {
-        console.log("Criar novo produto");
-        // Implementar lógica
-        router.push({ path: "users/new" });
+        router.push({ name: "AdminUsersNew" });
     };
 
-    const handleExport = () => {
-        console.log("Exportar produtos");
-        // Implementar lógica
+    const handleEdit = (id: string) => {
+        router.push({ name: "AdminUsersEdit", params: { id } });
     };
 
-    const handleView = (id: number) => {
-        console.log("Visualizar usuario:", id);
+    const handleDelete = async (id: string) => {
+        await deleteUser(id);
+        await loadUsers();
     };
 
-    const handleEdit = (id: number) => {
-        router.push({ path: `users/${id}/edit` });
-        console.log("Editar usuario:", id);
-    };
-
-    const handleDelete = (id: number) => {
-        console.log("Excluir usuario:", id);
-    };
+    onMounted(loadUsers);
 
     return {
         users,
         columns,
+        loading,
+        loadUsers,
         handleNew,
-        handleExport,
-        handleView,
         handleEdit,
         handleDelete,
     };
-}
-
-// Função auxiliar para gerar dados
-function generateUsers(count: number): Users[] {
-    const userNames = [
-        "João Silva",
-        "Maria Oliveira",
-        "Carlos Santos",
-        "Ana Costa",
-        "Pedro Almeida",
-        "Fernanda Lima",
-        "Roberto Souza",
-        "Camila Mendes",
-        "Lucas Ferreira",
-        "Juliana Ribeiro",
-    ];
-
-    const positions = [
-        "Gerente de Vendas",
-        "Analista de Marketing",
-        "Desenvolvedor Full Stack",
-        "Designer UI/UX",
-        "Analista de Dados",
-        "Coordenador de TI",
-        "Supervisor de Operações",
-        "Especialista em Segurança da Informação",
-        "Consultor de Sistemas",
-        "Desenvolvedor Frontend",
-    ];
-
-    return Array.from({ length: count }, (_, i) => {
-        const nameIndex = Math.floor(Math.random() * userNames.length);
-        const positionIndex = Math.floor(Math.random() * positions.length);
-
-        return {
-            id: i + 1,
-            name: `${userNames[nameIndex]!}`,
-            position: positions[positionIndex]!,
-        };
-    });
 }

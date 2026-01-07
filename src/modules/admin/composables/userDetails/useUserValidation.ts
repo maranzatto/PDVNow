@@ -8,8 +8,8 @@ export const useUserValidation = (form: Ref<UserForm>, errors: Ref<UserErros>) =
         let valid = true;
 
         // Identificação
-        if (!form.value.name.trim()) {
-            errors.value.name = "Nome é obrigatório";
+        if (!form.value.username) {
+            errors.value.username = "Usuário é obrigatório";
             valid = false;
         }
 
