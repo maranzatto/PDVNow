@@ -180,10 +180,6 @@ As configurações do Tauri estão em `src-tauri/tauri.conf.json`.
 4. Push para a branch (`git push origin feature/nova-feature`)
 5. Abra um Pull Request
 
-## 📄 Licença
-
-Este projeto está licenciado sob a Licença MIT - veja o arquivo LICENSE para detalhes.
-
 ## 🆘 Suporte
 
 Para suporte, abra uma issue no repositório ou entre em contato com a equipe de desenvolvimento.
